@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react';
-import { RootNavigatorParams } from '@pf/constants';
+import { BottomTabNavigatorParams } from '@pf/constants';
 import { AppTheme } from '@pf/theme';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -15,7 +15,7 @@ interface Props {
 
 export const HomeCalendar: React.FC<Props> = ({ title, subtitle }) => {
   const theme = useTheme();
-  const { navigate } = useNavigation<StackNavigationProp<RootNavigatorParams>>();
+  const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
 
   return (
     <ImageBackground

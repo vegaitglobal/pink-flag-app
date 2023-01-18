@@ -11,7 +11,7 @@ const isEmptyObject = (obj: object): boolean => {
 };
 
 interface Props {
-  onInputChange: (isValid: boolean) => void;
+  onInputChange: (isValid: boolean, value?: string) => void;
 }
 
 export const CalendarInputScreen: React.FC<Props> = ({ onInputChange }) => {
@@ -24,8 +24,11 @@ export const CalendarInputScreen: React.FC<Props> = ({ onInputChange }) => {
       return;
     }
 
+    const selectedDates = Object.keys(markedDates.current).sort();
+    const lastDate = selectedDates[selectedDates.length - 1];
+
     const isValid = true;
-    onInputChange(isValid);
+    onInputChange(isValid, lastDate);
   }, [markedDates, onInputChange]);
 
   const handleOnDayPress = useCallback(

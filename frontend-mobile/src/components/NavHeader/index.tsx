@@ -1,17 +1,34 @@
 import { ArrowBackSvg, SettingsSvg } from '@pf/assets';
+import { RootRoutes } from '@pf/constants';
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CloseButton } from '../ModalHeader/styles';
 import { Container, OptionsButton, Row, SafeArea, StyledLogo, styles } from './styles';
 
 interface OwnProps {
+  isSettingsVisible?: boolean;
   onSettingsPress?: () => void;
 }
 
 type Props = NativeStackHeaderProps & OwnProps;
 const HIT_SLOP = { top: 10, left: 10, right: 10, bottom: 10 };
+const { GENERAL_SETTINGS } = RootRoutes;
 
-export const NavHeader: React.FC<Props> = ({ onSettingsPress, back, navigation: { goBack } }) => {
+export const NavHeader: React.FC<Props> = ({
+  onSettingsPress,
+  isSettingsVisible = true,
+  back,
+  navigation: { navigate, goBack },
+}) => {
+  const handleOnSettingsPress = useCallback(() => {
+    if (onSettingsPress) {
+      onSettingsPress();
+      return;
+    }
+
+    navigate(GENERAL_SETTINGS);
+  }, [navigate, onSettingsPress]);
+
   return (
     <SafeArea>
       <Container style={styles.shadow}>
@@ -22,9 +39,11 @@ export const NavHeader: React.FC<Props> = ({ onSettingsPress, back, navigation: 
             </CloseButton>
           )}
           <StyledLogo />
-          <OptionsButton hitSlop={HIT_SLOP} onPress={onSettingsPress}>
-            <SettingsSvg />
-          </OptionsButton>
+          {isSettingsVisible && (
+            <OptionsButton hitSlop={HIT_SLOP} onPress={handleOnSettingsPress}>
+              <SettingsSvg />
+            </OptionsButton>
+          )}
         </Row>
       </Container>
     </SafeArea>

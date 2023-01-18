@@ -8,10 +8,10 @@ import {
   DonateSvg,
   DonateFilledSvg,
 } from '@pf/assets';
-import { RootRoutes } from '@pf/constants';
+import { BottomTabRoutes } from '@pf/constants';
 import { SvgProps } from 'react-native-svg';
 
-const { HOME_STACK, BLOG_STACK, CALENDAR_STACK, DONATION_STACK } = RootRoutes;
+const { HOME_STACK, BLOG_STACK, CALENDAR_STACK, DONATION_STACK } = BottomTabRoutes;
 
 const ICONS = {
   [HOME_STACK]: HomeSvg,

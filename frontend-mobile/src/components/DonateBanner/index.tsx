@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react';
-import { RootNavigatorParams } from '@pf/constants';
+import { BottomTabNavigatorParams } from '@pf/constants';
 import { useNavigation } from '@react-navigation/native';
 import React, { useMemo } from 'react';
 import { StyleSheet, View, ImageBackground } from 'react-native';
@@ -13,7 +13,7 @@ import { ActivityIndicatorContainer } from '@pf/components';
 export const DonateBanner: React.FC<Props> = () => {
   const { data, isLoading, error } = useGetDonationsModuleQuery<DonationsModuleModel>();
   const theme = useTheme();
-  const { navigate } = useNavigation<StackNavigationProp<RootNavigatorParams>>();
+  const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
 
   const styles = useMemo(() => {
     return StyleSheet.create({

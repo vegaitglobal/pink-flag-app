@@ -1,29 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Container, shadowStyles } from './styles';
 import { NavButton } from '../NavButton';
 import { getPathIcon, getPathName, PathName } from './utils';
-import { useAppSelector } from '@pf/hooks';
-import { selectIsCalendarOnboardingStarted } from '@pf/reducers/settingsReducer';
-
-const VISIBLE = 1;
-const HIDDEN = -1;
 
 export const BottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
-  const isCalendarOnboardingStarted = useAppSelector(selectIsCalendarOnboardingStarted);
-  const [visibility, setVisibility] = useState(VISIBLE);
-
-  useEffect(() => {
-    if (isCalendarOnboardingStarted) {
-      setVisibility(HIDDEN);
-      return;
-    }
-
-    setVisibility(VISIBLE);
-  }, [isCalendarOnboardingStarted]);
-
   return (
-    <Container style={{ ...shadowStyles, zIndex: visibility }}>
+    <Container style={shadowStyles}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
 

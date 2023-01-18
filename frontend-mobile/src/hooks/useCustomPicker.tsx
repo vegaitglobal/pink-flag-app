@@ -49,10 +49,10 @@ export const useCustomPicker = ({
 
   const handleOnSubmit = useCallback(
     (itemIndex: number) => {
-      const selectedOption = options[itemIndex || initialIndex];
+      const selectedOption = options[itemIndex];
       onSubmit?.(selectedOption);
     },
-    [initialIndex, onSubmit, options],
+    [onSubmit, options],
   );
 
   const handleOnReject = useCallback(() => {

@@ -1,0 +1,249 @@
+diff --git a/node_modules/react-native-calendars/src/calendar/header/index.d.ts b/node_modules/react-native-calendars/src/calendar/header/index.d.ts
+index 16ddefe..136a503 100644
+--- a/node_modules/react-native-calendars/src/calendar/header/index.d.ts
++++ b/node_modules/react-native-calendars/src/calendar/header/index.d.ts
+@@ -5,6 +5,7 @@ import { Theme, Direction } from '../../types';
+ export interface CalendarHeaderProps {
+     month?: XDate;
+     addMonth?: (num: number) => void;
++    resetMonth?: () => void;
+     /** Specify theme properties to override specific styles for calendar parts */
+     theme?: Theme;
+     /** If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday */
+diff --git a/node_modules/react-native-calendars/src/calendar/header/index.js b/node_modules/react-native-calendars/src/calendar/header/index.js
+index bd75364..f9c2741 100644
+--- a/node_modules/react-native-calendars/src/calendar/header/index.js
++++ b/node_modules/react-native-calendars/src/calendar/header/index.js
+@@ -4,12 +4,13 @@ import React, { Fragment, useCallback, useMemo, forwardRef, useImperativeHandle,
+ import { ActivityIndicator, Platform, View, Text, TouchableOpacity, Image } from 'react-native';
+ import { formatNumbers, weekDayNames } from '../../dateutils';
+ import styleConstructor from './style';
++
+ const accessibilityActions = [
+     { name: 'increment', label: 'increment' },
+     { name: 'decrement', label: 'decrement' }
+ ];
+ const CalendarHeader = forwardRef((props, ref) => {
+-    const { theme, style: propsStyle, addMonth: propsAddMonth, month, monthFormat, firstDay, hideDayNames, showWeekNumbers, hideArrows, renderArrow, onPressArrowLeft, onPressArrowRight, arrowsHitSlop = 20, disableArrowLeft, disableArrowRight, disabledDaysIndexes, displayLoadingIndicator, customHeaderTitle, renderHeader, webAriaLevel, testID, accessibilityElementsHidden, importantForAccessibility, numberOfDays, current = '', timelineLeftInset } = props;
++    const { theme, style: propsStyle, addMonth: propsAddMonth, month, monthFormat, firstDay, hideDayNames, showWeekNumbers, hideArrows, renderArrow, onPressArrowLeft, onPressArrowRight, disableArrowLeft, disableArrowRight, disabledDaysIndexes, displayLoadingIndicator, customHeaderTitle, renderHeader, webAriaLevel, testID, accessibilityElementsHidden, importantForAccessibility, numberOfDays, current = '', timelineLeftInset, resetMonth } = props;
+     const numberOfDaysCondition = useMemo(() => {
+         return numberOfDays && numberOfDays > 1;
+     }, [numberOfDays]);
+@@ -17,15 +18,18 @@ const CalendarHeader = forwardRef((props, ref) => {
+     const headerStyle = useMemo(() => {
+         return [style.current.header, numberOfDaysCondition ? style.current.partialHeader : undefined];
+     }, [numberOfDaysCondition]);
++    const arrowContainer = useMemo(() => {
++        return style.current.arrowContainer;
++    }, []);
++    const arrowSpacing = useMemo(() => {
++        return style.current.arrowSpacing;
++    }, []);    
+     const partialWeekStyle = useMemo(() => {
+         return [style.current.partialWeek, { paddingLeft: timelineLeftInset }];
+     }, [timelineLeftInset]);
+     const dayNamesStyle = useMemo(() => {
+         return [style.current.week, numberOfDaysCondition ? partialWeekStyle : undefined];
+     }, [numberOfDaysCondition, partialWeekStyle]);
+-    const hitSlop = useMemo(() => typeof arrowsHitSlop === 'number'
+-        ? { top: arrowsHitSlop, left: arrowsHitSlop, bottom: arrowsHitSlop, right: arrowsHitSlop }
+-        : arrowsHitSlop, [arrowsHitSlop]);
+     useImperativeHandle(ref, () => ({
+         onPressLeft,
+         onPressRight
+@@ -81,7 +85,7 @@ const CalendarHeader = forwardRef((props, ref) => {
+     const _renderHeader = () => {
+         const webProps = Platform.OS === 'web' ? { 'aria-level': webAriaLevel } : {};
+         if (renderHeader) {
+-            return renderHeader(month);
++            return <TouchableOpacity onPress={resetMonth}>{renderHeader(month)}</TouchableOpacity>;
+         }
+         if (customHeaderTitle) {
+             return customHeaderTitle;
+@@ -102,6 +106,10 @@ const CalendarHeader = forwardRef((props, ref) => {
+         const onPress = !shouldDisable ? isLeft ? onPressLeft : onPressRight : undefined;
+         const imageSource = isLeft ? require('../img/previous.png') : require('../img/next.png');
+         const renderArrowDirection = isLeft ? 'left' : 'right';
++        const leftHitSlop = { bottom: 12, left: 12, right: 6, top: 12 };
++        const rightHitSlop = { bottom: 12, left: 6, right: 12, top: 12 };
++        const hitSlop = isLeft ? leftHitSlop : rightHitSlop;
++
+         return (<TouchableOpacity onPress={onPress} disabled={shouldDisable} style={style.current.arrow} hitSlop={hitSlop} testID={`${testID}.${arrowId}`}>
+         {renderArrow ? (renderArrow(renderArrowDirection)) : (<Image source={imageSource} style={shouldDisable ? style.current.disabledArrowImage : style.current.arrowImage}/>)}
+       </TouchableOpacity>);
+@@ -126,12 +134,15 @@ const CalendarHeader = forwardRef((props, ref) => {
+      importantForAccessibility={importantForAccessibility} // Android
+     >
+       <View style={headerStyle}>
+-        {_renderArrow('left')}
+         <View style={style.current.headerContainer}>
+           {_renderHeader()}
+           {renderIndicator()}
+         </View>
+-        {_renderArrow('right')}
++        <View style={arrowContainer}>
++            {_renderArrow('left')}
++            <View style={arrowSpacing} />
++            {_renderArrow('right')}
++        </View>
+       </View>
+       {renderDayNames()}
+     </View>);
+@@ -141,5 +152,4 @@ CalendarHeader.displayName = 'CalendarHeader';
+ CalendarHeader.defaultProps = {
+     monthFormat: 'MMMM yyyy',
+     webAriaLevel: 1,
+-    arrowsHitSlop: 20
+ };
+diff --git a/node_modules/react-native-calendars/src/calendar/header/style.js b/node_modules/react-native-calendars/src/calendar/header/style.js
+index 16e5f71..afe2bc1 100644
+--- a/node_modules/react-native-calendars/src/calendar/header/style.js
++++ b/node_modules/react-native-calendars/src/calendar/header/style.js
+@@ -8,28 +8,31 @@ export default function (theme = {}) {
+         header: {
+             flexDirection: 'row',
+             justifyContent: 'space-between',
+-            paddingLeft: 10,
+-            paddingRight: 10,
+-            marginTop: 6,
+             alignItems: 'center',
++            paddingHorizontal: '4.45%',
+         },
+         partialHeader: {
+-            paddingHorizontal: 15
++            paddingHorizontal: 15,
+         },
+         headerContainer: {
+-            flexDirection: 'row'
++            flexDirection: 'row',
+         },
+         monthText: {
+             fontSize: appStyle.textMonthFontSize,
+             fontFamily: appStyle.textMonthFontFamily,
+             fontWeight: appStyle.textMonthFontWeight,
+             color: appStyle.monthTextColor,
+-            margin: 10
++            margin: 10,
+         },
+         arrow: {
+-            padding: 10,
+             ...appStyle.arrowStyle
+         },
++        arrowContainer: {
++            flexDirection: 'row',
++        },  
++        arrowSpacing: {
++            width: 16,
++        },
+         arrowImage: {
+             ...rtlStyle,
+             tintColor: appStyle.arrowColor,
+@@ -45,7 +48,8 @@ export default function (theme = {}) {
+             tintColor: appStyle.disabledArrowColor
+         },
+         week: {
+-            marginTop: 7,
++            marginTop: 27,
++            marginBottom: 26,
+             flexDirection: 'row',
+             justifyContent: 'space-around',
+         },
+@@ -53,9 +57,6 @@ export default function (theme = {}) {
+             paddingRight: 0
+         },
+         dayHeader: {
+-            marginTop: 2,
+-            marginBottom: 7,
+-            width: 32,
+             textAlign: 'center',
+             fontSize: appStyle.textDayHeaderFontSize,
+             fontFamily: appStyle.textDayHeaderFontFamily,
+diff --git a/node_modules/react-native-calendars/src/calendar/index.d.ts b/node_modules/react-native-calendars/src/calendar/index.d.ts
+index 5e92f06..7a03e4c 100644
+--- a/node_modules/react-native-calendars/src/calendar/index.d.ts
++++ b/node_modules/react-native-calendars/src/calendar/index.d.ts
+@@ -60,3 +60,4 @@ declare const Calendar: {
+     propTypes: any;
+ };
+ export default Calendar;
++export { type Theme };
+\ No newline at end of file
+diff --git a/node_modules/react-native-calendars/src/calendar/index.js b/node_modules/react-native-calendars/src/calendar/index.js
+index 6f46e8a..06c074a 100644
+--- a/node_modules/react-native-calendars/src/calendar/index.js
++++ b/node_modules/react-native-calendars/src/calendar/index.js
+@@ -46,6 +46,9 @@ const Calendar = (props) => {
+         const newMonth = currentMonth.clone().addMonths(count, true);
+         updateMonth(newMonth);
+     }, [currentMonth, updateMonth]);
++    const resetMonth = useCallback(() => {
++        setCurrentMonth(parseDate(current || initialDate));
++    }, []);
+     const handleDayInteraction = useCallback((date, interaction) => {
+         const day = new XDate(date.dateString);
+         if (allowSelectionOutOfRange || !(minDate && !isGTE(day, new XDate(minDate))) && !(maxDate && !isLTE(day, new XDate(maxDate)))) {
+@@ -142,7 +145,7 @@ const Calendar = (props) => {
+         const ref = customHeader ? undefined : header;
+         const CustomHeader = customHeader;
+         const HeaderComponent = customHeader ? CustomHeader : CalendarHeader;
+-        return (<HeaderComponent {...headerProps} testID={`${testID}.header`} style={headerStyle} ref={ref} month={currentMonth} addMonth={addMonth} displayLoadingIndicator={shouldDisplayIndicator}/>);
++        return (<HeaderComponent {...headerProps} testID={`${testID}.header`} style={headerStyle} ref={ref} month={currentMonth} addMonth={addMonth} resetMonth={resetMonth} displayLoadingIndicator={shouldDisplayIndicator}/>);
+     };
+     const GestureComponent = enableSwipeMonths ? GestureRecognizer : View;
+     const swipeProps = {
+diff --git a/node_modules/react-native-calendars/src/calendar/style.js b/node_modules/react-native-calendars/src/calendar/style.js
+index c9af755..d1eb298 100644
+--- a/node_modules/react-native-calendars/src/calendar/style.js
++++ b/node_modules/react-native-calendars/src/calendar/style.js
+@@ -4,24 +4,23 @@ export default function getStyle(theme = {}) {
+     const appStyle = { ...defaultStyle, ...theme };
+     return StyleSheet.create({
+         container: {
+-            paddingLeft: 5,
+-            paddingRight: 5,
+             backgroundColor: appStyle.calendarBackground
+         },
+         dayContainer: {
+             flex: 1,
+-            alignItems: 'center'
++            alignItems: 'center',
++            marginBottom: 18,
+         },
+         emptyDayContainer: {
+             flex: 1
+         },
+         monthView: {
+-            backgroundColor: appStyle.calendarBackground
++            backgroundColor: appStyle.calendarBackground,
+         },
+         week: {
+             marginVertical: appStyle.weekVerticalMargin,
+             flexDirection: 'row',
+-            justifyContent: 'space-around'
++            justifyContent: 'space-between',
+         },
+         // @ts-expect-error
+         ...(theme['stylesheet.calendar.main'] || {})
+diff --git a/node_modules/react-native-calendars/src/componentUpdater.d.ts b/node_modules/react-native-calendars/src/componentUpdater.d.ts
+index c290aeb..cd12080 100644
+--- a/node_modules/react-native-calendars/src/componentUpdater.d.ts
++++ b/node_modules/react-native-calendars/src/componentUpdater.d.ts
+@@ -34,6 +34,7 @@ export declare function extractDayProps(props: CalendarProps): {
+ export declare function extractHeaderProps(props: CalendarProps): {
+     month: import("xdate") | undefined;
+     addMonth: ((num: number) => void) | undefined;
++    resetMonth: () => void | undefined;
+     theme: import("./types").Theme | undefined;
+     firstDay: number | undefined;
+     displayLoadingIndicator: boolean | undefined;
+diff --git a/node_modules/react-native-calendars/src/index.d.ts b/node_modules/react-native-calendars/src/index.d.ts
+index 20a4955..1dd1415 100644
+--- a/node_modules/react-native-calendars/src/index.d.ts
++++ b/node_modules/react-native-calendars/src/index.d.ts
+@@ -1,5 +1,5 @@
+ export { default as Calendar } from './calendar';
+-export type { CalendarProps } from './calendar';
++export type { CalendarProps, Theme as CalendarTheme } from './calendar';
+ export { default as CalendarList } from './calendar-list';
+ export { default as NewCalendarList } from './calendar-list/new';
+ export type { CalendarListProps } from './calendar-list';

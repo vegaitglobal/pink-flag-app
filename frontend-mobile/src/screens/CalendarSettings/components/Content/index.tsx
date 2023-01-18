@@ -1,39 +1,71 @@
 import { PrimaryButton, WithSafeView } from '@pf/components';
+import { EMPTY_STRING } from '@pf/constants';
+import { useAppDispatch, useAppSelector } from '@pf/hooks';
+import { setCalendarNotificationState } from '@pf/reducers/settingsReducer';
+import { selectUser, updateUser } from '@pf/reducers/userReducer';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Subtitle } from '../../styles';
 import { BirthdayInput } from '../BirthdayInput';
 import { CycleInput } from '../CycleInput';
+import { DeactivationModal } from '../DeactivationModal';
 import { GoogleAccountButton } from '../GoogleAccountButton';
 import { MenstruationInput } from '../MenstruationInput';
+import { NameInput } from '../NameInput';
 import { NotificationInput } from '../NotificationInput';
-import { SettingsInput } from '../SettingsInput';
 import { Container, LinkButton, LinkText, LargeSpacing, MediumSpacing, SmallSpacing } from './styles';
+import { useChangeHandlers } from './useChangeHandlers';
 
 const HIT_SLOP = { top: 10, left: 10, right: 10, bottom: 10 };
 
-//! TODO: Dismiss keyboard when pressing on container
 export const Content: React.FC = WithSafeView(() => {
   const { goBack } = useNavigation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+  const [isDeactivationModalVisible, setIsDeactivationModalVisible] = useState(false);
+  const toggleDeactivationModal = useCallback(() => setIsDeactivationModalVisible(prevState => !prevState), []);
+  const {
+    changes,
+    notificationsState,
+    handleNameChange,
+    handleBirthdayChange,
+    handleCycleLengthChange,
+    handleMenstruationLengthChange,
+    handleOnNotificationsChange,
+  } = useChangeHandlers();
+
+  const handleOnSave = useCallback(() => {
+    dispatch(updateUser(changes));
+
+    if (notificationsState.current !== undefined) {
+      dispatch(setCalendarNotificationState(notificationsState.current));
+    }
+
+    goBack();
+  }, [changes, dispatch, goBack, notificationsState]);
 
   return (
     <Container>
       <GoogleAccountButton />
       <Subtitle content="Kako se zoveš?" />
-      <SettingsInput placeholder="Tvoje ime" />
+      <NameInput initialValue={user.name} onChange={handleNameChange} />
       <SmallSpacing />
-      <BirthdayInput />
+      <BirthdayInput value={user.birthday} onChange={handleBirthdayChange} />
       <MediumSpacing />
-      <MenstruationInput />
+      <MenstruationInput
+        value={`${user.menstruationLength || EMPTY_STRING}`}
+        onChange={handleMenstruationLengthChange}
+      />
       <MediumSpacing />
-      <CycleInput />
+      <CycleInput value={`${user.cycleLength || EMPTY_STRING}`} onChange={handleCycleLengthChange} />
       <MediumSpacing />
-      <NotificationInput />
+      <NotificationInput onChange={handleOnNotificationsChange} />
       <LargeSpacing />
-      <PrimaryButton content="Sačuvaj izmene" onPress={goBack} />
-      <LinkButton hitSlop={HIT_SLOP} onPress={goBack}>
+      <PrimaryButton content="Sačuvaj izmene" onPress={handleOnSave} />
+      <LinkButton hitSlop={HIT_SLOP} onPress={toggleDeactivationModal}>
         <LinkText content="Deaktiviraj kalendar" />
       </LinkButton>
+      <DeactivationModal isVisible={isDeactivationModalVisible} hide={toggleDeactivationModal} closeModal={goBack} />
     </Container>
   );
 });

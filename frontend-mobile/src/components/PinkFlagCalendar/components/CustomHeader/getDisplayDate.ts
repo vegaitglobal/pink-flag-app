@@ -12,3 +12,8 @@ export const Months = {
   '10': 'Novembar',
   '11': 'Decembar',
 };
+
+export const getDisplayDate = (date: Date): string => {
+  const index = date.getMonth().toString() as keyof typeof Months;
+  return `${Months[index]} ${date.getFullYear()}`;
+};

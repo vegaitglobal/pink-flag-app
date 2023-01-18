@@ -13,10 +13,12 @@ export const Container = styled.Pressable`
   justify-content: center;
 `;
 
-export const StyledCustomText = styled(CustomText)`
+export const StyledCustomText = styled(CustomText)<{ isFocused: boolean }>`
+  text-align: center;
   color: ${({ theme }) => theme.colors.nav};
   font-size: ${({ theme }) => theme.fontSize.$2};
   line-height: ${({ theme }) => theme.lineHeight.$2};
+  font-weight: ${({ theme, isFocused }) => (isFocused ? theme.fontWeight.$700 : theme.fontWeight.$400)};
 `;
 
 export const TextWrapper = styled.View`

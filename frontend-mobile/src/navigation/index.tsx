@@ -1,22 +1,33 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { RootNavigatorParams, RootRoutes } from '@pf/constants';
-import HomeNavigator from './HomeNavigator';
-import BlogNavigator from './BlogNavigator';
-import CalendarNavigator from './CalendarNavigator';
-import { BottomTabBar } from '@pf/components';
-import DonationNavigator from './DonationNavigator';
+import { RootRoutes } from '@pf/constants';
+import { CalendarOnboardingScreen, CalendarSettingsScreen, GeneralSettingsScreen } from '@pf/screens';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { BottomTabNavigator } from './BottomTabNavigator';
 
-const { HOME_STACK, BLOG_STACK, CALENDAR_STACK, DONATION_STACK } = RootRoutes;
-const Tab = createBottomTabNavigator<RootNavigatorParams>();
+const Stack = createNativeStackNavigator();
+type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 
-export const RootNavigator: React.FC = () => {
+const { APP, GENERAL_SETTINGS, CALENDAR_SETTINGS, CALENDAR_ONBOARDING } = RootRoutes;
+
+export const RootNavigator: React.FC = (props: Partial<StackNavigatorProps>) => {
   return (
-    <Tab.Navigator tabBar={props => <BottomTabBar {...props} />} screenOptions={{ headerShown: false }}>
-      <Tab.Screen name={HOME_STACK} component={HomeNavigator} />
-      <Tab.Screen name={BLOG_STACK} component={BlogNavigator} />
-      <Tab.Screen name={CALENDAR_STACK} component={CalendarNavigator} />
-      <Tab.Screen name={DONATION_STACK} component={DonationNavigator} />
-    </Tab.Navigator>
+    <Stack.Navigator initialRouteName={APP} screenOptions={{ headerShown: false }} {...props}>
+      <Stack.Screen name={APP} component={BottomTabNavigator} />
+      <Stack.Screen
+        name={GENERAL_SETTINGS}
+        component={GeneralSettingsScreen}
+        options={{ presentation: 'fullScreenModal' }}
+      />
+      <Stack.Screen
+        name={CALENDAR_ONBOARDING}
+        component={CalendarOnboardingScreen}
+        options={{ presentation: 'fullScreenModal' }}
+      />
+      <Stack.Screen
+        name={CALENDAR_SETTINGS}
+        component={CalendarSettingsScreen}
+        options={{ presentation: 'fullScreenModal' }}
+      />
+    </Stack.Navigator>
   );
 };

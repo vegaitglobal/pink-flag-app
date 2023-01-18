@@ -1,6 +1,6 @@
-import { RootRoutes } from '@pf/constants';
+import { BottomTabRoutes } from '@pf/constants';
 
-const { HOME_STACK, BLOG_STACK, CALENDAR_STACK, DONATION_STACK } = RootRoutes;
+const { HOME_STACK, BLOG_STACK, CALENDAR_STACK, DONATION_STACK } = BottomTabRoutes;
 
 const PathNames = {
   [HOME_STACK]: 'Početna',

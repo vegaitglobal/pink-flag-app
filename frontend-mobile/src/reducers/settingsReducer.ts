@@ -1,29 +1,52 @@
+import { resetAction } from '@pf/constants';
 import { RootState } from '@pf/store';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SettingsState {
-  isCalendarOnboardingStarted?: boolean;
+  calendarActivated: boolean;
+  calendarNotificationsEnabled: boolean;
+  blogNotificationsEnabled: boolean;
 }
 
 const initialState: SettingsState = {
-  isCalendarOnboardingStarted: false,
+  calendarActivated: false,
+  calendarNotificationsEnabled: true,
+  blogNotificationsEnabled: true,
 };
 
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    toggleCalendarOnboardingStatus: state => {
-      state.isCalendarOnboardingStarted = !state.isCalendarOnboardingStarted;
-    },
+    setCalendarActivation: (state, action: PayloadAction<boolean>): SettingsState => ({
+      ...state,
+      calendarActivated: action.payload,
+    }),
+    setCalendarNotificationState: (state, action: PayloadAction<boolean>): SettingsState => ({
+      ...state,
+      calendarNotificationsEnabled: action.payload,
+    }),
+    setBlogNotificationState: (state, action: PayloadAction<boolean>): SettingsState => ({
+      ...state,
+      blogNotificationsEnabled: action.payload,
+    }),
+  },
+  extraReducers: builder => {
+    builder.addCase(resetAction, () => initialState);
   },
 });
 
-export const { toggleCalendarOnboardingStatus } = settingsSlice.actions;
+export const { setCalendarActivation, setCalendarNotificationState, setBlogNotificationState } = settingsSlice.actions;
 
 export const selectSettings = (state: RootState): SettingsState => state.settings;
 
-export const selectIsCalendarOnboardingStarted = (state: RootState): boolean | undefined =>
-  selectSettings(state).isCalendarOnboardingStarted;
+export const selectIsCalendarActivated = (state: RootState): boolean | undefined =>
+  selectSettings(state).calendarActivated;
+
+export const selectAreCalendarNotificationsEnabled = (state: RootState): boolean | undefined =>
+  selectSettings(state).calendarNotificationsEnabled;
+
+export const selectAreBlogNotificationsEnabled = (state: RootState): boolean | undefined =>
+  selectSettings(state).blogNotificationsEnabled;
 
 export default settingsSlice.reducer;

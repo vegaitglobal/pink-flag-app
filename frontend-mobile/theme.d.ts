@@ -43,6 +43,18 @@ interface Theme {
     $2: string;
     /** 24 */
     $2Number: number;
+    /** unit(30) */
+    $4: string;
+    /** 30 */
+    $4Number: number;
+    /** unit(32) */
+    $5: string;
+    /** 32 */
+    $5Number: number;
+    /** unit(34) */
+    $6: string;
+    /** 34 */
+    $6Number: number;
   };
   iconSize: {
     /** value unit(20) */

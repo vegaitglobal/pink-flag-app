@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import usersReducer from '@pf/reducers/usersReducer';
+import userReducer from '@pf/reducers/userReducer';
 import settingsReducer from '@pf/reducers/settingsReducer';
 import { rootApi } from '@pf/services';
 
 //! TODO: Add persistor.
 export const store = configureStore({
   reducer: {
-    users: usersReducer,
+    user: userReducer,
     settings: settingsReducer,
     [rootApi.reducerPath]: rootApi.reducer,
   },

@@ -8,6 +8,12 @@ export const AppTheme: Theme = {
     $1Number: 20,
     $2: unit(24),
     $2Number: 24,
+    $4: unit(30),
+    $4Number: 30,
+    $5: unit(32),
+    $5Number: 32,
+    $6: unit(34),
+    $6Number: 34,
   },
   fontSize: {
     $1: unit(10),

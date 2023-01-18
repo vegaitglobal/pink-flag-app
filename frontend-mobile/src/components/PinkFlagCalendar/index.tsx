@@ -1,80 +1,57 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useTheme } from '@emotion/react';
+import React, { useMemo } from 'react';
 import { Calendar, CalendarProps } from 'react-native-calendars';
-import { Arrow, Header } from './components';
+import { getCalendarTheme } from './getCalendarTheme';
+import { Arrow, CustomHeader, DisabledOverlay } from './components';
 import { ConfigureCalendar } from './config';
 import { MarkerStyles } from './types';
+import { View } from 'react-native';
+import { subtractYears } from '@pf/utils';
 
 ConfigureCalendar();
-const today = new Date().toString();
+const today = new Date();
+const MIN_DATE = subtractYears(today, 10);
 
-type Props = CalendarProps;
+interface OwnProps {
+  isDisabled?: boolean;
+  maxDate?: string;
+}
 
-export const PinkFlagCalendar: React.FC<Props> = ({ ...props }) => {
+type Props = CalendarProps & OwnProps;
+
+export const PinkFlagCalendar: React.FC<Props> = ({ isDisabled = false, maxDate, ...props }) => {
+  const theme = useTheme();
+  const calendarTheme = useMemo(() => getCalendarTheme(theme), [theme]);
+
   return (
-    // <Header />
-    <Calendar
-      // Initially visible month. Default = now
-      initialDate={today}
-      // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-      minDate={'2012-05-10'}
-      // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-      maxDate={today}
-      // Handler which gets executed on day press. Default = undefined
-      onDayPress={day => {
-        console.log('selected day', day);
-      }}
-      // Handler which gets executed on day long press. Default = undefined
-      onDayLongPress={day => {
-        console.log('selected day', day);
-      }}
-      // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-      monthFormat={'yyyy MM'}
-      // Handler which gets executed when visible month changes in calendar. Default = undefined
-      onMonthChange={month => {
-        console.log('month changed', month);
-      }}
-      // Replace default arrows with custom ones (direction can be 'left' or 'right')
-      // renderArrow={direction => <Arrow direction={direction} />}
-      // Do not show days of other months in month page. Default = false
-      hideExtraDays={false}
-      // If hideArrows = false and hideExtraDays = false do not switch month when tapping on greyed out
-      // day from another month that is visible in calendar page. Default = false
-      disableMonthChange={false}
-      // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-      firstDay={1}
-      renderArrow={direction => <Arrow direction={direction} />}
-      // Hide day names. Default = false
-      hideDayNames={false}
-      // Show week numbers to the left. Default = false
-      // showWeekNumbers={true}
-      // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-      onPressArrowLeft={subtractMonth => subtractMonth()}
-      // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-      onPressArrowRight={addMonth => addMonth()}
-      // Disable left arrow. Default = false
-      disableArrowLeft={false}
-      // Disable right arrow. Default = false
-      disableArrowRight={false}
-      // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-      disableAllTouchEventsForDisabledDays={false}
-      renderHeader={date => <Header date={date as Date} />}
-      // Replace default month and year title with custom one. the function receive a date as parameter
-      // renderHeader={date => <Header date={date as Date} />}
-      // Enable the option to swipe between months. Default = false
-      enableSwipeMonths={true}
-      markingType="custom"
-      {...props}
-    />
+    <View>
+      <Calendar
+        firstDay={1}
+        current={today.toString()}
+        minDate={MIN_DATE.toString()}
+        maxDate={maxDate}
+        disabledByDefault={isDisabled}
+        renderArrow={direction => <Arrow direction={direction} />}
+        renderHeader={(date: Date) => <CustomHeader date={date} />}
+        enableSwipeMonths={true}
+        theme={calendarTheme}
+        markingType="custom"
+        {...props}
+      />
+      {isDisabled && <DisabledOverlay />}
+    </View>
   );
 };
 
 export { MarkerStyles };
 
 //   },
-//   '2022-10-11': {
-//     customStyles: {
-//       container: styles.ovulationMarker,
-//       text: styles.blackTextMarker,
-//     },
+// '2022-10-11': {
+//   customStyles: {
+//     container: styles.ovulationMarker,
+//     text: styles.blackTextMarker,
 //   },
+// },
 // }}

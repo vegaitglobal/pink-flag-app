@@ -4,11 +4,12 @@ import { Container, DisabledOverlay, StyledCustomText } from './styles';
 
 interface Props extends TouchableOpacityProps {
   content?: string;
+  background?: string;
 }
 
-export const PrimaryButton: React.FC<Props> = ({ content, disabled, ...props }) => {
+export const PrimaryButton: React.FC<Props> = ({ content, disabled, background, ...props }) => {
   return (
-    <Container disabled={disabled} {...props}>
+    <Container disabled={disabled} background={background} {...props}>
       <StyledCustomText content={content} />
       {disabled && <DisabledOverlay />}
     </Container>

@@ -1,23 +1,20 @@
 import { DatePickerModal } from '@pf/components';
 import React, { useCallback, useRef, useState } from 'react';
 import { Subtitle } from '../../styles';
+import { getInitialValue } from './getInitialValue';
 import { Container, InputContainer, Spacing, StyledSettingsInput, Wrapper, YearWrapper } from './styles';
 
-type BirthdayInputType = {
-  day: string;
-  month: string;
-  year: string;
-};
+const SEPARATOR = '-';
 
-const INITIAL_VALUE = {
-  day: '',
-  month: '',
-  year: '',
-};
+interface Props {
+  value?: string;
+  onChange?: (birthday: string) => void;
+}
 
-export const BirthdayInput: React.FC = () => {
-  const dateInput = useRef<BirthdayInputType>(INITIAL_VALUE);
-  const [date, setDate] = useState(new Date());
+export const BirthdayInput: React.FC<Props> = ({ value, onChange }) => {
+  const dateFromValue = new Date(value as string);
+  const [date, setDate] = useState(dateFromValue);
+  const displayDate = useRef(getInitialValue(value || ''));
 
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
@@ -25,19 +22,20 @@ export const BirthdayInput: React.FC = () => {
     setIsDatePickerVisible(prevState => !prevState);
   }, []);
 
-  const handleDateConfirmation = useCallback(() => {
-    toggleDatePicker();
-
-    const day = `${date.getDate()}`.padStart(2, '0');
-    const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    const year = `${date.getFullYear()}`;
-
-    dateInput.current = {
-      day,
-      month,
-      year,
+  const handleOnChange = useCallback(() => {
+    displayDate.current = {
+      year: `${date.getFullYear()}`,
+      month: `${date.getMonth() + 1}`.padStart(2, '0'),
+      day: `${date.getDate()}`.padStart(2, '0'),
     };
-  }, [date, toggleDatePicker]);
+    const newValue = [displayDate.current.year, displayDate.current.month, displayDate.current.day].join(SEPARATOR);
+    onChange?.(newValue);
+  }, [date, onChange]);
+
+  const handleDateConfirmation = useCallback(() => {
+    handleOnChange();
+    toggleDatePicker();
+  }, [handleOnChange, toggleDatePicker]);
 
   const handleDateCancellation = useCallback(() => {
     toggleDatePicker();
@@ -50,13 +48,18 @@ export const BirthdayInput: React.FC = () => {
       <Subtitle content="Kada si rođena?" />
       <InputContainer>
         <Wrapper onPress={toggleDatePicker}>
-          <StyledSettingsInput placeholder="Dan" value={dateInput.current.day} pointerEvents="none" editable={false} />
+          <StyledSettingsInput
+            placeholder="Dan"
+            value={displayDate.current.day}
+            pointerEvents="none"
+            editable={false}
+          />
         </Wrapper>
         <Spacing />
         <Wrapper onPress={toggleDatePicker}>
           <StyledSettingsInput
             placeholder="Mesec"
-            value={dateInput.current.month}
+            value={displayDate.current.month}
             pointerEvents="none"
             editable={false}
           />
@@ -65,7 +68,7 @@ export const BirthdayInput: React.FC = () => {
         <YearWrapper onPress={toggleDatePicker}>
           <StyledSettingsInput
             placeholder="Godina"
-            value={dateInput.current.year}
+            value={displayDate.current.year}
             pointerEvents="none"
             editable={false}
           />

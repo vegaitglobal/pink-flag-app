@@ -9,10 +9,7 @@ export const OverviewScreen: React.FC = () => {
       <StyledTitle content="Kalendar je veoma jednostavna aplikacija za praćenje sopstvene menstruacije." />
       <SectionTitle content="Aplikacija ti omogućava da pratiš:" />
       <BulletText
-        content="• Plodne dane
-• Sledeću ovulaciju
-• Predvidjeno vreme za menstruaciju
-• Očekivani dan menstruacije"
+        content={`•  Plodne dane\n•  Sledeću ovulaciju\n•  Predvidjeno vreme za menstruaciju\n•  Očekivani dan menstruacije`}
       />
     </Container>
   );

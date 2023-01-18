@@ -5,35 +5,30 @@ import React, { useCallback, useRef } from 'react';
 import { Subtitle } from '../../styles';
 import { SettingsInput } from '../SettingsInput';
 import { periodOptions, PERIOD_DEFAULT } from './constants';
+import { getValueIndex } from './getValueIndex';
 import { Container, Wrapper } from './styles';
 
-export const MenstruationInput: React.FC = () => {
-  const menstruationLength = useRef(EMPTY_STRING);
+interface Props {
+  value?: string;
+  onChange?: (menstruationLength: number) => void;
+}
 
-  const handleSelection = useCallback(() => {
-    if (menstruationLength.current) {
-      return;
-    }
-  }, []);
+export const MenstruationInput: React.FC<Props> = ({ value, onChange }) => {
+  const menstruationLength = useRef(value || EMPTY_STRING);
+  const initialOption = getValueIndex(menstruationLength.current, periodOptions, PERIOD_DEFAULT);
 
   const onPeriodLengthSubmit = useCallback(
     (selectedValue: PickerOption<number>): void => {
       menstruationLength.current = selectedValue.label;
-      handleSelection();
+      onChange?.(selectedValue.value);
     },
-    [handleSelection],
+    [onChange],
   );
-
-  const onPeriodLengthReject = useCallback((): void => {
-    menstruationLength.current = EMPTY_STRING;
-    handleSelection();
-  }, [handleSelection]);
 
   const { CustomPickerComponent: PeriodPicker, togglePickerModal: togglePeriodPicker } = useCustomPicker({
     options: periodOptions,
-    initialValueIndex: PERIOD_DEFAULT,
+    initialValueIndex: initialOption,
     onSubmit: onPeriodLengthSubmit,
-    onReject: onPeriodLengthReject,
     modalTitle: 'Izaberi dužinu menstruacije',
   });
 

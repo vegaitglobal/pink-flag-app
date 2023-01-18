@@ -5,13 +5,13 @@ import { SvgBackground } from '../../components';
 import { Container, StyledTitle } from './styles';
 
 interface Props {
-  onInputChange: (isValid: boolean) => void;
+  onInputChange: (isValid: boolean, value: string) => void;
 }
 
 export const NameInputScreen: React.FC<Props> = WithSafeView(({ onInputChange }) => {
   const handleOnChangeText = useCallback(
     (text: string) => {
-      onInputChange(text.length > 0);
+      onInputChange(text.length > 0, text);
     },
     [onInputChange],
   );

@@ -8,6 +8,7 @@ const DESCRIPTION_BOTTOM = 28;
 
 export const Container = styled.ScrollView`
   padding-top: ${unit(TOP_PADDING)};
+  padding-horizontal: ${({ theme }) => theme.spacing.$1};
 `;
 
 export const Greeting = styled(CustomText)`

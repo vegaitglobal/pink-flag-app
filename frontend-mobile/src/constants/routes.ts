@@ -1,10 +1,15 @@
 export const RootRoutes = {
-  WELCOME_SCREEN_ENTER_LINK: 'welcome-screen-enter-link',
+  APP: 'app',
+  GENERAL_SETTINGS: 'general_settings',
+  CALENDAR_SETTINGS: 'calendar_settings',
+  CALENDAR_ONBOARDING: 'calendar_onboarding',
+} as const;
+
+export const BottomTabRoutes = {
   HOME_STACK: 'home_stack',
   BLOG_STACK: 'blog_stack',
   CALENDAR_STACK: 'calendar_stack',
   DONATION_STACK: 'donation_stack',
-  GENERAL_SETTINGS: 'general_settings',
 } as const;
 
 export const HomeRoutes = {
@@ -18,8 +23,6 @@ export const BlogRoutes = {
 
 export const CalendarRoutes = {
   CALENDAR: 'calendar',
-  CALENDAR_ONBOARDING: 'calendar_onboarding',
-  CALENDAR_SETTINGS: 'calendar_settings',
 } as const;
 
 export const DonationRoutes = {

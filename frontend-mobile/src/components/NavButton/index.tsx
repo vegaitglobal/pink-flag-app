@@ -20,7 +20,7 @@ export const NavButton: React.FC<Props> = ({ icon, content, isFocused = false, o
     <Container onPress={onPress}>
       {icon}
       <TextWrapper>
-        <StyledCustomText content={content} onLayout={handleOnTextLayout} />
+        <StyledCustomText content={content} onLayout={handleOnTextLayout} isFocused={isFocused} />
       </TextWrapper>
       <StyledLine width={lineWidth} isFocused={isFocused} />
     </Container>

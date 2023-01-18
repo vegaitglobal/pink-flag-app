@@ -6,7 +6,7 @@ interface Props {
   date: Date;
 }
 
-export const Header: React.FC<Props> = ({ date }) => {
+export const CustomHeader: React.FC<Props> = ({ date }) => {
   const displayDate = getDisplayDate(date);
 
   return (

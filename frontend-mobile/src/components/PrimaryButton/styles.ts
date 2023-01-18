@@ -6,14 +6,14 @@ const HEIGHT = 42;
 const OVERLAY_COLOR = 'white';
 const OVERLAY_OPACITY = '0.4';
 
-export const Container = styled.TouchableOpacity`
+export const Container = styled.TouchableOpacity<{ background?: string }>`
   width: 100%;
   overflow: hidden;
   align-items: center;
   justify-content: center;
   height: ${unit(HEIGHT)};
   border-radius: ${({ theme }) => theme.borderRadius.$2};
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ background, theme }) => background || theme.colors.primary};
 `;
 
 export const StyledCustomText = styled(CustomText)`

@@ -2,7 +2,6 @@ import React from 'react';
 import { DonateBanner, Footer } from '@pf/components';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BlogRoutes } from '@pf/constants';
-import { BlogScreenProps } from '../../navigation/BlogNavigator';
 import { useGetBlogByIdQuery } from '@pf/services';
 import { ActivityIndicator, Image, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { AppTheme } from '@pf/theme';
@@ -10,10 +9,11 @@ import { CustomText } from '../../components/CustomText';
 import { useTheme } from '@emotion/react';
 import { BASE_URI } from '../../services/rootApi';
 import RenderHtml from 'react-native-render-html';
+import { HomeScreenProps } from '../../navigation/HomeNavigator';
 
 const { BLOG_DETAILS } = BlogRoutes;
 
-export const BlogDetailsScreen: React.FC<BlogScreenProps<typeof BLOG_DETAILS>> = ({ route }) => {
+export const BlogDetailsScreen: React.FC<HomeScreenProps<typeof BLOG_DETAILS>> = ({ route }) => {
   const { data, isLoading } = useGetBlogByIdQuery(route.params.id);
   const theme = useTheme();
   const { width } = useWindowDimensions();

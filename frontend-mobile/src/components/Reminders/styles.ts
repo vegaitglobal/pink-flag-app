@@ -6,6 +6,7 @@ const SEPARATOR_SIZE = 12;
 
 export const Container = styled.View`
   margin-bottom: ${unit(CONTAINER_BOTTOM)};
+  padding-horizontal: ${({ theme }) => theme.spacing.$1};
 `;
 
 export const Separator = styled.View`
