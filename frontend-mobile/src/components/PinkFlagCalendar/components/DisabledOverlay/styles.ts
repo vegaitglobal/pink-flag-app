@@ -5,7 +5,6 @@ import { unit } from '@pf/utils';
 const OPACITY = '0.2';
 const OVERLAY_COLOR = '#000000';
 const TEXT_BOTTOM = 30;
-const BORDER_RADIUS = 20;
 
 export const Overlay = styled.View`
   position: absolute;
@@ -15,7 +14,7 @@ export const Overlay = styled.View`
   bottom: 0;
   opacity: ${OPACITY};
   background-color: ${OVERLAY_COLOR};
-  border-radius: ${unit(BORDER_RADIUS)};
+  border-radius: ${({ theme }) => theme.borderRadius.$2};
 `;
 
 export const Content = styled.View`

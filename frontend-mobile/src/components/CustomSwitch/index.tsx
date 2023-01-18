@@ -5,7 +5,7 @@ import { useAnimation } from './useAnimation';
 
 interface Props {
   value?: boolean;
-  onSwitchChange?: () => void;
+  onSwitchChange?: (newValue: boolean) => void;
 }
 
 export interface Ref {
@@ -18,16 +18,16 @@ export const CustomSwitch = forwardRef<Ref, Props>(({ value = false, onSwitchCha
   const { animatedX, handleTurnOff, handleTurnOn, interpolatedColor } = useAnimation(value, theme);
 
   const handleOnValueChange = useCallback(() => {
-    onSwitchChange?.();
-
     if (isOn) {
       handleTurnOff();
       setIsOn(false);
+      onSwitchChange?.(false);
       return;
     }
 
     handleTurnOn();
     setIsOn(true);
+    onSwitchChange?.(true);
   }, [handleTurnOff, handleTurnOn, isOn, onSwitchChange]);
 
   useImperativeHandle(ref, () => ({

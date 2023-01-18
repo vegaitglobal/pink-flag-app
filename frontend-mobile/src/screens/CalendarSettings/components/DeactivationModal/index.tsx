@@ -3,23 +3,27 @@ import React, { useCallback } from 'react';
 import { Modal } from 'react-native';
 import { Content, Description, Overlay, StyledTransparentButton, Title } from './styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAppDispatch } from '@pf/hooks';
+import { resetAction } from '@pf/constants';
 
 const BUTTON_COLOR = '#EC6767';
 
 interface Props {
   isVisible?: boolean;
-  onConfirm?: () => void;
   onDecline?: () => void;
   hide: () => void;
+  closeModal?: () => void;
 }
 
-export const DeactivationModal: React.FC<Props> = ({ isVisible, hide, onConfirm, onDecline }) => {
+export const DeactivationModal: React.FC<Props> = ({ isVisible, hide, closeModal, onDecline }) => {
   const { top: safeTopSpacing } = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
 
   const handleOnConfirm = useCallback(() => {
-    onConfirm?.();
+    dispatch(resetAction());
     hide();
-  }, [hide, onConfirm]);
+    closeModal?.();
+  }, [closeModal, dispatch, hide]);
 
   const handleOnDecline = useCallback(() => {
     onDecline?.();

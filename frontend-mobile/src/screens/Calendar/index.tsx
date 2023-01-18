@@ -4,7 +4,7 @@ import { CalendarExplanation, Footer, Reminders, UserGreeting } from '@pf/compon
 import { Container, Content, ExplanationWrapper, getStyles, StyledPinkFlagCalendar } from './styles';
 import GreetingData from '../../assets/data/greeting.json';
 import { useTheme } from '@emotion/react';
-import { CalendarNavigatorScreenProps, CalendarRoutes, RootRoutes } from '@pf/constants';
+import { CalendarNavigatorScreenProps, CalendarRoutes, EMPTY_STRING, RootRoutes } from '@pf/constants';
 import { useAppSelector } from '@pf/hooks';
 import { selectUserName } from '@pf/reducers/userReducer';
 import { selectIsCalendarActivated } from '@pf/reducers/settingsReducer';
@@ -18,7 +18,8 @@ export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) =>
   const theme = useTheme();
   const inlineStyles = useMemo(() => getStyles(theme), [theme]);
   const isCalendarActivated = useAppSelector(selectIsCalendarActivated);
-  const userName = useAppSelector(selectUserName) || '';
+  const userName = useAppSelector(selectUserName) || EMPTY_STRING;
+  const displayedName = isCalendarActivated ? userName : EMPTY_STRING;
 
   useEffect(() => {
     if (!isCalendarActivated) {
@@ -32,9 +33,9 @@ export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) =>
       contentContainerStyle={inlineStyles.content}
       showsVerticalScrollIndicator={false}>
       <Content>
-        <UserGreeting name={userName} description={GreetingData.description} />
+        <UserGreeting name={displayedName} description={GreetingData.description} />
         <Reminders />
-        <StyledPinkFlagCalendar />
+        <StyledPinkFlagCalendar isDisabled={!isCalendarActivated} />
         <ExplanationWrapper>
           <CalendarExplanation />
         </ExplanationWrapper>

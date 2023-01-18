@@ -1,3 +1,12 @@
+import { useAppDispatch } from '@pf/hooks';
+import { setCalendarActivation } from '@pf/reducers/settingsReducer';
+import {
+  setBirthday,
+  setCycleLength,
+  setLastMenstruationDate,
+  setMenstruationLength,
+  setUserName,
+} from '@pf/reducers/userReducer';
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useRef, useState } from 'react';
 import PagerView from 'react-native-pager-view';
@@ -13,31 +22,80 @@ import { Container, StyledPagerView, IndicatorContainer, Footer, StyledPrimaryBu
 
 const PAGE_MARGIN = 40;
 const SLIDE_COUNT = 4;
+const FINISHED = true;
+
+const NAME_INPUT_INDEX = 1;
+const BIRTHDAY_INPUT_INDEX = 2;
+const PERIOD_INPUT_INDEX = 3;
+const CALENDAR_INPUT_INDEX = 4;
 
 const ButtonContents = ['Sledeće', 'Sledeći korak', 'Sledeći korak', 'Sledeći korak', 'Završi'];
 
 export const OnboardingScreen: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { goBack } = useNavigation();
   const pagerViewRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [buttonStates, setButtonStates] = useState([false, true, true, true, true]);
   const notFirstPage = currentPage !== 0;
 
+  const nameInput = useRef<string | undefined>('');
+  const birthdayInput = useRef<string | undefined>('');
+  const periodInput = useRef<string | undefined>('');
+  const calendarInput = useRef<string | undefined>('');
+
   const handleOnButtonPress = useCallback((): void => {
-    if (currentPage === SLIDE_COUNT) {
+    if (currentPage === NAME_INPUT_INDEX && nameInput.current) {
+      dispatch(setUserName(nameInput.current));
+    }
+
+    if (currentPage === BIRTHDAY_INPUT_INDEX && birthdayInput.current) {
+      dispatch(setBirthday(birthdayInput.current));
+    }
+
+    if (currentPage === PERIOD_INPUT_INDEX && periodInput.current) {
+      //! Received value: MenstruationLength-5;CycleLength-2
+      const inputValue = periodInput.current;
+      const menstruationLength = +inputValue?.split(';')[0].split('-')[1];
+      const cycleLength = +inputValue?.split(';')[1].split('-')[1];
+
+      dispatch(setMenstruationLength(menstruationLength));
+      dispatch(setCycleLength(cycleLength));
+    }
+
+    if (currentPage === CALENDAR_INPUT_INDEX && calendarInput.current) {
+      dispatch(setLastMenstruationDate(calendarInput.current));
+      dispatch(setCalendarActivation(FINISHED));
       goBack();
       return;
     }
+
     const nextPage = currentPage + 1;
     pagerViewRef.current?.setPage(nextPage);
     setCurrentPage(nextPage);
-  }, [currentPage, goBack]);
+  }, [currentPage, dispatch, goBack]);
 
   const onInputChange = useCallback(
-    (isValid: boolean) => {
+    (isValid: boolean, value?: string) => {
       const newStates = [...buttonStates];
       newStates[currentPage] = !isValid;
       setButtonStates(newStates);
+
+      if (currentPage === NAME_INPUT_INDEX) {
+        nameInput.current = value;
+      }
+
+      if (currentPage === BIRTHDAY_INPUT_INDEX) {
+        birthdayInput.current = value;
+      }
+
+      if (currentPage === PERIOD_INPUT_INDEX) {
+        periodInput.current = value;
+      }
+
+      if (currentPage === CALENDAR_INPUT_INDEX) {
+        calendarInput.current = value;
+      }
     },
     [buttonStates, currentPage],
   );

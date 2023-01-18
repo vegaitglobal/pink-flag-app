@@ -20,10 +20,14 @@ export const NavHeader: React.FC<Props> = ({
   back,
   navigation: { navigate, goBack },
 }) => {
-  const handleOnSettingsPress = useCallback(
-    () => onSettingsPress?.() || navigate(GENERAL_SETTINGS),
-    [navigate, onSettingsPress],
-  );
+  const handleOnSettingsPress = useCallback(() => {
+    if (onSettingsPress) {
+      onSettingsPress();
+      return;
+    }
+
+    navigate(GENERAL_SETTINGS);
+  }, [navigate, onSettingsPress]);
 
   return (
     <SafeArea>

@@ -1,8 +1,15 @@
 import { CustomSwitch, CustomSwitchRef } from '@pf/components';
+import { useAppSelector } from '@pf/hooks';
+import { selectAreCalendarNotificationsEnabled } from '@pf/reducers/settingsReducer';
 import React, { useCallback, useRef } from 'react';
 import { Container, Title } from './styles';
 
-export const NotificationInput: React.FC = () => {
+interface Props {
+  onChange?: (newValue: boolean) => void;
+}
+
+export const NotificationInput: React.FC<Props> = ({ onChange }) => {
+  const areCalendarNotificationsEnabled = useAppSelector(selectAreCalendarNotificationsEnabled);
   const switchRef = useRef<CustomSwitchRef>(null);
 
   const handleOnPress = useCallback(() => {
@@ -12,7 +19,7 @@ export const NotificationInput: React.FC = () => {
   return (
     <Container onPress={handleOnPress}>
       <Title content="Primaj obaveštenja za kalendar?" />
-      <CustomSwitch ref={switchRef} />
+      <CustomSwitch ref={switchRef} value={areCalendarNotificationsEnabled} onSwitchChange={onChange} />
     </Container>
   );
 };

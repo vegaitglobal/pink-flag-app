@@ -6,7 +6,7 @@ import { BirthdayInputType, INITIAL_VALUE, MAX_DATE } from './constants';
 import { Container, StyledTitle, InputContainer, Separator, ButtonWrapper, BigButtonWrapper } from './styles';
 
 interface Props {
-  onInputChange: (isValid: boolean) => void;
+  onInputChange: (isValid: boolean, value?: string) => void;
 }
 
 export const BirthdayInputScreen: React.FC<Props> = ({ onInputChange }) => {
@@ -32,7 +32,7 @@ export const BirthdayInputScreen: React.FC<Props> = ({ onInputChange }) => {
     };
 
     const isValid = true;
-    onInputChange(isValid);
+    onInputChange(isValid, `${year}-${month}-${day}`);
   }, [date, onInputChange, toggleDatePicker]);
 
   const handleDateCancellation = useCallback(() => {

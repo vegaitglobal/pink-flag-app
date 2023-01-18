@@ -8,7 +8,7 @@ import { cycleOptions, CYCLE_DEFAULT, periodOptions, PERIOD_DEFAULT, SCROLL_TIME
 import { Container, StyledTitle, StyledDescription, styles, Separator, ButtonWrapper } from './styles';
 
 interface Props {
-  onInputChange: (isValid: boolean) => void;
+  onInputChange: (isValid: boolean, value?: string) => void;
   currentPageIndex: number;
 }
 
@@ -26,7 +26,8 @@ export const PeriodInputScreen: React.FC<Props> = ({ onInputChange, currentPageI
   const handleSelection = useCallback(() => {
     if (cycleLength.current && menstruationLength.current) {
       const isValid = true;
-      onInputChange(isValid);
+      const value = `MenstruationLength-${menstruationLength.current};CycleLength-${cycleLength.current}`;
+      onInputChange(isValid, value);
       return;
     }
 
