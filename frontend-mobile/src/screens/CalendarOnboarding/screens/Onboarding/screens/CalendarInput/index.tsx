@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CalendarMarkerStyles, PinkFlagCalendar } from '@pf/components';
 import { ValueOf } from '@pf/constants';
+import { useAppSelector } from '@pf/hooks';
+import { selectMenstruationLength } from '@pf/reducers/userReducer';
 import React, { useCallback, useRef, useState } from 'react';
 import { DateData } from 'react-native-calendars';
 import { Container, StyledTitle, Wrapper } from './styles';
@@ -16,6 +18,7 @@ interface Props {
 
 export const CalendarInputScreen: React.FC<Props> = ({ onInputChange }) => {
   const markedDates = useRef<{ [key: string]: ValueOf<typeof CalendarMarkerStyles> }>({});
+  const menstruationLength = useAppSelector(selectMenstruationLength);
 
   const checkCalendarValidity = useCallback(() => {
     if (isEmptyObject(markedDates.current)) {
@@ -25,10 +28,10 @@ export const CalendarInputScreen: React.FC<Props> = ({ onInputChange }) => {
     }
 
     const selectedDates = Object.keys(markedDates.current).sort();
-    const lastDate = selectedDates[selectedDates.length - 1];
+    const firstDate = selectedDates[0];
 
     const isValid = true;
-    onInputChange(isValid, lastDate);
+    onInputChange(isValid, firstDate);
   }, [markedDates, onInputChange]);
 
   const handleOnDayPress = useCallback(
@@ -41,13 +44,18 @@ export const CalendarInputScreen: React.FC<Props> = ({ onInputChange }) => {
         return;
       }
 
+      const markedDatesAmount = Object.keys(markedDates.current).length + 1;
+      if (menstruationLength !== undefined && markedDatesAmount > menstruationLength) {
+        return;
+      }
+
       markedDates.current = {
         ...markedDates.current,
         [date.dateString]: CalendarMarkerStyles['MenstruationMarker'],
       };
       checkCalendarValidity();
     },
-    [checkCalendarValidity],
+    [checkCalendarValidity, menstruationLength],
   );
 
   return (

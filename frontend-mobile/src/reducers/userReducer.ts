@@ -7,7 +7,7 @@ const initialState: UserState = {
   birthday: undefined,
   menstruationLength: undefined,
   cycleLength: undefined,
-  lastMenstruationDate: undefined,
+  menstruationStartDate: undefined,
 };
 
 const userSlice = createSlice({
@@ -24,9 +24,9 @@ const userSlice = createSlice({
       ...state,
       cycleLength: action.payload,
     }),
-    setLastMenstruationDate: (state, action: PayloadAction<string>): UserState => ({
+    setMenstruationStartDate: (state, action: PayloadAction<string>): UserState => ({
       ...state,
-      lastMenstruationDate: action.payload,
+      menstruationStartDate: action.payload,
     }),
     updateUser: (state, action: PayloadAction<UserState>): UserState => ({
       ...state,
@@ -38,11 +38,10 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserName, setBirthday, setMenstruationLength, setCycleLength, setLastMenstruationDate, updateUser } =
+export const { setUserName, setBirthday, setMenstruationLength, setCycleLength, setMenstruationStartDate, updateUser } =
   userSlice.actions;
 
 export const selectUser = (state: RootState): UserState => state.user;
-
-export const selectUserName = (state: RootState): string | undefined => selectUser(state).name;
+export const selectMenstruationLength = (state: RootState): number | undefined => selectUser(state).menstruationLength;
 
 export default userSlice.reducer;

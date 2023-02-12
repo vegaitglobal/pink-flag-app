@@ -7,13 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { Subtitle } from '../../styles';
 import { BirthdayInput } from '../BirthdayInput';
+import { CalendarInput } from '../CalendarInput';
 import { CycleInput } from '../CycleInput';
 import { DeactivationModal } from '../DeactivationModal';
 import { GoogleAccountButton } from '../GoogleAccountButton';
 import { MenstruationInput } from '../MenstruationInput';
 import { NameInput } from '../NameInput';
 import { NotificationInput } from '../NotificationInput';
-import { Container, LinkButton, LinkText, LargeSpacing, MediumSpacing, SmallSpacing } from './styles';
+import { Container, LinkButton, LinkText, MediumSpacing, SmallSpacing } from './styles';
 import { useChangeHandlers } from './useChangeHandlers';
 
 const HIT_SLOP = { top: 10, left: 10, right: 10, bottom: 10 };
@@ -32,6 +33,7 @@ export const Content: React.FC = WithSafeView(() => {
     handleCycleLengthChange,
     handleMenstruationLengthChange,
     handleOnNotificationsChange,
+    handleMenstruationStartChange,
   } = useChangeHandlers();
 
   const handleOnSave = useCallback(() => {
@@ -52,6 +54,8 @@ export const Content: React.FC = WithSafeView(() => {
       <SmallSpacing />
       <BirthdayInput value={user.birthday} onChange={handleBirthdayChange} />
       <MediumSpacing />
+      <CalendarInput value={user.menstruationStartDate} onChange={handleMenstruationStartChange} />
+      <MediumSpacing />
       <MenstruationInput
         value={`${user.menstruationLength || EMPTY_STRING}`}
         onChange={handleMenstruationLengthChange}
@@ -60,7 +64,7 @@ export const Content: React.FC = WithSafeView(() => {
       <CycleInput value={`${user.cycleLength || EMPTY_STRING}`} onChange={handleCycleLengthChange} />
       <MediumSpacing />
       <NotificationInput onChange={handleOnNotificationsChange} />
-      <LargeSpacing />
+      <MediumSpacing />
       <PrimaryButton content="Sačuvaj izmene" onPress={handleOnSave} />
       <LinkButton hitSlop={HIT_SLOP} onPress={toggleDeactivationModal}>
         <LinkText content="Deaktiviraj kalendar" />

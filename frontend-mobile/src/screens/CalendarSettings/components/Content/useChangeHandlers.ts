@@ -9,6 +9,7 @@ type ReturnType = {
   handleMenstruationLengthChange: (menstruationLength: number) => void;
   handleCycleLengthChange: (cycleLength: number) => void;
   handleOnNotificationsChange: (switchValue: boolean) => void;
+  handleMenstruationStartChange: (menstruationStart: string) => void;
 };
 
 export const useChangeHandlers = (): ReturnType => {
@@ -22,6 +23,10 @@ export const useChangeHandlers = (): ReturnType => {
   //! Format: `2013-01-18`
   const handleBirthdayChange = useCallback((birthday: string) => {
     changes.current.birthday = birthday;
+  }, []);
+
+  const handleMenstruationStartChange = useCallback((menstruationStart: string) => {
+    changes.current.menstruationStartDate = menstruationStart;
   }, []);
 
   const handleMenstruationLengthChange = useCallback((menstruationLength: number) => {
@@ -44,5 +49,6 @@ export const useChangeHandlers = (): ReturnType => {
     handleMenstruationLengthChange,
     handleCycleLengthChange,
     handleOnNotificationsChange,
+    handleMenstruationStartChange,
   };
 };

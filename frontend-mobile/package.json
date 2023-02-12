@@ -29,6 +29,7 @@
     "@reduxjs/toolkit": "^1.6.1",
     "@types/react-redux": "^7.1.24",
     "axios": "0.27.2",
+    "date-fns": "^2.29.3",
     "patch-package": "^6.5.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "18.1.0",
@@ -47,7 +48,8 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^13.4.0",
     "react-native-wheel-scrollview-picker": "^2.0.1",
-    "react-redux": "^8.0.4"
+    "react-redux": "^8.0.4",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

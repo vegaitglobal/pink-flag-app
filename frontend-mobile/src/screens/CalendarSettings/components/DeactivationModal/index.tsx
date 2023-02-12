@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { PrimaryButton } from '@pf/components';
 import React, { useCallback } from 'react';
 import { Modal } from 'react-native';
@@ -5,6 +6,7 @@ import { Content, Description, Overlay, StyledTransparentButton, Title } from '.
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDispatch } from '@pf/hooks';
 import { resetAction } from '@pf/constants';
+import { persistor } from '@pf/store';
 
 const BUTTON_COLOR = '#EC6767';
 
@@ -19,7 +21,8 @@ export const DeactivationModal: React.FC<Props> = ({ isVisible, hide, closeModal
   const { top: safeTopSpacing } = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
-  const handleOnConfirm = useCallback(() => {
+  const handleOnConfirm = useCallback(async () => {
+    await persistor.purge();
     dispatch(resetAction());
     hide();
     closeModal?.();

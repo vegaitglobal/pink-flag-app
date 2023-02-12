@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { CalendarExplanation, Footer, Reminders, UserGreeting } from '@pf/components';
 import { Container, Content, ExplanationWrapper, getStyles, StyledPinkFlagCalendar } from './styles';
 import GreetingData from '../../assets/data/greeting.json';
 import { useTheme } from '@emotion/react';
 import { CalendarNavigatorScreenProps, CalendarRoutes, EMPTY_STRING, RootRoutes } from '@pf/constants';
 import { useAppSelector } from '@pf/hooks';
-import { selectUserName } from '@pf/reducers/userReducer';
+import { selectUser } from '@pf/reducers/userReducer';
 import { selectIsCalendarActivated } from '@pf/reducers/settingsReducer';
+import { getMarkedDates } from './utils';
 
 const NAVIGATION_DELAY = 500;
 const { CALENDAR } = CalendarRoutes;
@@ -16,10 +17,29 @@ type Props = CalendarNavigatorScreenProps<typeof CALENDAR>;
 
 export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
   const theme = useTheme();
+  const [monthOffset, setMonthOffset] = useState(0);
   const inlineStyles = useMemo(() => getStyles(theme), [theme]);
   const isCalendarActivated = useAppSelector(selectIsCalendarActivated);
-  const userName = useAppSelector(selectUserName) || EMPTY_STRING;
+  const { name: userName, cycleLength, menstruationLength, menstruationStartDate } = useAppSelector(selectUser);
   const displayedName = isCalendarActivated ? userName : EMPTY_STRING;
+  const markedDates = useMemo(
+    () => getMarkedDates(cycleLength, menstruationLength, menstruationStartDate, monthOffset),
+    [cycleLength, menstruationLength, menstruationStartDate, monthOffset],
+  );
+
+  const handleOnPreviousPress = useCallback((calendarMethod: () => void) => {
+    calendarMethod();
+    setMonthOffset(currentMonth => currentMonth - 1);
+  }, []);
+
+  const handleOnNextPress = useCallback((calendarMethod: () => void) => {
+    calendarMethod();
+    setMonthOffset(currentMonth => currentMonth + 1);
+  }, []);
+
+  const handleOnCalendarTitlePress = useCallback(() => {
+    setMonthOffset(0);
+  }, []);
 
   useEffect(() => {
     if (!isCalendarActivated) {
@@ -35,7 +55,13 @@ export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) =>
       <Content>
         <UserGreeting name={displayedName} description={GreetingData.description} />
         <Reminders />
-        <StyledPinkFlagCalendar isDisabled={!isCalendarActivated} />
+        <StyledPinkFlagCalendar
+          isDisabled={!isCalendarActivated}
+          markedDates={markedDates}
+          onPressArrowLeft={handleOnPreviousPress}
+          onPressArrowRight={handleOnNextPress}
+          onCalendarTitlePress={handleOnCalendarTitlePress}
+        />
         <ExplanationWrapper>
           <CalendarExplanation />
         </ExplanationWrapper>

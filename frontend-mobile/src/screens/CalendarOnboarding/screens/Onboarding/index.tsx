@@ -3,7 +3,7 @@ import { setCalendarActivation } from '@pf/reducers/settingsReducer';
 import {
   setBirthday,
   setCycleLength,
-  setLastMenstruationDate,
+  setMenstruationStartDate,
   setMenstruationLength,
   setUserName,
 } from '@pf/reducers/userReducer';
@@ -64,7 +64,7 @@ export const OnboardingScreen: React.FC = () => {
     }
 
     if (currentPage === CALENDAR_INPUT_INDEX && calendarInput.current) {
-      dispatch(setLastMenstruationDate(calendarInput.current));
+      dispatch(setMenstruationStartDate(calendarInput.current));
       dispatch(setCalendarActivation(FINISHED));
       goBack();
       return;
