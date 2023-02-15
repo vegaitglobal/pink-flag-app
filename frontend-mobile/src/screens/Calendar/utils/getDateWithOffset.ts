@@ -1,23 +1,18 @@
-import { addDays, addYears, subDays, subYears } from 'date-fns';
+import { addDays, isSameMonth, subDays, isBefore } from 'date-fns';
 import { getMarkerKey } from './getMarkerKey';
 
-const YEAR = 12;
-
-export const getDateWithOffset = (menstruationStartDate: string, cycleLength: number, dateOffset?: number): string => {
-  if (dateOffset === 0 || !dateOffset) {
+export const getDateWithOffset = (menstruationStartDate: string, cycleLength: number, currentDate?: Date): string => {
+  if (!currentDate) {
     return menstruationStartDate;
   }
 
-  const baseDate = new Date(menstruationStartDate);
-  const preparedDateOffset = dateOffset < 0 ? Math.abs(dateOffset) : dateOffset;
-  const calcYears = dateOffset < 0 ? subYears : addYears;
-  const calcDays = dateOffset < 0 ? subDays : addDays;
+  let shiftedMenstruationStartDate = new Date(menstruationStartDate);
 
-  const yearsToSubtract = Math.floor(preparedDateOffset / YEAR);
-  const daysToSubtract = (preparedDateOffset % YEAR) * cycleLength;
+  const calcDays = isBefore(shiftedMenstruationStartDate, currentDate) ? addDays : subDays;
 
-  const dateShiftedByYears = calcYears(baseDate, yearsToSubtract);
-  const dateShiftedByDays = calcDays(dateShiftedByYears, daysToSubtract);
+  while (!isSameMonth(shiftedMenstruationStartDate, currentDate)) {
+    shiftedMenstruationStartDate = calcDays(shiftedMenstruationStartDate, cycleLength);
+  }
 
-  return getMarkerKey(dateShiftedByDays);
+  return getMarkerKey(shiftedMenstruationStartDate);
 };

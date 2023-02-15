@@ -13,22 +13,23 @@ import { getUpcomingMenstruationStartDate } from './getUpcomingMenstruationStart
  * @returns An array of dates which is marked with different type of cycle markers.
  */
 export const getMarkedDates = (
+  currentDate: Date,
   cycleLength?: number,
   menstruationLength?: number,
   menstruationStartDate?: string,
-  monthOffset?: number,
 ): MarkedDates | undefined => {
   if (!cycleLength || !menstruationLength || !menstruationStartDate) {
     return undefined;
   }
 
-  const menstruationStartDateWithOffset = getDateWithOffset(menstruationStartDate, cycleLength, monthOffset);
-
+  const menstruationStartDateWithOffset = getDateWithOffset(menstruationStartDate, cycleLength, currentDate);
   const previousMenstruationDate = getPreviousMenstruationStartDate(menstruationStartDateWithOffset, cycleLength);
+
   const previousFertilityDays = getFertilityDates(previousMenstruationDate, cycleLength);
   const previousMenstruationDates = getMenstruationDates(previousMenstruationDate, menstruationLength);
 
   const menstruationDates = getMenstruationDates(menstruationStartDateWithOffset, menstruationLength);
+
   const fertilityDays = getFertilityDates(menstruationStartDateWithOffset, cycleLength);
 
   const upcomingMenstruationDate = getUpcomingMenstruationStartDate(menstruationStartDateWithOffset, cycleLength);

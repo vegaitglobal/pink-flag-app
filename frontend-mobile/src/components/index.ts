@@ -14,7 +14,11 @@ export { ReminderLabel } from './ReminderLabel';
 export { UserGreeting } from './UserGreeting';
 export { Reminders } from './Reminders';
 export { CalendarExplanation } from './CalendarExplanation';
-export { PinkFlagCalendar, MarkerStyles as CalendarMarkerStyles } from './PinkFlagCalendar';
+export {
+  PinkFlagCalendar,
+  MarkerStyles as CalendarMarkerStyles,
+  type MarkerType as CalendarMarkerType,
+} from './PinkFlagCalendar';
 export { ActivityIndicatorContainer } from './ActivityIndicatorContainer';
 export { ModalHeader } from './ModalHeader';
 export { CustomText } from './CustomText';

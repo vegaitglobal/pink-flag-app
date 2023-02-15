@@ -6,12 +6,12 @@ import { Calendar, CalendarProps } from 'react-native-calendars';
 import { getCalendarTheme } from './getCalendarTheme';
 import { Arrow, CustomHeader, DisabledOverlay } from './components';
 import { ConfigureCalendar } from './config';
-import { MarkerStyles } from './types';
+import { MarkerStyles, MarkerType } from './types';
 import { View } from 'react-native';
 import { subtractYears } from '@pf/utils';
+import { TODAY } from '@pf/constants';
 
 ConfigureCalendar();
-const TODAY = new Date();
 const MIN_DATE = subtractYears(TODAY, 10);
 
 interface OwnProps {
@@ -52,4 +52,4 @@ export const PinkFlagCalendar: React.FC<Props> = ({
   );
 };
 
-export { MarkerStyles };
+export { MarkerStyles, type MarkerType };

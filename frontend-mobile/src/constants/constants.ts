@@ -11,3 +11,4 @@ export const CALENDAR_SETUP_KEY = 'CALENDAR_SETUP';
 export const EMPTY_STRING = '';
 
 export const resetAction = createAction('reset');
+export const TODAY = new Date();

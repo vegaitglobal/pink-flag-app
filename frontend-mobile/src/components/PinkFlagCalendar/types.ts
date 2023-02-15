@@ -1,3 +1,4 @@
+import { ViewStyle, TextStyle } from 'react-native';
 import { styles } from './styles';
 
 export type CycleEventType = 'menstruation' | 'expectedMenstruationStart' | 'ovulation' | 'fertility';
@@ -5,6 +6,13 @@ export type CycleEventType = 'menstruation' | 'expectedMenstruationStart' | 'ovu
 export type CycleEvent = {
   date: Date;
   type: CycleEventType;
+};
+
+export type MarkerType = {
+  customStyles: {
+    container: ViewStyle;
+    text: TextStyle;
+  };
 };
 
 export const MarkerStyles = {
@@ -30,6 +38,11 @@ export const MarkerStyles = {
     customStyles: {
       container: styles.ovulationMarker,
       text: styles.blackTextMarker,
+    },
+  },
+  ['TodayMarker']: {
+    customStyles: {
+      container: styles.todayMarker,
     },
   },
 };
