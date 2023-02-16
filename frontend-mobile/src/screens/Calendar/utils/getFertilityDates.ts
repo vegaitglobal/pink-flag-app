@@ -16,7 +16,7 @@ export const getFertilityDates = (menstruationStartDate: string, cycleLength: nu
     const isOvulation = index === FERTILITY_MIDDLE;
     let marker = isOvulation ? OvulationMarker : FertilityMarker;
 
-    if (isToday(new Date(date)) && !isOvulation) {
+    if (isToday(new Date(date))) {
       marker = addTodayMarker(marker);
     }
 
