@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { CalendarExplanation, Footer, Reminders, UserGreeting } from '@pf/components';
+import { CalendarExplanation, Footer, UserGreeting } from '@pf/components';
 import { Container, Content, ExplanationWrapper, getStyles, StyledPinkFlagCalendar } from './styles';
 import GreetingData from '../../assets/data/greeting.json';
 import { useTheme } from '@emotion/react';
@@ -11,6 +11,7 @@ import { selectIsCalendarActivated } from '@pf/reducers/settingsReducer';
 import { getMarkedDates } from './utils';
 import { addMonths, subMonths } from 'date-fns';
 import { useLastMenstruationDateUpdate } from './useLastMenstruationDateUpdate';
+import { Reminders } from './components';
 
 const NAVIGATION_DELAY = 500;
 const INITIAL_DATE = new Date();
@@ -59,7 +60,11 @@ export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) =>
       showsVerticalScrollIndicator={false}>
       <Content>
         <UserGreeting name={displayedName} description={GreetingData.description} />
-        <Reminders />
+        <Reminders
+          cycleLength={cycleLength}
+          menstruationLength={menstruationLength}
+          menstruationStartDate={menstruationStartDate}
+        />
         <StyledPinkFlagCalendar
           isDisabled={!isCalendarActivated}
           markedDates={markedDates}

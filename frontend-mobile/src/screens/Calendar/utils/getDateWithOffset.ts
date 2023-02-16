@@ -1,9 +1,10 @@
+import { EMPTY_STRING } from '@pf/constants';
 import { addDays, isSameMonth, subDays, isBefore } from 'date-fns';
 import { getMarkerKey } from './getMarkerKey';
 
-export const getDateWithOffset = (menstruationStartDate: string, cycleLength: number, currentDate?: Date): string => {
-  if (!currentDate) {
-    return menstruationStartDate;
+export const getDateWithOffset = (menstruationStartDate?: string, cycleLength?: number, currentDate?: Date): string => {
+  if (!menstruationStartDate || !cycleLength || !currentDate) {
+    return EMPTY_STRING;
   }
 
   let shiftedMenstruationStartDate = new Date(menstruationStartDate);
