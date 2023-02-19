@@ -1,12 +1,10 @@
 import { MarkedDates } from 'react-native-calendars/src/types';
 import { getDateRange } from './getDateRange';
 import { CalendarMarkerStyles } from '@pf/components';
-import { getFertilityStartDate } from './getFertilityStartDate';
+import { FERTILITY_DAYS, FERTILITY_MIDDLE, getFertilityStartDate } from './getFertilityStartDate';
 import { isToday } from 'date-fns';
 import { addTodayMarker } from './addTodayMarker';
 
-const FERTILITY_DAYS = 5;
-const FERTILITY_MIDDLE = 2;
 const FertilityMarker = CalendarMarkerStyles.FertilityMarker;
 const OvulationMarker = CalendarMarkerStyles.OvulationMarker;
 

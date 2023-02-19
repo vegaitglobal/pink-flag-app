@@ -1,8 +1,7 @@
-import { TODAY } from '@pf/constants';
 import { differenceInDays } from 'date-fns';
 
 export const getPeriodInProgressText = (date: Date): string => {
-  const daysDiff = differenceInDays(date, TODAY);
+  const daysDiff = differenceInDays(date, new Date());
 
   let days = '';
   if (daysDiff === 1) {

@@ -3,7 +3,7 @@ import { ReminderLabel } from '@pf/components';
 import { Container, Separator } from './styles';
 import { getDateWithOffset, getUpcomingMenstruationStartDate } from '../../utils';
 import { TODAY } from '@pf/constants';
-import { getPeriodText } from './utils';
+import { getOvulationText, getPeriodText } from './utils';
 
 interface Props {
   cycleLength?: number;
@@ -20,14 +20,20 @@ export const Reminders: React.FC<Props> = ({ cycleLength, menstruationLength, me
     () => getUpcomingMenstruationStartDate(menstruationStart, cycleLength || 0),
     [cycleLength, menstruationStart],
   );
-
-  const periodText = getPeriodText(menstruationStart, upcomingMenstruationStart, menstruationLength);
+  const periodReminder = useMemo(
+    () => getPeriodText(menstruationStart, upcomingMenstruationStart, menstruationLength),
+    [menstruationLength, menstruationStart, upcomingMenstruationStart],
+  );
+  const ovulationReminder = useMemo(
+    () => getOvulationText(menstruationStart, cycleLength),
+    [cycleLength, menstruationStart],
+  );
 
   return (
     <Container>
-      <ReminderLabel content={periodText} />
+      <ReminderLabel content={periodReminder} />
       <Separator />
-      <ReminderLabel content="Ovulacija dolazi za 2 dana!" type="ovulation" />
+      <ReminderLabel content={ovulationReminder} type="ovulation" />
     </Container>
   );
 };

@@ -1,6 +1,6 @@
 import { differenceInCalendarDays } from 'date-fns';
 
-export const getPeriodUpcomingText = (date: Date): string => {
+export const getOvulationUpcomingText = (date: Date): string => {
   const daysDiff = differenceInCalendarDays(date, new Date());
 
   let days = '';
@@ -8,9 +8,13 @@ export const getPeriodUpcomingText = (date: Date): string => {
     days = `sutra!`;
   }
 
+  if (daysDiff === 0) {
+    days = 'danas!';
+  }
+
   if (daysDiff > 1) {
     days = `za ${daysDiff} dana!`;
   }
 
-  return 'Period kreće ' + days;
+  return 'Ovulacija kreće ' + days;
 };

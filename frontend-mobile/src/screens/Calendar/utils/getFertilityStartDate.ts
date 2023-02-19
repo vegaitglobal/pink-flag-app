@@ -2,6 +2,8 @@ import { addDays, subDays } from 'date-fns';
 import { getMarkerKey } from './getMarkerKey';
 
 const FERTILITY_OFFSET = 13;
+export const FERTILITY_DAYS = 5;
+export const FERTILITY_MIDDLE = 2;
 
 /**
  * Returns the start date of fertility.

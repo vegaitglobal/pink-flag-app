@@ -1,9 +1,8 @@
-import { TODAY } from '@pf/constants';
 import { addDays, isBefore, isAfter } from 'date-fns';
 import { getPeriodInProgressText } from './getPeriodInProgressText';
 import { getPeriodUpcomingText } from './getPeriodUpcomingText';
 
-const FALLBACK = 'Ovako izgleda podsetnik za početak perioda.';
+const FALLBACK = 'Podsetnik za početak perioda.';
 
 export const getPeriodText = (
   menstruationStart?: string,
@@ -14,6 +13,7 @@ export const getPeriodText = (
     return FALLBACK;
   }
 
+  const TODAY = new Date();
   const menstruationStartDate = new Date(menstruationStart);
   const menstruationEnd = addDays(menstruationStartDate, menstruationLength);
 
