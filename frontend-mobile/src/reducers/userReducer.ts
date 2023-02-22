@@ -43,5 +43,6 @@ export const { setUserName, setBirthday, setMenstruationLength, setCycleLength, 
 
 export const selectUser = (state: RootState): UserState => state.user;
 export const selectMenstruationLength = (state: RootState): number | undefined => selectUser(state).menstruationLength;
+export const selectUserName = (state: RootState): string => selectUser(state).name || '';
 
 export default userSlice.reducer;

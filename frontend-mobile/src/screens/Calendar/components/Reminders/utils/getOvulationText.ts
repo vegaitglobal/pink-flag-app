@@ -1,4 +1,4 @@
-import { getFertilityStartDate, FERTILITY_MIDDLE } from '../../../utils';
+import { getOvulationDate } from '../../../utils';
 import { addDays, isAfter, isToday } from 'date-fns';
 import { getOvulationUpcomingText } from './getOvulationUpcomingText';
 
@@ -9,8 +9,7 @@ export const getOvulationText = (menstruationStart?: string, cycleLength?: numbe
     return FALLBACK;
   }
 
-  const fertilityStart = getFertilityStartDate(menstruationStart, cycleLength);
-  const ovulationDate = addDays(new Date(fertilityStart), FERTILITY_MIDDLE);
+  const ovulationDate = getOvulationDate(menstruationStart, cycleLength);
 
   if (isAfter(ovulationDate, new Date()) || isToday(ovulationDate)) {
     return getOvulationUpcomingText(ovulationDate);

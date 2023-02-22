@@ -19,6 +19,7 @@ import { useChangeHandlers } from './useChangeHandlers';
 
 const HIT_SLOP = { top: 10, left: 10, right: 10, bottom: 10 };
 
+//! Google prijava nakon obicne.
 export const Content: React.FC = WithSafeView(() => {
   const { goBack } = useNavigation();
   const dispatch = useAppDispatch();

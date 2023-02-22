@@ -10,7 +10,7 @@ import { selectUser } from '@pf/reducers/userReducer';
 import { selectIsCalendarActivated } from '@pf/reducers/settingsReducer';
 import { getMarkedDates } from './utils';
 import { addMonths, subMonths } from 'date-fns';
-import { useLastMenstruationDateUpdate } from './useLastMenstruationDateUpdate';
+import { useLastMenstruationDateUpdate } from './hooks';
 import { Reminders } from './components';
 
 const NAVIGATION_DELAY = 500;

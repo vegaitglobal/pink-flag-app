@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@pf/hooks';
-import { TODAY } from './../../constants/constants';
+import { TODAY } from '../../../constants/constants';
 import { useEffect } from 'react';
-import { getDateWithOffset, getLastMenstruationStartDate, getPreviousMenstruationStartDate } from './utils';
+import { getDateWithOffset, getLastMenstruationStartDate, getPreviousMenstruationStartDate } from '../utils';
 import { setMenstruationStartDate } from '@pf/reducers/userReducer';
 
 export const useLastMenstruationDateUpdate = (menstruationStartDate?: string, cycleLength?: number): void => {
