@@ -1,25 +1,40 @@
-import { differenceInCalendarDays } from 'date-fns';
-import { useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { useCallback, useEffect } from 'react';
 import { useAppSelector } from '@pf/hooks';
+import { OVULATION_0, OVULATION_7, PERIOD_1, PERIOD_7 } from './../constants';
 import { selectAreCalendarNotificationsEnabled } from '@pf/reducers/settingsReducer';
 import notifee from '@notifee/react-native';
 import {
-  setNotificationsForCurrentOvulation,
-  setNotificationsForCurrentPeriod,
-  setNotificationsForUpcomingOvulation,
-  setNotificationsForUpcomingPeriod,
+  setOvulation0Notification,
+  setOvulation7Notification,
+  setPeriod1Notification,
+  setPeriod7Notification,
 } from '../utils';
 import { selectUserName } from '@pf/reducers/userReducer';
 import { getOvulationDate } from '../../../utils';
-/* eslint-disable @typescript-eslint/no-floating-promises */
 
-export const useNotificationSchedule = (menstruationStart?: string, cycleLength?: number): void => {
+export const useNotificationSchedule = (
+  menstruationStart?: string,
+  menstruationLength?: number,
+  cycleLength?: number,
+): void => {
   const userName = useAppSelector(selectUserName);
   const areCalendarNotificationsEnabled = useAppSelector(selectAreCalendarNotificationsEnabled);
 
+  const clearedOutdatedNotifications = useCallback(async (notificationIds: string[], notificationIdPattern: string) => {
+    const cancelNotifications = notificationIds.some(x => !x.includes(notificationIdPattern));
+
+    if (!cancelNotifications) {
+      return false;
+    }
+
+    await notifee.cancelAllNotifications();
+    return true;
+  }, []);
+
   useEffect(() => {
     (async () => {
-      if (!menstruationStart || cycleLength === undefined) {
+      if (!menstruationStart || cycleLength === undefined || menstruationLength === undefined) {
         return;
       }
 
@@ -28,39 +43,41 @@ export const useNotificationSchedule = (menstruationStart?: string, cycleLength?
         return;
       }
 
-      const notificationId = `${userName}-${menstruationStart}-${cycleLength}-`;
-      const setupDone = (await notifee.getTriggerNotificationIds()).some(x =>
-        [notificationId + '1', notificationId + '7'].includes(x),
-      );
-
-      if (setupDone) {
-        return;
+      const notificationIdPattern = `${userName}-MS[${menstruationStart}]-PL[${menstruationLength}]-CL[${cycleLength}]-`;
+      let notifications = await notifee.getTriggerNotificationIds();
+      const cleared = await clearedOutdatedNotifications(notifications, notificationIdPattern);
+      if (cleared) {
+        notifications = [];
       }
 
-      notifee.cancelAllNotifications();
       const menstruationStartDate = new Date(menstruationStart);
       const ovulationDate = getOvulationDate(menstruationStart, cycleLength);
-      const menstruationDaysDiff = differenceInCalendarDays(menstruationStartDate, new Date());
-      const ovulationDaysDiff = differenceInCalendarDays(ovulationDate, new Date());
 
-      if (ovulationDaysDiff < 0) {
-        setNotificationsForUpcomingOvulation(ovulationDate, cycleLength, notificationId, userName);
+      if (!notifications.some(x => x.includes(PERIOD_1))) {
+        setPeriod1Notification(menstruationStartDate, cycleLength, notificationIdPattern, userName);
       }
 
-      if (ovulationDaysDiff >= 1) {
-        setNotificationsForCurrentOvulation(ovulationDaysDiff, ovulationDate, notificationId, userName);
+      if (!notifications.some(x => x.includes(PERIOD_7))) {
+        setPeriod7Notification(menstruationStartDate, cycleLength, notificationIdPattern, userName);
       }
 
-      if (menstruationDaysDiff < 0) {
-        setNotificationsForUpcomingPeriod(menstruationStartDate, cycleLength, notificationId, userName);
-        return;
+      if (!notifications.some(x => x.includes(OVULATION_0))) {
+        setOvulation0Notification(ovulationDate, cycleLength, notificationIdPattern, userName);
       }
 
-      setNotificationsForCurrentPeriod(menstruationDaysDiff, menstruationStartDate, notificationId, userName);
+      if (!notifications.some(x => x.includes(OVULATION_7))) {
+        setOvulation7Notification(ovulationDate, cycleLength, notificationIdPattern, userName);
+      }
     })();
-  }, [areCalendarNotificationsEnabled, cycleLength, menstruationStart, userName]);
+  }, [
+    areCalendarNotificationsEnabled,
+    clearedOutdatedNotifications,
+    cycleLength,
+    menstruationLength,
+    menstruationStart,
+    userName,
+  ]);
 };
 
 //! Test on android
 //! Testing on iOS
-//! Should re-run only when menstruationStart changes? Thinking about notificationIDs, should they be included in the setupDone array check.

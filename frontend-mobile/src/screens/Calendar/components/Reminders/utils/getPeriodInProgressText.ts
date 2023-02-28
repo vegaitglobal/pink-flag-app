@@ -1,8 +1,7 @@
-import { differenceInDays } from 'date-fns';
+import { differenceInCalendarDays } from 'date-fns';
 
 export const getPeriodInProgressText = (date: Date): string => {
-  const daysDiff = differenceInDays(date, new Date());
-
+  const daysDiff = differenceInCalendarDays(date, new Date());
   let days = '';
   if (daysDiff === 1) {
     days = `sutra!`;

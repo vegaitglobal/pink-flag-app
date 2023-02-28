@@ -24,7 +24,10 @@ export const getPeriodText = (
     return getPeriodInProgressText(menstruationEnd);
   }
 
-  const upcomingMenstruationStartDate = addDays(menstruationStartDate, cycleLength);
+  let upcomingMenstruationStartDate = addDays(menstruationStartDate, cycleLength);
+  while (!isAfter(upcomingMenstruationStartDate, TODAY)) {
+    upcomingMenstruationStartDate = addDays(upcomingMenstruationStartDate, cycleLength);
+  }
 
   return getPeriodUpcomingText(upcomingMenstruationStartDate);
 };

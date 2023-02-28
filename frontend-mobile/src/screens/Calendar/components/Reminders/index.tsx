@@ -26,7 +26,7 @@ export const Reminders: React.FC<Props> = ({ cycleLength, menstruationLength, me
     [cycleLength, menstruationStart],
   );
 
-  useNotificationSchedule(menstruationStart, cycleLength);
+  useNotificationSchedule(menstruationStart, menstruationLength, cycleLength);
 
   return (
     <Container>
