@@ -1,4 +1,5 @@
 import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native';
+import { ANDROID_NOTIFICATION_CHANNEL } from '@pf/constants';
 
 export const createTriggerNotification = async (
   notificationId: string,
@@ -19,7 +20,13 @@ export const createTriggerNotification = async (
       title: `Ćao ${userName},`,
       body: description,
       android: {
-        channelId: 'kalendar-notifikacije',
+        channelId: ANDROID_NOTIFICATION_CHANNEL,
+        smallIcon: 'ic_small_icon',
+        color: '#EC67B1',
+        pressAction: {
+          id: 'default',
+          launchActivity: 'default',
+        },
       },
       data: {
         screen: 'calendar',

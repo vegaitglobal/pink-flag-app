@@ -9,6 +9,8 @@ export const HEIGHT = height;
 
 export const CALENDAR_SETUP_KEY = 'CALENDAR_SETUP';
 export const EMPTY_STRING = '';
+export const EMPTY_ARRAY = [];
 
 export const resetAction = createAction('reset');
 export const TODAY = new Date();
+export const ANDROID_NOTIFICATION_CHANNEL = 'kalendar-notifikacije';

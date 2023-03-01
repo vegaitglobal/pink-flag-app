@@ -37,7 +37,7 @@ export type DonationNavigatorParams = {
 };
 
 export type CalendarNavigatorParams = {
-  [CALENDAR]: undefined;
+  [CALENDAR]: { isOpenedFromNotification?: boolean } | undefined;
 };
 
 export type CalendarNavigatorScreenProps<Screen extends keyof CalendarNavigatorParams> = NativeStackScreenProps<

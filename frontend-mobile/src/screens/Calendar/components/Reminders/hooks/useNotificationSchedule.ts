@@ -12,6 +12,7 @@ import {
 } from '../utils';
 import { selectUserName } from '@pf/reducers/userReducer';
 import { getOvulationDate } from '../../../utils';
+import { EMPTY_ARRAY } from '@pf/constants';
 
 export const useNotificationSchedule = (
   menstruationStart?: string,
@@ -21,15 +22,16 @@ export const useNotificationSchedule = (
   const userName = useAppSelector(selectUserName);
   const areCalendarNotificationsEnabled = useAppSelector(selectAreCalendarNotificationsEnabled);
 
-  const clearedOutdatedNotifications = useCallback(async (notificationIds: string[], notificationIdPattern: string) => {
-    const cancelNotifications = notificationIds.some(x => !x.includes(notificationIdPattern));
+  const getScheduledNotifications = useCallback(async (notificationIdPattern: string) => {
+    const notifications = await notifee.getTriggerNotificationIds();
+    const cancelNotifications = notifications.some(x => !x.includes(notificationIdPattern));
 
     if (!cancelNotifications) {
-      return false;
+      return notifications;
     }
 
     await notifee.cancelAllNotifications();
-    return true;
+    return EMPTY_ARRAY;
   }, []);
 
   useEffect(() => {
@@ -44,12 +46,7 @@ export const useNotificationSchedule = (
       }
 
       const notificationIdPattern = `${userName}-MS[${menstruationStart}]-PL[${menstruationLength}]-CL[${cycleLength}]-`;
-      let notifications = await notifee.getTriggerNotificationIds();
-      const cleared = await clearedOutdatedNotifications(notifications, notificationIdPattern);
-      if (cleared) {
-        notifications = [];
-      }
-
+      const notifications = await getScheduledNotifications(notificationIdPattern);
       const menstruationStartDate = new Date(menstruationStart);
       const ovulationDate = getOvulationDate(menstruationStart, cycleLength);
 
@@ -71,13 +68,10 @@ export const useNotificationSchedule = (
     })();
   }, [
     areCalendarNotificationsEnabled,
-    clearedOutdatedNotifications,
     cycleLength,
+    getScheduledNotifications,
     menstruationLength,
     menstruationStart,
     userName,
   ]);
 };
-
-//! Test on android
-//! Testing on iOS

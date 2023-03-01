@@ -22,8 +22,6 @@ export const getLastMenstruationStartDate = (
   const upcomingDate = new Date(upcomingStartDate);
 
   if (isBefore(upcomingDate, TODAY) || isToday(upcomingDate)) {
-    console.log('isBefore', isBefore(upcomingDate, TODAY));
-    console.log('isToday', isToday(upcomingDate));
     return upcomingStartDate;
   }
 

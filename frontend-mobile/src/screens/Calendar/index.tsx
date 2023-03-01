@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CalendarExplanation, Footer, UserGreeting } from '@pf/components';
 import { Container, Content, ExplanationWrapper, getStyles, StyledPinkFlagCalendar } from './styles';
 import GreetingData from '../../assets/data/greeting.json';
@@ -12,15 +12,19 @@ import { getMarkedDates } from './utils';
 import { addMonths, subMonths } from 'date-fns';
 import { useLastMenstruationDateUpdate } from './hooks';
 import { Reminders } from './components';
+import { ScrollView } from 'react-native';
 
 const NAVIGATION_DELAY = 500;
 const INITIAL_DATE = new Date();
 const { CALENDAR } = CalendarRoutes;
 const { CALENDAR_ONBOARDING } = RootRoutes;
+const CALENDAR_POSITION = 129;
+const SCROLL_TO_DELAY = 300;
 type Props = CalendarNavigatorScreenProps<typeof CALENDAR>;
 
-export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
+export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate }, route }) => {
   const theme = useTheme();
+  const { isOpenedFromNotification } = route.params || {};
   const [currentDate, setCurrentDate] = useState(INITIAL_DATE);
   const inlineStyles = useMemo(() => getStyles(theme), [theme]);
   const isCalendarActivated = useAppSelector(selectIsCalendarActivated);
@@ -30,6 +34,7 @@ export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) =>
     () => getMarkedDates(currentDate, cycleLength, menstruationLength, menstruationStartDate),
     [cycleLength, menstruationLength, menstruationStartDate, currentDate],
   );
+  const listRef = useRef<ScrollView>(null);
 
   useLastMenstruationDateUpdate(menstruationStartDate, cycleLength);
 
@@ -53,8 +58,15 @@ export const CalendarScreen: React.FC<Props> = ({ navigation: { navigate } }) =>
     }
   }, [isCalendarActivated, navigate]);
 
+  useEffect(() => {
+    if (isOpenedFromNotification) {
+      setTimeout(() => listRef?.current?.scrollTo({ y: CALENDAR_POSITION }), SCROLL_TO_DELAY);
+    }
+  }, [isOpenedFromNotification]);
+
   return (
     <Container
+      ref={listRef}
       style={inlineStyles.container}
       contentContainerStyle={inlineStyles.content}
       showsVerticalScrollIndicator={false}>
