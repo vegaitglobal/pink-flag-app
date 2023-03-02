@@ -27,6 +27,10 @@ export const styles = StyleSheet.create({
     borderStyle: 'dashed',
     justifyContent: 'center',
   } as ViewStyle,
+  todayMarker: {
+    borderWidth: 2,
+    borderColor: '#EC67B1',
+  } as ViewStyle,
   whiteTextMarker: {
     color: 'white',
     fontSize: 15,

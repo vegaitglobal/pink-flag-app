@@ -11,6 +11,8 @@ interface Props {
   onPressConfirm: () => void;
   onPressCancel: () => void;
   onDateChange: (date: Date) => void;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export const DatePickerModal: React.FC<Props> = ({
@@ -20,6 +22,8 @@ export const DatePickerModal: React.FC<Props> = ({
   onPressCancel,
   onPressConfirm,
   onDateChange,
+  minDate,
+  maxDate,
 }) => {
   return (
     <BottomModal headerTitle="Izaberi datum" isVisible={isVisible} hide={hide}>
@@ -29,8 +33,8 @@ export const DatePickerModal: React.FC<Props> = ({
           androidVariant="nativeAndroid"
           mode="date"
           locale={LOCALE}
-          minimumDate={MIN_DATE}
-          maximumDate={MAX_DATE}
+          minimumDate={minDate || MIN_DATE}
+          maximumDate={maxDate || MAX_DATE}
           date={date}
           onDateChange={onDateChange}
         />

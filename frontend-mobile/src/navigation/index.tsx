@@ -3,6 +3,7 @@ import { RootRoutes } from '@pf/constants';
 import { CalendarOnboardingScreen, CalendarSettingsScreen, GeneralSettingsScreen } from '@pf/screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BottomTabNavigator } from './BottomTabNavigator';
+import { useNotificationListener } from '@pf/hooks';
 
 const Stack = createNativeStackNavigator();
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
@@ -10,6 +11,8 @@ type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 const { APP, GENERAL_SETTINGS, CALENDAR_SETTINGS, CALENDAR_ONBOARDING } = RootRoutes;
 
 export const RootNavigator: React.FC = (props: Partial<StackNavigatorProps>) => {
+  useNotificationListener();
+
   return (
     <Stack.Navigator initialRouteName={APP} screenOptions={{ headerShown: false }} {...props}>
       <Stack.Screen name={APP} component={BottomTabNavigator} />

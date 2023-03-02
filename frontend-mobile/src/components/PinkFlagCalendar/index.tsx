@@ -6,13 +6,13 @@ import { Calendar, CalendarProps } from 'react-native-calendars';
 import { getCalendarTheme } from './getCalendarTheme';
 import { Arrow, CustomHeader, DisabledOverlay } from './components';
 import { ConfigureCalendar } from './config';
-import { MarkerStyles } from './types';
+import { MarkerStyles, MarkerType } from './types';
 import { View } from 'react-native';
 import { subtractYears } from '@pf/utils';
+import { TODAY } from '@pf/constants';
 
 ConfigureCalendar();
-const today = new Date();
-const MIN_DATE = subtractYears(today, 10);
+const MIN_DATE = subtractYears(TODAY, 10);
 
 interface OwnProps {
   isDisabled?: boolean;
@@ -21,7 +21,13 @@ interface OwnProps {
 
 type Props = CalendarProps & OwnProps;
 
-export const PinkFlagCalendar: React.FC<Props> = ({ isDisabled = false, maxDate, ...props }) => {
+export const PinkFlagCalendar: React.FC<Props> = ({
+  isDisabled = false,
+  maxDate,
+  markedDates,
+
+  ...props
+}) => {
   const theme = useTheme();
   const calendarTheme = useMemo(() => getCalendarTheme(theme), [theme]);
 
@@ -29,7 +35,7 @@ export const PinkFlagCalendar: React.FC<Props> = ({ isDisabled = false, maxDate,
     <View>
       <Calendar
         firstDay={1}
-        current={today.toString()}
+        current={TODAY.toString()}
         minDate={MIN_DATE.toString()}
         maxDate={maxDate}
         disabledByDefault={isDisabled}
@@ -38,6 +44,7 @@ export const PinkFlagCalendar: React.FC<Props> = ({ isDisabled = false, maxDate,
         enableSwipeMonths={true}
         theme={calendarTheme}
         markingType="custom"
+        markedDates={markedDates}
         {...props}
       />
       {isDisabled && <DisabledOverlay />}
@@ -45,13 +52,4 @@ export const PinkFlagCalendar: React.FC<Props> = ({ isDisabled = false, maxDate,
   );
 };
 
-export { MarkerStyles };
-
-//   },
-// '2022-10-11': {
-//   customStyles: {
-//     container: styles.ovulationMarker,
-//     text: styles.blackTextMarker,
-//   },
-// },
-// }}
+export { MarkerStyles, type MarkerType };

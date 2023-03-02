@@ -5,5 +5,5 @@ export interface UserState {
   birthday?: string;
   menstruationLength?: number;
   cycleLength?: number;
-  lastMenstruationDate?: string;
+  menstruationStartDate?: string;
 }

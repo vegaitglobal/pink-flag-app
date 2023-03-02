@@ -159,30 +159,49 @@ index 16e5f71..afe2bc1 100644
              fontSize: appStyle.textDayHeaderFontSize,
              fontFamily: appStyle.textDayHeaderFontFamily,
 diff --git a/node_modules/react-native-calendars/src/calendar/index.d.ts b/node_modules/react-native-calendars/src/calendar/index.d.ts
-index 5e92f06..7a03e4c 100644
+index 5e92f06..880ec0d 100644
 --- a/node_modules/react-native-calendars/src/calendar/index.d.ts
 +++ b/node_modules/react-native-calendars/src/calendar/index.d.ts
-@@ -60,3 +60,4 @@ declare const Calendar: {
+@@ -48,6 +48,8 @@ export interface CalendarProps extends CalendarHeaderProps, DayProps {
+     customHeader?: any;
+     /** Allow selection of dates before minDate or after maxDate */
+     allowSelectionOutOfRange?: boolean;
++    /** Handler which gets executed when calendar title is pressed */
++    onCalendarTitlePress?: () => void;
+ }
+ /**
+  * @description: Calendar component
+@@ -60,3 +62,4 @@ declare const Calendar: {
      propTypes: any;
  };
  export default Calendar;
 +export { type Theme };
 \ No newline at end of file
 diff --git a/node_modules/react-native-calendars/src/calendar/index.js b/node_modules/react-native-calendars/src/calendar/index.js
-index 6f46e8a..06c074a 100644
+index 6f46e8a..bb0ad66 100644
 --- a/node_modules/react-native-calendars/src/calendar/index.js
 +++ b/node_modules/react-native-calendars/src/calendar/index.js
-@@ -46,6 +46,9 @@ const Calendar = (props) => {
+@@ -21,7 +21,7 @@ import BasicDay from './day/basic';
+  * @gif: https://github.com/wix/react-native-calendars/blob/master/demo/assets/calendar.gif
+  */
+ const Calendar = (props) => {
+-    const { initialDate, current, theme, markedDates, minDate, maxDate, allowSelectionOutOfRange, onDayPress, onDayLongPress, onMonthChange, onVisibleMonthsChange, disableMonthChange, enableSwipeMonths, hideExtraDays, firstDay, showSixWeeks, displayLoadingIndicator, customHeader, headerStyle, accessibilityElementsHidden, importantForAccessibility, testID, style: propsStyle } = props;
++    const { initialDate, current, theme, markedDates, minDate, maxDate, allowSelectionOutOfRange, onDayPress, onDayLongPress, onMonthChange, onVisibleMonthsChange, disableMonthChange, enableSwipeMonths, hideExtraDays, firstDay, showSixWeeks, displayLoadingIndicator, customHeader, headerStyle, accessibilityElementsHidden, importantForAccessibility, testID, onCalendarTitlePress, style: propsStyle } = props;
+     const [currentMonth, setCurrentMonth] = useState(current || initialDate ? parseDate(current || initialDate) : new XDate());
+     const style = useRef(styleConstructor(theme));
+     const header = useRef();
+@@ -46,6 +46,10 @@ const Calendar = (props) => {
          const newMonth = currentMonth.clone().addMonths(count, true);
          updateMonth(newMonth);
      }, [currentMonth, updateMonth]);
 +    const resetMonth = useCallback(() => {
 +        setCurrentMonth(parseDate(current || initialDate));
++        onCalendarTitlePress?.();
 +    }, []);
      const handleDayInteraction = useCallback((date, interaction) => {
          const day = new XDate(date.dateString);
          if (allowSelectionOutOfRange || !(minDate && !isGTE(day, new XDate(minDate))) && !(maxDate && !isLTE(day, new XDate(maxDate)))) {
-@@ -142,7 +145,7 @@ const Calendar = (props) => {
+@@ -142,7 +146,7 @@ const Calendar = (props) => {
          const ref = customHeader ? undefined : header;
          const CustomHeader = customHeader;
          const HeaderComponent = customHeader ? CustomHeader : CalendarHeader;

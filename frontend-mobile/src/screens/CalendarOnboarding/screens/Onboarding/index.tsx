@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { useAppDispatch } from '@pf/hooks';
 import { setCalendarActivation } from '@pf/reducers/settingsReducer';
 import {
   setBirthday,
   setCycleLength,
-  setLastMenstruationDate,
+  setMenstruationStartDate,
   setMenstruationLength,
   setUserName,
 } from '@pf/reducers/userReducer';
@@ -19,17 +20,17 @@ import {
   CalendarInputScreen,
 } from './screens';
 import { Container, StyledPagerView, IndicatorContainer, Footer, StyledPrimaryButton } from './styles';
-
-const PAGE_MARGIN = 40;
-const SLIDE_COUNT = 4;
-const FINISHED = true;
-
-const NAME_INPUT_INDEX = 1;
-const BIRTHDAY_INPUT_INDEX = 2;
-const PERIOD_INPUT_INDEX = 3;
-const CALENDAR_INPUT_INDEX = 4;
-
-const ButtonContents = ['Sledeće', 'Sledeći korak', 'Sledeći korak', 'Sledeći korak', 'Završi'];
+import notifee from '@notifee/react-native';
+import {
+  BIRTHDAY_INPUT_INDEX,
+  ButtonContents,
+  CALENDAR_INPUT_INDEX,
+  FINISHED,
+  NAME_INPUT_INDEX,
+  PAGE_MARGIN,
+  PERIOD_INPUT_INDEX,
+  SLIDE_COUNT,
+} from './constants';
 
 export const OnboardingScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -64,9 +65,10 @@ export const OnboardingScreen: React.FC = () => {
     }
 
     if (currentPage === CALENDAR_INPUT_INDEX && calendarInput.current) {
-      dispatch(setLastMenstruationDate(calendarInput.current));
+      dispatch(setMenstruationStartDate(calendarInput.current));
       dispatch(setCalendarActivation(FINISHED));
       goBack();
+      notifee.requestPermission();
       return;
     }
 

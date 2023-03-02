@@ -3,7 +3,7 @@ import { Container, StyledCustomText } from './styles';
 import { ReminderType } from './types';
 import { getBackground } from './getBackground';
 
-const TEXT_LINES = 1;
+const TEXT_LINES = 2;
 
 interface Props {
   content?: string;
