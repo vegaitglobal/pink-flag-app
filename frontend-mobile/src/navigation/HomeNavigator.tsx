@@ -6,7 +6,7 @@ import { BlogDetailsScreen, HomeScreen } from '@pf/screens';
 import { NavHeader } from '@pf/components';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<HomeNavigatorParams>();
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 
 const { HOME } = HomeRoutes;
@@ -24,7 +24,7 @@ const HomeNavigator: React.FC = (props: Partial<StackNavigatorProps>) => {
         name={HOME}
         component={HomeScreen}
         options={{
-          header: props => <NavHeader {...props} />,
+          header: props => <NavHeader isSettingsVisible={false} {...props} />,
         }}
       />
       <Stack.Screen
