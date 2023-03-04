@@ -1,63 +1,17 @@
-import { AppTheme } from '@pf/theme';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
-import { CustomText } from '../CustomText';
-import { UiButton } from '../UiButton';
+import { AboutUsImage, Container, Content, Description, ImageContainer, Title } from './styles';
 
-interface Props {
-  buttonData: {
-    title: string;
-    link: string;
-  };
-  heading: string;
-  subheading: string;
-}
-
-const styles = StyleSheet.create({
-  baseText: {
-    fontWeight: 'bold',
-    fontSize: 32,
-    color: 'white',
-    marginBottom: 10,
-  },
-  innerText: {
-    color: 'white',
-    marginBottom: 30,
-    lineHeight: 22,
-    fontSize: AppTheme.fontSize.$5Number,
-  },
-  container: {
-    padding: 40,
-    minHeight: 300,
-    paddingLeft: 20,
-  },
-  buttonStyle: {
-    backgroundColor: 'white',
-    color: 'black',
-  },
-  buttonContainer: {
-    width: 169,
-  },
-});
-
-export const Intro: React.FC<Props> = ({ buttonData, heading, subheading }) => {
+export const Intro: React.FC = () => {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    <ImageBackground source={require('../../assets/images/intro-background.png')}>
-      <View style={styles.container}>
-        <CustomText style={styles.baseText}>{heading}</CustomText>
-        <CustomText style={styles.innerText}>{subheading}</CustomText>
-        <View style={styles.buttonContainer}>
-          <UiButton
-            backgroundColor={AppTheme.colors.white}
-            color={AppTheme.colors.description}
-            fontSize={AppTheme.fontSize.$4Number}
-            fontWeight={'bold'}
-            title={buttonData.title}
-            onPress={() => console.log('test')}
-          />
-        </View>
-      </View>
-    </ImageBackground>
+    <Container source={require('../../assets/images/intro-background.png')} resizeMode="stretch">
+      <Content>
+        <Title content="Pink Flag" />
+        <Description content="Dobrodošli na PINK FLAG aplikaciju Ženske inicijative koja radi na otklanjanju menstrualnog siromaštva i informisanju zajednice o potrebi besplatnih menstrualnih uložaka u svim obrazovnim ustanovama širom Republike Srbije. Pomoću ove aplikacije bićete informisani o svim važnim dešavanjima koja su u vezi sa menstrualnim siromaštvom, pink taksama i porezom na menstrualne uloške." />
+        <ImageContainer>
+          <AboutUsImage source={require('../../assets/images/about-us.jpg')} resizeMode="cover" />
+        </ImageContainer>
+      </Content>
+    </Container>
   );
 };

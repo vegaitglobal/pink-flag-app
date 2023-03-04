@@ -42,14 +42,6 @@ export const Footer: React.FC = () => {
     <>
       <Container resizeMode="stretch" source={BackgroundImage}>
         <Title content="Kontakt" />
-        <DetailRow onPress={handleOnLocationPress}>
-          <StyledLocationSvg />
-          <Detail content={Config.ADDRESS} />
-        </DetailRow>
-        <DetailRow onPress={handleOnMailPress}>
-          <MailSvg />
-          <Detail content={Config.EMAIL} />
-        </DetailRow>
         <IconsArea>
           <StyledLink url={Config.INSTAGRAM_URL} hitSlop={HIT_SLOP}>
             <InstagramSvg />
@@ -70,6 +62,18 @@ export const Footer: React.FC = () => {
             <LinkTreeSvg />
           </StyledLink>
         </IconsArea>
+        {Config.EMAIL && (
+          <DetailRow onPress={handleOnMailPress}>
+            <MailSvg />
+            <Detail content={Config.EMAIL} />
+          </DetailRow>
+        )}
+        {Config.ADDRESS && (
+          <DetailRow onPress={handleOnLocationPress}>
+            <StyledLocationSvg />
+            <Detail content={Config.ADDRESS} />
+          </DetailRow>
+        )}
         <StyledLine />
         <Copyright content={`© ${CURRENT_YEAR} ${Config.APP_NAME || ''}. All rights reserved.`} />
       </Container>
