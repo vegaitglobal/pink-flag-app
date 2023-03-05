@@ -9,3 +9,4 @@ export const DANGER = '#d52c63'; //! Needs to be checked
 export const LABEL = '#9FB2DC';
 export const BLACK = '#180A0A';
 export const BLUE = '#9FB2DC';
+export const IMAGE = '#D9D9D9';

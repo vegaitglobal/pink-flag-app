@@ -1,6 +1,19 @@
 import { Theme } from '@emotion/react';
 import { unit } from '@pf/utils';
-import { PRIMARY, SECONDARY, WHITE, NAV, DESCRIPTION, SUCCESS, WARNING, DANGER, LABEL, BLACK, BLUE } from './colors';
+import {
+  PRIMARY,
+  SECONDARY,
+  WHITE,
+  NAV,
+  DESCRIPTION,
+  SUCCESS,
+  WARNING,
+  DANGER,
+  LABEL,
+  BLACK,
+  BLUE,
+  IMAGE,
+} from './colors';
 
 export const AppTheme: Theme = {
   spacing: {
@@ -77,6 +90,7 @@ export const AppTheme: Theme = {
     label: LABEL,
     black: BLACK,
     blue: BLUE,
+    image: IMAGE,
   },
   fontWeight: {
     $100: '100',

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useCallback, useMemo } from 'react';
-import { Linking } from 'react-native';
+import { Linking, TouchableOpacity } from 'react-native';
 import Config from 'react-native-config';
 import { Container, Image } from './styles';
 
@@ -17,12 +17,20 @@ export const FeedImages: React.FC = () => {
   const Images = useMemo(() => {
     return urls.map((image, index) => {
       if ([2, 5, 8].includes(index)) {
-        return <Image source={{ uri: image }} key={index} />;
+        return (
+          <TouchableOpacity onPress={handleOnPress} key={index}>
+            <Image source={{ uri: image }} />
+          </TouchableOpacity>
+        );
       }
 
-      return <Image source={{ uri: image }} key={index} hasSpacing />;
+      return (
+        <TouchableOpacity onPress={handleOnPress} key={index}>
+          <Image source={{ uri: image }} hasSpacing />
+        </TouchableOpacity>
+      );
     });
-  }, [urls]);
+  }, [handleOnPress, urls]);
 
-  return <Container onPress={handleOnPress}>{Images}</Container>;
+  return <Container>{Images}</Container>;
 };

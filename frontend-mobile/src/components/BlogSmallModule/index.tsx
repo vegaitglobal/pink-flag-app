@@ -1,85 +1,38 @@
-import React from 'react';
-import { BlogSmallCard } from './utils/styles';
-import { Image, View, StyleSheet, Platform } from 'react-native';
-import { CustomText } from '../CustomText';
-import { AppTheme } from '@pf/theme';
+import React, { useCallback, useMemo } from 'react';
+import { Container, Content, DateText, Image, styles, Title } from './styles';
+import { BlogModel } from '@pf/models';
+import { getPostDate } from '@pf/utils';
+
+const TEXT_LINES = 3;
 
 export interface BlogSmallModuleProps {
-  date: string;
-  title: string;
-  image: string;
+  blog: BlogModel;
+  onPress?: (id?: number) => void;
 }
 
-export const BlogSmallModule: React.FC<BlogSmallModuleProps> = ({ date, title, image }) => {
-  console.log('Small: ' + image);
+export const BlogSmallModule: React.FC<BlogSmallModuleProps> = ({ blog, onPress }) => {
+  const date = useMemo(() => getPostDate(blog?.meta?.first_published_at), [blog?.meta?.first_published_at]);
+  const source = useMemo(
+    () => ({
+      uri: blog?.image?.meta?.detail_url,
+    }),
+    [blog?.image?.meta?.detail_url],
+  );
+  const handleOnPress = useCallback(() => {
+    onPress?.(blog?.id);
+  }, [blog?.id, onPress]);
+
+  if (!blog) {
+    return null;
+  }
+
   return (
-    <BlogSmallCard style={styles.BlogSmallCardStyle}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.cardImage}
-          resizeMode="cover"
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          source={{ uri: image }}></Image>
-      </View>
-      <View style={styles.cardBody}>
-        <View style={styles.titleTextContainer}>
-          <CustomText style={styles.titleText}>{textOverflowHelper(title)}</CustomText>
-        </View>
-        <CustomText style={styles.date}>{new Date(date).toDateString()}</CustomText>
-      </View>
-    </BlogSmallCard>
+    <Container style={styles.shadow} onPress={handleOnPress}>
+      <Image source={source} resizeMode="cover" />
+      <Content>
+        <Title content={blog?.title} numberOfLines={TEXT_LINES} />
+        <DateText content={date} />
+      </Content>
+    </Container>
   );
 };
-
-const textOverflowHelper = (text: string): string => {
-  if (text.length >= 92) {
-    return `${text.substring(0, 88)}...`;
-  }
-  return text;
-};
-
-const styles = StyleSheet.create({
-  BlogSmallCardStyle:
-    Platform.OS === 'ios'
-      ? {
-          backgroundColor: 'white',
-          shadowRadius: 4.65,
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.25,
-        }
-      : {
-          backgroundColor: 'white',
-          elevation: 6,
-        },
-  imageContainer: {
-    flex: 1,
-  },
-  cardImage: {
-    borderRadius: 20,
-    width: '100%',
-    height: '100%',
-  },
-  cardBody: {
-    marginLeft: 20,
-    flex: 2,
-  },
-  date: {
-    fontSize: AppTheme.fontSize.$2Number,
-    marginBottom: 10,
-    color: AppTheme.colors.description,
-  },
-  titleTextContainer: {
-    height: 65,
-    overflow: 'hidden',
-    marginBottom: 5,
-  },
-  titleText: {
-    color: AppTheme.colors.black,
-    fontSize: 15,
-    marginBottom: 2,
-    fontWeight: '500',
-  },
-});

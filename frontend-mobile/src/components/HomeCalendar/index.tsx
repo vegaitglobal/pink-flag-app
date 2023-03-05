@@ -30,6 +30,7 @@ export const HomeCalendar: React.FC<Props> = ({ title, subtitle }) => {
         marginTop: theme.spacing.$7Number,
         marginHorizontal: theme.spacing.$1Number,
         padding: theme.spacing.$1Number,
+        marginBottom: theme.spacing.$6Number,
       }}
       imageStyle={{ borderRadius: theme.borderRadius.$2Number }}
       source={require('../../assets/images/home-calendar.png')}>

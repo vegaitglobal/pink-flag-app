@@ -1,8 +1,8 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { BlogRoutes, HomeNavigatorParams, HomeRoutes } from '@pf/constants';
-import { BlogDetailsScreen, HomeScreen } from '@pf/screens';
+import { HomeNavigatorParams, HomeRoutes } from '@pf/constants';
+import { HomeScreen } from '@pf/screens';
 import { NavHeader } from '@pf/components';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -10,7 +10,6 @@ const Stack = createNativeStackNavigator<HomeNavigatorParams>();
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 
 const { HOME } = HomeRoutes;
-const { BLOG_DETAILS } = BlogRoutes;
 
 export interface HomeScreenProps<Screen extends keyof HomeNavigatorParams> {
   navigation: StackNavigationProp<HomeNavigatorParams, Screen>;
@@ -25,13 +24,6 @@ const HomeNavigator: React.FC = (props: Partial<StackNavigatorProps>) => {
         component={HomeScreen}
         options={{
           header: props => <NavHeader isSettingsVisible={false} {...props} />,
-        }}
-      />
-      <Stack.Screen
-        name={BLOG_DETAILS}
-        component={BlogDetailsScreen}
-        options={{
-          header: props => <NavHeader {...props} />,
         }}
       />
     </Stack.Navigator>

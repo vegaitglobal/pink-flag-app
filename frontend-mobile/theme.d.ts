@@ -15,6 +15,8 @@ interface ColorModel {
   warning: string;
   /** rgba(213,44,99,255) */
   danger: string;
+  /** #D9D9D9 */
+  image: string;
   [name: string]: string;
 }
 
