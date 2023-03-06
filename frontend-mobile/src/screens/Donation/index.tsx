@@ -1,67 +1,49 @@
-import {
-  ScrollView,
-  Image,
-  StyleSheet,
-  View,
-  Text,
-  Share,
-  Button,
-  Touchable,
-  TouchableOpacity,
-  useWindowDimensions,
-} from 'react-native';
-import React from 'react';
-import { Footer, ActivityIndicatorContainer } from '@pf/components';
-import { useGetDonationsPageQuery, BASE_URI } from '@pf/services';
-import { DonationsModel } from '@pf/models';
-import RenderHtml from 'react-native-render-html';
 import { useTheme } from '@emotion/react';
-import { getPageViewStyles, getTextStyles } from './styles';
+import { ShareSvg } from '@pf/assets';
+import { Footer } from '@pf/components';
+import { EMPTY_STRING, WIDTH } from '@pf/constants';
+import { BASE_URI, useGetDonationsPageQuery } from '@pf/services';
+import React, { useCallback, useMemo } from 'react';
+import { ActivityIndicator } from 'react-native';
+import RenderHTML from 'react-native-render-html';
+import { Container, Content, HIT_SLOP, Image, LoadingContainer, ShareButton, ShareText, styles, Title } from './styles';
+
+const PADDING = 40;
+const CONTENT_WIDTH = WIDTH - PADDING;
 
 export const DonationScreen: React.FC = () => {
-  const { data, error, isLoading } = useGetDonationsPageQuery<DonationsModel>();
-  const { width } = useWindowDimensions();
   const theme = useTheme();
-  const textStyles = getTextStyles(theme);
-  const pageViewStyles = getPageViewStyles(theme);
+  const { data, isLoading } = useGetDonationsPageQuery();
+  const uri = data?.image?.meta?.download_url;
+  const imageSource = useMemo(() => ({ uri: `${BASE_URI}${uri || EMPTY_STRING}` }), [uri]);
+  const content = useMemo(() => ({ html: data?.body || EMPTY_STRING }), [data?.body]);
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  // const onShare = async () => {
-  //   try {
-  //     const result = await Share.share({
-  //       message: 'PinkFlag',
-  //     });
-  //     if (result.action === Share.sharedAction) {
-  //       if (result.activityType) {
-  //         // shared with activity type of result.activityType
-  //       } else {
-  //         // shared
-  //       }
-  //     } else if (result.action === Share.dismissedAction) {
-  //       // dismissed
-  //     }
-  //     // eslint-disable-next-line no-empty
-  //   } catch (error) {}
-  // };
+  const handleOnShare = useCallback(() => {
+    console.log('Share');
+  }, []);
 
-  return isLoading ? (
-    <ActivityIndicatorContainer />
-  ) : data ? (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={pageViewStyles.pageContainer}>
-        <Text style={textStyles.title}>{data.title}</Text>
-        <View>
-          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-          <Image style={pageViewStyles.donationImage} source={{ uri: BASE_URI + data.image?.meta?.download_url }} />
-        </View>
-        {data.body && data.body.length && <RenderHtml contentWidth={width} source={{ html: data.body }} />}
-        {/* <View style={pageViewStyles.shareButtonContainer}>
-            <TouchableOpacity onPress={onShare}>
-              <Text style={textStyles.shareButtonText}>Podeli sa prijateljima</Text>
-            </TouchableOpacity>
-          </View> */}
-      </View>
+  if (isLoading) {
+    return (
+      <LoadingContainer>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </LoadingContainer>
+    );
+  }
+
+  return (
+    <Container showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
+      <Content missingData={!!data}>
+        <Title content={data?.title} />
+        {uri && <Image source={imageSource} />}
+        <RenderHTML contentWidth={CONTENT_WIDTH} source={content} />
+        {data && (
+          <ShareButton hitSlop={HIT_SLOP} onPress={handleOnShare}>
+            <ShareSvg />
+            <ShareText content="Podeli sa prijateljima" />
+          </ShareButton>
+        )}
+      </Content>
       <Footer />
-    </ScrollView>
-  ) : null;
+    </Container>
+  );
 };

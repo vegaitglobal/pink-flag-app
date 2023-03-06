@@ -16,6 +16,7 @@ const BOTTOM_SPACING = 70;
 
 export const Container = styled.ImageBackground`
   height: ${unit(HEIGHT)};
+  background-color: ${({ theme }) => theme.colors.white};
   padding-horizontal: ${({ theme }) => theme.spacing.$1};
 `;
 
