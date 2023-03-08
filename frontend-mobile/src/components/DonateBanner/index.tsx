@@ -8,13 +8,13 @@ import { BottomTabNavigatorParams, BottomTabRoutes } from '@pf/constants';
 
 const { DONATION_STACK } = BottomTabRoutes;
 
-export const DonateBanner: React.FC = () => {
+export const DonateBanner: React.FC = ({ ...props }) => {
   // const {} = useGetDonationsModuleQuery<DonationsModuleModel>();
   const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
   const handleOnPress = useCallback(() => navigate(DONATION_STACK), [navigate]);
 
   return (
-    <Container source={require('../../assets/images/donation.png')} resizeMode="stretch">
+    <Container source={require('../../assets/images/donation.png')} resizeMode="stretch" {...props}>
       <Title content="Podrži akciju i doniraj za uloške" />
       <Description content="Razvoj i unapređenje Ženske inicijative zavisi od podrške svih vas. Ukoliko želiš da budeš deo promene klikni na DONIRAJ" />
       <UiButton content="Doniraj" onPress={handleOnPress} />
@@ -24,25 +24,6 @@ export const DonateBanner: React.FC = () => {
 
 // export const DonateBanner: React.FC<Props> = () => {
 //   const { data, isLoading, error } = useGetDonationsModuleQuery<DonationsModuleModel>();
-//   const theme = useTheme();
-//   const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
-
-//   const styles = useMemo(() => {
-//     return StyleSheet.create({
-//       baseText: {
-//         fontWeight: 'bold',
-//         fontSize: theme.fontSize.$9Number,
-//         color: 'white',
-//         marginBottom: 10,
-//       },
-//       innerText: {
-//         color: 'white',
-//         marginBottom: 30,
-//         marginRight: 103,
-//         lineHeight: 22,
-//       },
-//     });
-//   }, [theme]);
 
 //   return isLoading ? (
 //     <ActivityIndicatorContainer />

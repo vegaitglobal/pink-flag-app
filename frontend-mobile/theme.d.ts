@@ -17,6 +17,8 @@ interface ColorModel {
   danger: string;
   /** #D9D9D9 */
   image: string;
+  /** #9FB2DC */
+  label: string;
   [name: string]: string;
 }
 

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { DonateBanner, Footer, HomeCalendar, HomeNews, Intro } from '@pf/components';
+import { Footer, HomeCalendar, HomeNews, Intro } from '@pf/components';
 import { ScrollView } from 'react-native-gesture-handler';
-import { getStyles } from './styles';
+import { getStyles, StyledDonateBanner } from './styles';
 import { useTheme } from '@emotion/react';
 import { InstagramFeed } from './components';
 
@@ -17,7 +17,7 @@ export const HomeScreen: React.FC = () => {
       <Intro />
       <HomeCalendar title="Moj Kalendar" subtitle="Započni praćenje svog menstrualnog ciklusa!" />
       <HomeNews />
-      <DonateBanner />
+      <StyledDonateBanner />
       <InstagramFeed />
       <Footer />
     </ScrollView>

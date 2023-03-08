@@ -31,7 +31,7 @@ export type HomeNavigatorParams = {
 
 export type BlogNavigatorParams = {
   [BLOG]: undefined;
-  [BLOG_DETAILS]: { id: number };
+  [BLOG_DETAILS]: { id: number } | undefined;
 };
 
 export type DonationNavigatorParams = {

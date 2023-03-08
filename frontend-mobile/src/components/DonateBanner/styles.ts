@@ -9,7 +9,6 @@ export const Container = styled.ImageBackground`
   padding-top: ${({ theme }) => theme.spacing.$5};
   margin-bottom: ${({ theme }) => theme.spacing.$8};
   padding-bottom: ${({ theme }) => theme.spacing.$5};
-  margin-horizontal: ${({ theme }) => theme.spacing.$1};
   border-radius: ${({ theme }) => theme.borderRadius.$2};
   padding-horizontal: ${({ theme }) => theme.spacing.$2};
 `;
@@ -23,7 +22,6 @@ export const Title = styled(CustomText)`
 
 export const Description = styled(CustomText)`
   width: 70%;
-  text-align: justify;
   color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.fontSize.$5};
   margin-bottom: ${({ theme }) => theme.spacing.$2};

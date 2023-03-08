@@ -1,99 +1,56 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from 'react';
-import { BlogCard } from './utils/styles';
-import { Image, View, StyleSheet, Pressable } from 'react-native';
-import { CustomText } from '../CustomText';
-import { AppTheme } from '@pf/theme';
-import { useGetFeaturedBlogQuery } from '@pf/services';
-import { BASE_URI } from '../../services/rootApi';
-import { ActivityIndicatorContainer } from '@pf/components';
-import { BlogNavigatorParams, IS_IOS } from '@pf/constants';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useTheme } from '@emotion/react';
+import { BlogNavigatorParams, BlogRoutes, EMPTY_STRING } from '@pf/constants';
+import { BASE_URI, useGetFeaturedBlogQuery } from '@pf/services';
+import { getPostDate } from '@pf/utils';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useCallback, useMemo } from 'react';
+import { ActivityIndicator } from 'react-native';
+import Animated, { SlideInUp } from 'react-native-reanimated';
+import { Badge } from '../Badge';
+import { Container, Content, DateText, Image, styles, Title } from './styles';
+
+const TEXT_LINES = 2;
+const { BLOG_DETAILS } = BlogRoutes;
+type TypedNavigation = NativeStackNavigationProp<BlogNavigatorParams>;
 
 export const BlogModule: React.FC = () => {
+  const theme = useTheme();
+  const { navigate } = useNavigation<TypedNavigation>();
   const { data, isLoading } = useGetFeaturedBlogQuery();
-  const { navigate } = useNavigation<StackNavigationProp<BlogNavigatorParams>>();
+  const blog = useMemo(() => data?.items?.[0], [data?.items]);
+  const date = useMemo(() => getPostDate(blog?.meta?.first_published_at), [blog?.meta?.first_published_at]);
+  const imageUrl = useMemo(
+    () => ({ uri: `${BASE_URI} + ${blog?.image?.meta?.download_url || EMPTY_STRING}` }),
+    [blog?.image?.meta?.download_url],
+  );
 
-  return isLoading ? (
-    <ActivityIndicatorContainer />
-  ) : data && data.meta.total_count > 0 ? (
-    <Pressable
-      onPress={() => {
-        navigate('blog_details', { id: data.items[0].id });
-      }}>
-      <BlogCard style={styles.BlogCardStyle}>
-        <View style={styles.cardContainer}>
-          <Image
-            style={styles.cardImage}
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            source={{ uri: BASE_URI + data.items[0].image.meta.download_url }}
-          />
-          <View style={styles.cardBody}>
-            <CustomText style={styles.label}>{data.items[0].meta.type}</CustomText>
-            <CustomText style={styles.date}>
-              {new Date(data.items[0].meta.first_published_at).toDateString()}
-            </CustomText>
-            <CustomText style={styles.titleText}>{data.items[0].title}</CustomText>
-          </View>
-        </View>
-      </BlogCard>
-    </Pressable>
-  ) : (
-    <></>
+  const handleOnPress = useCallback(() => {
+    const blogId = blog?.id;
+    if (blogId === undefined) {
+      return;
+    }
+    navigate(BLOG_DETAILS, { id: blogId });
+  }, [blog?.id, navigate]);
+
+  if (isLoading) {
+    return <ActivityIndicator color={theme.colors.primary} />;
+  }
+
+  if (!data?.meta.total_count) {
+    return null;
+  }
+
+  return (
+    <Animated.View entering={SlideInUp}>
+      <Container style={styles.shadow} onPress={handleOnPress}>
+        <Image source={imageUrl} />
+        <Content>
+          <Badge content={blog?.meta.type} />
+          <DateText content={date} />
+          <Title content={blog?.title} numberOfLines={TEXT_LINES} />
+        </Content>
+      </Container>
+    </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  BlogCardStyle: IS_IOS
-    ? {
-        backgroundColor: 'white',
-        shadowRadius: 4.65,
-        shadowOffset: {
-          width: 0,
-          height: 3,
-        },
-        shadowOpacity: 0.25,
-      }
-    : {
-        backgroundColor: 'white',
-        elevation: 6,
-      },
-  cardImage: {
-    width: '100%',
-    height: 180,
-    borderRadius: 20,
-  },
-  cardContainer: {
-    borderRadius: 20,
-    backgroundColor: AppTheme.colors.white,
-  },
-  cardBody: {
-    padding: 10,
-  },
-  label: {
-    paddingHorizontal: 10,
-    paddingVertical: 2,
-    marginTop: 10,
-    borderRadius: 5,
-    letterSpacing: 1,
-    marginBottom: 5,
-    textTransform: 'uppercase',
-    color: AppTheme.colors.white,
-    fontSize: AppTheme.fontSize.$1Number,
-    backgroundColor: AppTheme.colors.label,
-    alignSelf: 'flex-start',
-  },
-  date: {
-    fontSize: AppTheme.fontSize.$2Number,
-    marginBottom: 10,
-    color: AppTheme.colors.description,
-  },
-  titleText: {
-    color: AppTheme.colors.primary,
-    fontSize: 18,
-    marginBottom: 12,
-    fontWeight: '500',
-  },
-});

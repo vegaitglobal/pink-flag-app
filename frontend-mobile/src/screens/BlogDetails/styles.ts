@@ -1,17 +1,17 @@
 import styled from '@emotion/native';
-import { CustomText } from '@pf/components';
+import { CustomText, Line } from '@pf/components';
 import { HEIGHT } from '@pf/constants';
 import { unit } from '@pf/utils';
 import { StyleSheet } from 'react-native';
 
-const TEXT_LEFT = 8;
-const IMAGE_BOTTOM = 26;
-const IMAGE_HEIGHT = HEIGHT * 0.3;
-export const HIT_SLOP = { left: 10, right: 10, bottom: 10, top: 10 };
+const IMAGE_HEIGHT = HEIGHT * 0.26;
 
-export const Screen = styled.View`
-  flex: 1;
-`;
+const DATE_SIZE = 14;
+const DATE_BOTTOM = 12;
+const LINE_COLOR = '#FBEEF3';
+const LINE_WIDTH = 2;
+const LINE_BOTTOM = 32;
+export const HIT_SLOP = { left: 10, right: 10, bottom: 10, top: 10 };
 
 export const Container = styled.ScrollView`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -25,8 +25,7 @@ export const LoadingContainer = styled.View`
 `;
 
 export const Content = styled.View<{ missingData?: boolean }>`
-  padding-top: 5%;
-  padding-bottom: 8%;
+  padding-top: ${({ theme }) => theme.spacing.$2};
   ${({ missingData }) => !missingData && 'flex: 1'};
   background-color: ${({ theme }) => theme.colors.white};
   padding-horizontal: ${({ theme }) => theme.spacing.$1};
@@ -35,32 +34,29 @@ export const Content = styled.View<{ missingData?: boolean }>`
 export const Title = styled(CustomText)`
   color: ${({ theme }) => theme.colors.primary};
   font-size: ${({ theme }) => theme.fontSize.$8};
-  margin-bottom: ${({ theme }) => theme.spacing.$1};
+  margin-bottom: ${({ theme }) => theme.spacing.$2};
   line-height: ${({ theme }) => theme.lineHeight.$7};
   font-weight: ${({ theme }) => theme.fontWeight.$700};
 `;
 
-export const ShareButton = styled.TouchableOpacity`
-  align-items: center;
-  flex-direction: row;
-  align-self: flex-start;
-  margin-top: ${({ theme }) => theme.spacing.$5};
+export const Image = styled.Image`
+  height: ${unit(IMAGE_HEIGHT)};
+  margin-bottom: ${({ theme }) => theme.spacing.$4};
+  border-radius: ${({ theme }) => theme.borderRadius.$2};
+  background-color: ${({ theme }) => theme.colors.image};
 `;
 
-export const ShareText = styled(CustomText)`
-  text-decoration: underline;
-  margin-left: ${unit(TEXT_LEFT)};
-  font-size: ${({ theme }) => theme.fontSize.$5};
-  color: ${({ theme }) => theme.colors.secondary};
-  line-height: ${({ theme }) => theme.lineHeight.$5};
+export const DateText = styled(CustomText)`
+  font-size: ${unit(DATE_SIZE)};
+  margin-bottom: ${unit(DATE_BOTTOM)};
+  color: ${({ theme }) => theme.colors.description};
   font-weight: ${({ theme }) => theme.fontWeight.$400};
 `;
 
-export const Image = styled.Image`
-  height: ${unit(IMAGE_HEIGHT)};
-  margin-bottom: ${unit(IMAGE_BOTTOM)};
-  border-radius: ${({ theme }) => theme.borderRadius.$2};
-  background-color: ${({ theme }) => theme.colors.image};
+export const StyledLine = styled(Line)`
+  height: ${unit(LINE_WIDTH)};
+  background-color: ${LINE_COLOR};
+  margin-bottom: ${unit(LINE_BOTTOM)};
 `;
 
 export const styles = StyleSheet.create({
