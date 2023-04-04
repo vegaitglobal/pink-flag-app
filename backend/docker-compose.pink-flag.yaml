@@ -11,7 +11,7 @@ services:
       DB_USER: "#{DB_USERNAME}#"
       DB_PASSWORD: "#{DB_PASSWORD}#"
       DB_HOST: "db"
-      FIREBASE_KEY: "#{FIREBASE_KEY}"
+      FIREBASE_KEY: "#{FIREBASE_KEY}#"
     restart: always
     depends_on:
       - db
