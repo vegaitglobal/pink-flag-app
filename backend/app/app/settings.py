@@ -183,3 +183,4 @@ AUTH_USER_MODEL = 'core.User'
 SITE_ID = 1
 WAGTAIL_SITE_NAME = 'Pink Flag Inicijativa'
 WAGTAILADMIN_BASE_URL = 'http://example.com'
+FIREBASE_KEY = os.environ.get('FIREBASE_KEY')

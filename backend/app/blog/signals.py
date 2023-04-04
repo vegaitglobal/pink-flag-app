@@ -1,18 +1,32 @@
+import json
 import logging
-from django.apps import apps
 
-# from firebase_admin import messaging
+import firebase_admin
+from django.apps import apps
+from django.conf import settings
+
+from firebase_admin import messaging, credentials
+from firebase_admin.messaging import Notification
+
+
+firebase_key = json.loads(settings.FIREBASE_KEY)
+cred = credentials.Certificate(firebase_key)
+firebase_admin.initialize_app(credential=cred)
+
 
 def send_notification(title: str, msg: str):
-    logging.warning(msg)
-    topic = 'projects/pink-flag/topics/posts'
-  #  message = messaging.Message(
-  #          notification=messaging.Notification(
-  #          title=title,
-  #          body=msg
-  #      ),
-  #      topic=topic
-  #  )
+    logging.info(f'send notification - title: {title}; msg: {msg}')
+    topic = '/topics/posts'
+    message = messaging.Message(
+        topic=topic,
+        notification=Notification(
+            title=title,
+            body=msg,
+        )
+    )
+
+    response = messaging.send(message)
+    logging.info(f'Response: {response}')
 
 def on_page_publish_receiver(sender, **kwargs):
     instance = kwargs['instance']
