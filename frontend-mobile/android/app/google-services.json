@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "83413328066",
+    "project_id": "pink-flag",
+    "storage_bucket": "pink-flag.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83413328066:android:0ed45d2f75558ac82a1b5b",
+        "android_client_info": {
+          "package_name": "com.pinkflagapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83413328066-ntp9he2hhkpvqrpm1emv850lepdap0tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNJEQg3DrljixaMSUxPTgPk9V_aoMeGaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83413328066-ntp9he2hhkpvqrpm1emv850lepdap0tm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "83413328066-njjjevuovt84gg07vqrm8lmhrhba5tma.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pinkflagapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

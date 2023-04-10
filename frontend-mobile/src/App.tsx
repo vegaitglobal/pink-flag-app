@@ -7,8 +7,10 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '@pf/store';
 import SplashScreen from 'react-native-splash-screen';
 import { PersistGate } from 'redux-persist/integration/react';
+import { usePushNotificationsListener } from './hooks';
 
 const App: React.FC = () => {
+  usePushNotificationsListener();
   useEffect(() => {
     SplashScreen.hide();
   }, []);
