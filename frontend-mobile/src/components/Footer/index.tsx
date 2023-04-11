@@ -15,13 +15,13 @@ import {
 import BackgroundImage from '../../assets/images/footer.png';
 import { FacebookSvg, InstagramSvg, LinkTreeSvg, MailSvg, TikTokSvg, TwitterSvg, YouTubeSvg } from '@pf/assets';
 import Config from 'react-native-config';
-import { Linking } from 'react-native';
+import { Linking, View } from 'react-native';
 import { getAddressScheme } from './getAddressScheme';
 
 const CURRENT_YEAR = new Date().getFullYear();
 const HIT_SLOP = { top: 2, left: 10, right: 10, bottom: 10 };
 
-export const Footer: React.FC = () => {
+export const Footer: React.FC = ({ ...props }) => {
   const handleOnLocationPress = useCallback(() => {
     const addressScheme = getAddressScheme();
 
@@ -39,17 +39,9 @@ export const Footer: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <View {...props}>
       <Container resizeMode="stretch" source={BackgroundImage}>
         <Title content="Kontakt" />
-        <DetailRow onPress={handleOnLocationPress}>
-          <StyledLocationSvg />
-          <Detail content={Config.ADDRESS} />
-        </DetailRow>
-        <DetailRow onPress={handleOnMailPress}>
-          <MailSvg />
-          <Detail content={Config.EMAIL} />
-        </DetailRow>
         <IconsArea>
           <StyledLink url={Config.INSTAGRAM_URL} hitSlop={HIT_SLOP}>
             <InstagramSvg />
@@ -70,10 +62,22 @@ export const Footer: React.FC = () => {
             <LinkTreeSvg />
           </StyledLink>
         </IconsArea>
+        {Config.EMAIL && (
+          <DetailRow onPress={handleOnMailPress}>
+            <MailSvg />
+            <Detail content={Config.EMAIL} />
+          </DetailRow>
+        )}
+        {Config.ADDRESS && (
+          <DetailRow onPress={handleOnLocationPress}>
+            <StyledLocationSvg />
+            <Detail content={Config.ADDRESS} />
+          </DetailRow>
+        )}
         <StyledLine />
         <Copyright content={`© ${CURRENT_YEAR} ${Config.APP_NAME || ''}. All rights reserved.`} />
       </Container>
       <Spacing />
-    </>
+    </View>
   );
 };

@@ -15,6 +15,10 @@ interface ColorModel {
   warning: string;
   /** rgba(213,44,99,255) */
   danger: string;
+  /** #D9D9D9 */
+  image: string;
+  /** #9FB2DC */
+  label: string;
   [name: string]: string;
 }
 
@@ -55,6 +59,14 @@ interface Theme {
     $6: string;
     /** 34 */
     $6Number: number;
+    /** unit(40) */
+    $7: string;
+    /** 40 */
+    $7Number: number;
+    /** unit(48) */
+    $8: string;
+    /** 48 */
+    $8Number: number;
   };
   iconSize: {
     /** value unit(20) */
@@ -85,6 +97,8 @@ interface Theme {
     $8: string;
     /** unit(24) */
     $9: string;
+    /** unit(32) */
+    $10: string;
     /** value 10 */
     $1Number: number;
     /** value 12 */
@@ -103,6 +117,8 @@ interface Theme {
     $8Number: number;
     /** value 24 */
     $9Number: number;
+    /** value 32 */
+    $10Number: number;
   };
   lineHeight: {
     /** unit(12) */

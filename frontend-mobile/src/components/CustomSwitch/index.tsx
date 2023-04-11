@@ -6,13 +6,14 @@ import { useAnimation } from './useAnimation';
 interface Props {
   value?: boolean;
   onSwitchChange?: (newValue: boolean) => void;
+  isDisabled?: boolean;
 }
 
 export interface Ref {
   triggerValueChange: () => void;
 }
 
-export const CustomSwitch = forwardRef<Ref, Props>(({ value = false, onSwitchChange, ...props }, ref) => {
+export const CustomSwitch = forwardRef<Ref, Props>(({ value = false, onSwitchChange, isDisabled, ...props }, ref) => {
   const theme = useTheme();
   const [isOn, setIsOn] = useState(value);
   const { animatedX, handleTurnOff, handleTurnOn, interpolatedColor } = useAnimation(value, theme);
@@ -35,7 +36,7 @@ export const CustomSwitch = forwardRef<Ref, Props>(({ value = false, onSwitchCha
   }));
 
   return (
-    <Container onPress={handleOnValueChange} hitSlop={5} {...props}>
+    <Container onPress={handleOnValueChange} disabled={isDisabled} hitSlop={5} {...props}>
       <Base style={{ backgroundColor: interpolatedColor }}>
         <Switch style={{ transform: [{ translateX: animatedX }] }} />
       </Base>

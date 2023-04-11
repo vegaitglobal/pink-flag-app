@@ -6,7 +6,7 @@ import { BlogDetailsScreen, BlogScreen } from '@pf/screens';
 import { NavHeader } from '@pf/components';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<BlogNavigatorParams>();
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 
 const { BLOG, BLOG_DETAILS } = BlogRoutes;
@@ -18,7 +18,7 @@ export interface BlogScreenProps<Screen extends keyof BlogNavigatorParams> {
 
 const BlogNavigator: React.FC = (props: Partial<StackNavigatorProps>) => {
   return (
-    <Stack.Navigator initialRouteName={BLOG} screenOptions={{ headerShown: true }} {...props}>
+    <Stack.Navigator screenOptions={{ headerShown: true }} {...props}>
       <Stack.Screen
         name={BLOG}
         component={BlogScreen}

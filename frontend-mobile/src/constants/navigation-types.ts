@@ -1,3 +1,4 @@
+import { NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BlogRoutes, CalendarRoutes, DonationRoutes, HomeRoutes, BottomTabRoutes, RootRoutes } from './routes';
 
@@ -16,10 +17,11 @@ export type RootNavigatorParams = {
 };
 
 export type BottomTabNavigatorParams = {
-  [HOME_STACK]: undefined;
-  [BLOG_STACK]: undefined;
-  [CALENDAR_STACK]: undefined;
-  [DONATION_STACK]: undefined;
+  [HOME_STACK]: NavigatorScreenParams<HomeNavigatorParams> | undefined;
+  [HOME_STACK]: NavigatorScreenParams<HomeNavigatorParams> | undefined;
+  [BLOG_STACK]: NavigatorScreenParams<BlogNavigatorParams> | undefined;
+  [CALENDAR_STACK]: NavigatorScreenParams<CalendarNavigatorParams> | undefined;
+  [DONATION_STACK]: NavigatorScreenParams<DonationNavigatorParams> | undefined;
 };
 
 export type HomeNavigatorParams = {
@@ -29,7 +31,7 @@ export type HomeNavigatorParams = {
 
 export type BlogNavigatorParams = {
   [BLOG]: undefined;
-  [BLOG_DETAILS]: { id: number };
+  [BLOG_DETAILS]: { id: number } | undefined;
 };
 
 export type DonationNavigatorParams = {

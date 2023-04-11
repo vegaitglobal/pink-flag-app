@@ -2,7 +2,7 @@ import { CustomSwitch, CustomSwitchRef } from '@pf/components';
 import { useAppSelector } from '@pf/hooks';
 import { selectAreBlogNotificationsEnabled } from '@pf/reducers/settingsReducer';
 import React, { useCallback, useRef } from 'react';
-import { Container, Title } from './styles';
+import { Container, DevelopmentText, InDevelopment, Overlay, TextContainer, Title } from './styles';
 
 interface Props {
   onChange?: (newValue: boolean) => void;
@@ -17,9 +17,15 @@ export const NotificationInput: React.FC<Props> = ({ onChange }) => {
   }, []);
 
   return (
-    <Container onPress={handleOnPress}>
+    <Container onPress={handleOnPress} disabled>
       <Title content="Notifikacija za novi post?" />
-      <CustomSwitch ref={switchRef} value={areNotificationsEnabled} onSwitchChange={onChange} />
+      <CustomSwitch ref={switchRef} value={areNotificationsEnabled} onSwitchChange={onChange} isDisabled />
+      <InDevelopment>
+        <Overlay />
+        <TextContainer>
+          <DevelopmentText content="USKORO" />
+        </TextContainer>
+      </InDevelopment>
     </Container>
   );
 };

@@ -7,7 +7,6 @@ const PADDING = 8;
 const BORDER_WIDTH = 1;
 const BORDER_COLOR = '#DADCE0';
 const BORDER_RADIUS = 4;
-const IMAGE_BACKGROUND = '#D9D9D9';
 const AVATAR_SIZE = 20;
 const AVATAR_LEFT = 2;
 const AVATAR_RIGHT = 8;
@@ -33,8 +32,8 @@ export const LeftArea = styled.View`
 export const Avatar = styled.Image`
   width: ${unit(AVATAR_SIZE)};
   height: ${unit(AVATAR_SIZE)};
-  background-color: ${IMAGE_BACKGROUND};
   border-radius: ${unit(AVATAR_SIZE / 2)};
+  background-color: ${({ theme }) => theme.colors.image};
 `;
 
 export const ContentArea = styled.View`

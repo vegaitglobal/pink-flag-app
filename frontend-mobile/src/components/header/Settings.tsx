@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react';
-import { AppTheme, theme } from '@pf/theme';
+import { AppTheme } from '@pf/theme';
 import React, { useState } from 'react';
 import { Modal, StyleSheet, Switch, View, Pressable } from 'react-native';
 import { ExitSvg } from '../../assets';
@@ -44,13 +44,7 @@ export const Settings: React.FC<SettingsProps> = ({ modalIsVisible, closeModal }
         </View>
 
         <View style={styles.actionContainer}>
-          <UiButton
-            title="Sačuvaj izmene"
-            color={theme.colors.white}
-            backgroundColor={theme.colors.primary}
-            fontSize={theme.fontSize.$4Number}
-            fontWeight={'bold'}
-            onPress={() => console.log('test')}></UiButton>
+          <UiButton content="Sačuvaj izmene" onPress={() => console.log('test')}></UiButton>
         </View>
       </View>
     </Modal>

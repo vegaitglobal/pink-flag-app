@@ -1,33 +1,16 @@
-import { StyleSheet, Pressable } from 'react-native';
-import { CustomText } from '../CustomText';
+import { TouchableOpacityProps } from 'react-native';
+import { ButtonText, Container } from './styles';
 
-export interface UiButtonProps {
-  title: string;
-  fontSize: number;
-  fontWeight: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800';
-  color: string;
-  backgroundColor: string;
-  onPress: () => void;
+const TEXT_LINES = 1;
+
+export interface UiButtonProps extends TouchableOpacityProps {
+  content: string;
 }
 
-export const UiButton: React.FC<UiButtonProps> = (props: UiButtonProps) => {
+export const UiButton: React.FC<UiButtonProps> = ({ content, ...props }) => {
   return (
-    <Pressable onPress={props.onPress} style={{ ...styles.button, backgroundColor: props.backgroundColor }}>
-      <CustomText
-        style={{ ...styles.textStyle, color: props.color, fontWeight: props.fontWeight, fontSize: props.fontSize }}>
-        {props.title}
-      </CustomText>
-    </Pressable>
+    <Container {...props}>
+      <ButtonText content={content} numberOfLines={TEXT_LINES} />
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: 15,
-    padding: 12,
-    elevation: 2,
-  },
-  textStyle: {
-    textAlign: 'center',
-  },
-});
