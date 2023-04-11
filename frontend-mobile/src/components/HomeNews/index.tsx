@@ -1,44 +1,60 @@
-import React from 'react';
-import { View, Pressable, ActivityIndicator } from 'react-native';
-import { CustomText } from '../CustomText';
+import React, { useCallback, useMemo } from 'react';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { BlogSmallModule } from '../BlogSmallModule';
-import { useTheme } from '@emotion/react';
 import { useNavigation } from '@react-navigation/native';
-import { HomeNavigatorParams } from '@pf/constants';
+import { BlogRoutes, BottomTabNavigatorParams, BottomTabRoutes } from '@pf/constants';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { BASE_URI } from '../../services/rootApi';
 import { useGetAllBlogsQuery } from '@pf/services';
+import { Container, HIT_SLOP, NewsText, PostsContainer, Row, ViewAllText } from './styles';
+import { useTheme } from '@emotion/react';
+
+const { BLOG_STACK } = BottomTabRoutes;
+const { BLOG, BLOG_DETAILS } = BlogRoutes;
 
 export const HomeNews: React.FC = () => {
-  const { navigate } = useNavigation<StackNavigationProp<HomeNavigatorParams>>();
   const theme = useTheme();
+  const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
+  const { data, isLoading } = useGetAllBlogsQuery({ category: 'BLOG', page: 0, size: 3 });
 
-  const { data, isLoading } = useGetAllBlogsQuery({ category: 'BLOG', page: 0, size: 5 });
+  const handleOnViewAllPress = useCallback(() => {
+    navigate(BLOG_STACK, { screen: BLOG });
+  }, [navigate]);
+
+  const onPress = useCallback(
+    (id?: number) => {
+      if (id === undefined) {
+        return;
+      }
+      navigate(BLOG_STACK, { screen: BLOG_DETAILS, params: { id } });
+    },
+    [navigate],
+  );
+
+  const Pots = useMemo(() => {
+    return data?.items?.map((blog, index) => <BlogSmallModule blog={blog} key={`post_${index}`} onPress={onPress} />);
+  }, [data?.items, onPress]);
+
+  if (isLoading) {
+    return (
+      <Container>
+        <ActivityIndicator color={theme.colors.primary} />
+      </Container>
+    );
+  }
+
+  if (!data?.items?.length) {
+    return null;
+  }
 
   return (
-    <View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: theme.spacing.$1Number }}>
-        <CustomText>Najnovije objave</CustomText>
-        <CustomText>Pogledaj sve</CustomText>
-      </View>
-      {isLoading ? (
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      ) : data && data.items.length ? (
-        data?.items.map((el, index) => (
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          <Pressable key={index} onPress={() => navigate('blog_details', { id: el.id })}>
-            <BlogSmallModule
-              title={el.title}
-              date={el.meta.first_published_at}
-              image={BASE_URI + el.image?.meta?.download_url ?? ''}
-            />
-          </Pressable>
-        ))
-      ) : (
-        <>
-          <CustomText style={{ textAlign: 'center', margin: 20 }}>Nema objava.</CustomText>
-        </>
-      )}
-    </View>
+    <Container>
+      <Row>
+        <NewsText content="Najnovije objave:" />
+        <TouchableOpacity hitSlop={HIT_SLOP} onPress={handleOnViewAllPress}>
+          <ViewAllText content="Pogledaj sve" />
+        </TouchableOpacity>
+      </Row>
+      <PostsContainer>{Pots}</PostsContainer>
+    </Container>
   );
 };

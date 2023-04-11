@@ -32,3 +32,4 @@ export { NavHeader } from './NavHeader';
 export { CustomSwitch, type Ref as CustomSwitchRef } from './CustomSwitch';
 export { DatePickerModal } from './DatePickerModal';
 export { LinkButton } from './LinkButton';
+export { Badge } from './Badge';

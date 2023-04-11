@@ -5,13 +5,15 @@ import { unit } from '@pf/utils';
 const HEIGHT = 42;
 const OVERLAY_COLOR = 'white';
 const OVERLAY_OPACITY = '0.4';
+const TEXT_HORIZONTAL = 16;
 
-export const Container = styled.TouchableOpacity<{ background?: string }>`
-  width: 100%;
+export const Container = styled.TouchableOpacity<{ background?: string; isFullWidth?: boolean }>`
   overflow: hidden;
   align-items: center;
   justify-content: center;
   height: ${unit(HEIGHT)};
+  padding-horizontal: ${unit(TEXT_HORIZONTAL)};
+  ${({ isFullWidth }) => isFullWidth && 'width: 100%'};
   border-radius: ${({ theme }) => theme.borderRadius.$2};
   background-color: ${({ background, theme }) => background || theme.colors.primary};
 `;

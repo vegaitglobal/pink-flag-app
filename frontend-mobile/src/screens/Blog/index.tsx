@@ -1,14 +1,21 @@
 import React from 'react';
-import { BlogListModule, BlogModule, DonateBanner, Footer } from '@pf/components';
-import { ScrollView } from 'react-native-gesture-handler';
+import { BlogListModule, BlogModule, Footer } from '@pf/components';
+import { Container, Content, StyledDonateBanner } from './styles';
+import Animated, { Layout } from 'react-native-reanimated';
+
+const MASS = 100;
 
 export const BlogScreen: React.FC = () => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <BlogModule />
-      <BlogListModule></BlogListModule>
-      <DonateBanner title="Doniraj" description="Podrzi akciju i DONIRAJ" buttonTitle="Doniraj" />
-      <Footer />
-    </ScrollView>
+    <Animated.View layout={Layout.mass(MASS)}>
+      <Container showsVerticalScrollIndicator={false}>
+        <Content>
+          <BlogModule />
+          <BlogListModule />
+          <StyledDonateBanner />
+        </Content>
+        <Footer />
+      </Container>
+    </Animated.View>
   );
 };

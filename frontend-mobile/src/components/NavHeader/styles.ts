@@ -1,5 +1,4 @@
 import styled from '@emotion/native';
-import { LogoSvg } from '@pf/assets';
 import { unit } from '@pf/utils';
 import { StyleSheet } from 'react-native';
 
@@ -21,7 +20,7 @@ export const Row = styled.View`
   justify-content: center;
 `;
 
-export const StyledLogo = styled(LogoSvg)`
+export const PressableLogo = styled.Pressable`
   position: absolute;
   align-self: center;
 `;
