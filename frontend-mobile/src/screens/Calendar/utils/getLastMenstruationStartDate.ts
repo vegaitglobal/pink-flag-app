@@ -1,12 +1,31 @@
 import { TODAY } from '@pf/constants';
-import { isAfter } from 'date-fns';
+import { isAfter, isBefore, isToday } from 'date-fns';
 
-export const getLastMenstruationStartDate = (previousStartDate: string, potentialStartDate: string): string => {
-  const potentialDate = new Date(potentialStartDate);
+/**
+ * @param previousStartDate The previous cycle start date.
+ * @param actualStartDate The cycle start date for the current month.
+ * @param upcomingStartDate The cycle upcoming start date for current month.
+ * @returns Returns the correct last menstruation date for given month.
+ */
 
-  if (isAfter(potentialDate, TODAY)) {
+export const getLastMenstruationStartDate = (
+  previousStartDate: string,
+  actualStartDate: string,
+  upcomingStartDate: string,
+): string => {
+  const actualDate = new Date(actualStartDate);
+
+  if (isAfter(actualDate, TODAY)) {
     return previousStartDate;
   }
 
-  return potentialStartDate;
+  const upcomingDate = new Date(upcomingStartDate);
+
+  if (isBefore(upcomingDate, TODAY) || isToday(upcomingDate)) {
+    console.log('isBefore', isBefore(upcomingDate, TODAY));
+    console.log('isToday', isToday(upcomingDate));
+    return upcomingStartDate;
+  }
+
+  return actualStartDate;
 };

@@ -1,22 +1,32 @@
 import { useAppDispatch } from '@pf/hooks';
 import { TODAY } from '../../../constants/constants';
 import { useEffect } from 'react';
-import { getDateWithOffset, getLastMenstruationStartDate, getPreviousMenstruationStartDate } from '../utils';
+import {
+  getDateWithOffset,
+  getLastMenstruationStartDate,
+  getPreviousMenstruationStartDate,
+  getUpcomingMenstruationStartDate,
+} from '../utils';
 import { setMenstruationStartDate } from '@pf/reducers/userReducer';
 
-export const useLastMenstruationDateUpdate = (menstruationStartDate?: string, cycleLength?: number): void => {
+export const useLastMenstruationDateUpdate = (savedMenstruationStartDate?: string, cycleLength?: number): void => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!menstruationStartDate || !cycleLength) {
+    if (!savedMenstruationStartDate || !cycleLength) {
       return;
     }
 
-    const actualStartDate = getDateWithOffset(menstruationStartDate, cycleLength, TODAY);
+    const actualStartDate = getDateWithOffset(savedMenstruationStartDate, cycleLength, TODAY);
     const previousStartDate = getPreviousMenstruationStartDate(actualStartDate, cycleLength);
-    const lastMenstruationStartDate = getLastMenstruationStartDate(previousStartDate, actualStartDate);
+    const upcomingStartDate = getUpcomingMenstruationStartDate(actualStartDate, cycleLength);
+    const lastMenstruationStartDate = getLastMenstruationStartDate(
+      previousStartDate,
+      actualStartDate,
+      upcomingStartDate,
+    );
 
-    if (menstruationStartDate !== lastMenstruationStartDate) {
+    if (savedMenstruationStartDate !== lastMenstruationStartDate) {
       dispatch(setMenstruationStartDate(lastMenstruationStartDate));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
