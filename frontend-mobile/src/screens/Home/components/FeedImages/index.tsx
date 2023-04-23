@@ -6,7 +6,7 @@ import { Container, Image } from './styles';
 import { useLazyGetInstagramFeedQuery } from '@pf/services';
 
 export const FeedImages: React.FC = () => {
-  const [getFeedImages, { data }] = useLazyGetInstagramFeedQuery();
+  const [getFeedImages, { data, isLoading }] = useLazyGetInstagramFeedQuery();
 
   const handleOnPress = useCallback(() => {
     if (Config.INSTAGRAM_URL) {
@@ -23,18 +23,40 @@ export const FeedImages: React.FC = () => {
       if ([2, 5, 8].includes(index)) {
         return (
           <TouchableOpacity onPress={handleOnPress} key={index}>
-            <Image source={{ uri: image.thumbnail }} />
+            <Image url={{ uri: image.thumbnail }} />
           </TouchableOpacity>
         );
       }
 
       return (
         <TouchableOpacity onPress={handleOnPress} key={index}>
-          <Image source={{ uri: image.thumbnail }} hasSpacing />
+          <Image url={{ uri: image.thumbnail }} hasSpacing />
         </TouchableOpacity>
       );
     });
-  }, [handleOnPress, data]);
+  }, [data, handleOnPress]);
+
+  const LoadingImages = useMemo(() => {
+    return [...Array.from({ length: 9 })].map((_, index) => {
+      if ([2, 5, 8].includes(index)) {
+        return (
+          <TouchableOpacity onPress={handleOnPress} key={index}>
+            <Image />
+          </TouchableOpacity>
+        );
+      }
+
+      return (
+        <TouchableOpacity onPress={handleOnPress} key={index}>
+          <Image hasSpacing />
+        </TouchableOpacity>
+      );
+    });
+  }, [handleOnPress]);
+
+  if (isLoading) {
+    return <Container>{LoadingImages}</Container>;
+  }
 
   if (!data) {
     return null;
