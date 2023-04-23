@@ -1,51 +1,38 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useCallback } from 'react';
-import { Container, Description, Title } from './styles';
+import { Container, Description, Loader, Title } from './styles';
 import { UiButton } from '@pf/components';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BottomTabNavigatorParams, BottomTabRoutes } from '@pf/constants';
+import { useGetDonationsModuleQuery } from '@pf/services';
+import { FALLBACK } from './fallback';
+import { ActivityIndicator } from 'react-native';
+import { useTheme } from '@emotion/react';
 
 const { DONATION_STACK } = BottomTabRoutes;
 
 export const DonateBanner: React.FC = ({ ...props }) => {
-  // const {} = useGetDonationsModuleQuery<DonationsModuleModel>();
+  const theme = useTheme();
+  const { data, isLoading } = useGetDonationsModuleQuery();
   const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
   const handleOnPress = useCallback(() => navigate(DONATION_STACK), [navigate]);
 
+  if (isLoading) {
+    return (
+      <Container source={require('../../assets/images/donation.png')} resizeMode="stretch" {...props}>
+        <Loader>
+          <ActivityIndicator color={theme.colors.white} />
+        </Loader>
+      </Container>
+    );
+  }
+
   return (
     <Container source={require('../../assets/images/donation.png')} resizeMode="stretch" {...props}>
-      <Title content="Podrži akciju i doniraj za uloške" />
-      <Description content="Razvoj i unapređenje Ženske inicijative zavisi od podrške svih vas. Ukoliko želiš da budeš deo promene klikni na DONIRAJ" />
-      <UiButton content="Doniraj" onPress={handleOnPress} />
+      <Title content={data?.title || FALLBACK.title} />
+      <Description content={data?.description || FALLBACK.description} />
+      <UiButton content={data?.button_text || FALLBACK.button_text} onPress={handleOnPress} />
     </Container>
   );
 };
-
-// export const DonateBanner: React.FC<Props> = () => {
-//   const { data, isLoading, error } = useGetDonationsModuleQuery<DonationsModuleModel>();
-
-//   return isLoading ? (
-//     <ActivityIndicatorContainer />
-//   ) : data ? (
-//     <ImageBackground
-//       style={{
-//         margin: theme.spacing.$1Number,
-//         padding: theme.spacing.$1Number,
-//       }}
-//       imageStyle={{ borderRadius: theme.borderRadius.$2Number }}
-//       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-//       source={require('../../assets/images/donation.png')}>
-//       {data.title && data.title.length > 0 && <CustomText style={styles.baseText}>{data.title}</CustomText>}
-//       {data.description && data.description.length > 0 && (
-//         <CustomText style={styles.innerText}>{data.description}</CustomText>
-//       )}
-//       <View style={{ marginRight: 242 }}>
-//         <UiButton
-//           title={data.button_text}
-//           onPress={() => navigate('donation')}
-//         />
-//       </View>
-//     </ImageBackground>
-//   ) : null;
-// };

@@ -1,15 +1,15 @@
 import { AboutUsModel } from '@pf/models';
 import { rootApi } from './rootApi';
 
-type GetAboutUsResponse = {
-  items: AboutUsModel[];
+type Response<T> = {
+  items: T[];
 };
 
 export const homeApi = rootApi.injectEndpoints({
   endpoints: builder => ({
     getAboutUs: builder.query<AboutUsModel, void>({
       query: () => `pages/?type=blog.AboutUsPage&fields=*&format=json`,
-      transformResponse: (response: GetAboutUsResponse) => response.items[0],
+      transformResponse: (response: Response<AboutUsModel>) => response.items[0],
     }),
   }),
 });

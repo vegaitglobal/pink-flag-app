@@ -5,3 +5,9 @@ export type DonationsModel = {
   body: string;
   image: Image;
 };
+
+export type DonationBannerModel = {
+  title: string;
+  description: string;
+  button_text: string;
+};
