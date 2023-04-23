@@ -1,16 +1,50 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from 'react';
-import { AboutUsImage, Container, Content, Description, ImageContainer, Title } from './styles';
+import React, { useMemo } from 'react';
+import { AboutUsImage, Container, Content, Description, ImageContainer, Title, getHtmlStyle } from './styles';
+import { BASE_URI, useGetAboutUsQuery } from '@pf/services';
+import { FALLBACK } from './fallback';
+import { ActivityIndicator } from 'react-native';
+import { useTheme } from '@emotion/react';
+import { EMPTY_STRING, WIDTH } from '@pf/constants';
+import RenderHTML from 'react-native-render-html';
+
+const PADDING = 40;
+const CONTENT_WIDTH = WIDTH - PADDING;
 
 export const Intro: React.FC = () => {
+  const theme = useTheme();
+  const { data, isLoading } = useGetAboutUsQuery();
+  const imageSource = useMemo(
+    () => ({ uri: `${BASE_URI}${data?.image?.meta.download_url || EMPTY_STRING}` }),
+    [data?.image?.meta.download_url],
+  );
+  const htmlStyle = useMemo(() => getHtmlStyle(theme), [theme]);
+  const content = useMemo(
+    () => ({
+      html: `<span style='${htmlStyle}'>${data?.body || EMPTY_STRING}</span>`,
+    }),
+    [data?.body, htmlStyle],
+  );
+
+  if (isLoading) {
+    return (
+      <Container source={require('../../assets/images/intro-background.png')} resizeMode="stretch">
+        <ActivityIndicator color={theme.colors.white} />
+      </Container>
+    );
+  }
+
   return (
     <Container source={require('../../assets/images/intro-background.png')} resizeMode="stretch">
       <Content>
-        <Title content="Pink Flag" />
-        <Description content="Dobrodošli na PINK FLAG aplikaciju Ženske inicijative koja radi na otklanjanju menstrualnog siromaštva i informisanju zajednice o potrebi besplatnih menstrualnih uložaka u svim obrazovnim ustanovama širom Republike Srbije. Pomoću ove aplikacije bićete informisani o svim važnim dešavanjima koja su u vezi sa menstrualnim siromaštvom, pink taksama i porezom na menstrualne uloške." />
-        <ImageContainer>
-          <AboutUsImage source={require('../../assets/images/about-us.jpg')} resizeMode="cover" />
-        </ImageContainer>
+        <Title content={data?.title || FALLBACK.title} />
+        {data?.body && <RenderHTML contentWidth={CONTENT_WIDTH} source={content} />}
+        {!isLoading && !data?.body && <Description content={FALLBACK.description} />}
+        {data?.image?.meta.download_url && (
+          <ImageContainer>
+            <AboutUsImage url={imageSource} />
+          </ImageContainer>
+        )}
       </Content>
     </Container>
   );

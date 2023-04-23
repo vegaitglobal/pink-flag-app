@@ -6,3 +6,4 @@ export { useGetAllBlogsQuery, useGetFeaturedBlogQuery, useGetBlogByIdQuery } fro
 export { useGetFooterQuery } from './footerApi';
 export * from './donationsApi';
 export { useLazyGetInstagramFeedQuery } from './instagram';
+export { useGetAboutUsQuery } from './homeApi';
