@@ -3,11 +3,14 @@ import React, { useCallback, useMemo } from 'react';
 import { Linking, TouchableOpacity } from 'react-native';
 import Config from 'react-native-config';
 import { Container, Image } from './styles';
-import { useGetInstagramFeedQuery } from '@pf/services';
+import { InstagramFeed } from '@pf/models';
 
-export const FeedImages: React.FC = () => {
-  const { data, isLoading } = useGetInstagramFeedQuery();
+interface Props {
+  images: InstagramFeed;
+  isLoading?: boolean;
+}
 
+export const FeedImages: React.FC<Props> = ({ images, isLoading }) => {
   const handleOnPress = useCallback(() => {
     if (Config.INSTAGRAM_URL) {
       Linking.openURL(Config.INSTAGRAM_URL);
@@ -15,7 +18,7 @@ export const FeedImages: React.FC = () => {
   }, []);
 
   const Images = useMemo(() => {
-    return data?.map((image, index) => {
+    return images?.map((image, index) => {
       if ([2, 5, 8].includes(index)) {
         return (
           <TouchableOpacity onPress={handleOnPress} key={index}>
@@ -30,7 +33,7 @@ export const FeedImages: React.FC = () => {
         </TouchableOpacity>
       );
     });
-  }, [data, handleOnPress]);
+  }, [images, handleOnPress]);
 
   const LoadingImages = useMemo(() => {
     return [...Array.from({ length: 9 })].map((_, index) => {
@@ -52,10 +55,6 @@ export const FeedImages: React.FC = () => {
 
   if (isLoading) {
     return <Container>{LoadingImages}</Container>;
-  }
-
-  if (!data) {
-    return null;
   }
 
   return <Container>{Images}</Container>;

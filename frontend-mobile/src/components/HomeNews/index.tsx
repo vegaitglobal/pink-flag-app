@@ -14,8 +14,7 @@ const { BLOG, BLOG_DETAILS } = BlogRoutes;
 export const HomeNews: React.FC = () => {
   const theme = useTheme();
   const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
-  const { data, isLoading } = useGetAllBlogsQuery({ category: 'BLOG', page: 0, size: 3 });
-
+  const { data, isLoading } = useGetAllBlogsQuery({ page: 0, size: 3 });
   const handleOnViewAllPress = useCallback(() => {
     navigate(BLOG_STACK, { screen: BLOG });
   }, [navigate]);
@@ -25,7 +24,7 @@ export const HomeNews: React.FC = () => {
       if (id === undefined) {
         return;
       }
-      navigate(BLOG_STACK, { screen: BLOG_DETAILS, params: { id } });
+      navigate(BLOG_STACK, { screen: BLOG_DETAILS, params: { id }, initial: false });
     },
     [navigate],
   );

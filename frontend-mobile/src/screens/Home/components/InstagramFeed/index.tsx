@@ -5,9 +5,11 @@ import { Linking } from 'react-native';
 import Config from 'react-native-config';
 import { FeedImages } from '../FeedImages';
 import { Container, StyledPrimaryButton, Title } from './styles';
+import { useGetInstagramFeedQuery } from '@pf/services';
 
 export const InstagramFeed: React.FC = () => {
   const userName = Config.INSTAGRAM_USERNAME ? '@' + Config.INSTAGRAM_USERNAME : EMPTY_STRING;
+  const { data, isLoading } = useGetInstagramFeedQuery();
 
   const handleOnButtonPress = useCallback(() => {
     if (Config.INSTAGRAM_URL) {
@@ -15,10 +17,14 @@ export const InstagramFeed: React.FC = () => {
     }
   }, []);
 
+  if (!data) {
+    return null;
+  }
+
   return (
     <Container>
       <Title content="Instagram feed" />
-      <FeedImages />
+      <FeedImages isLoading={isLoading} images={data} />
       <StyledPrimaryButton isFullWidth={false} onPress={handleOnButtonPress} content={`Zaprati nas na ${userName}`} />
     </Container>
   );

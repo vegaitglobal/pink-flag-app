@@ -1,30 +1,21 @@
-import { useTheme } from '@emotion/react';
 import { Badge, DonateBanner, Footer } from '@pf/components';
-import { BlogRoutes, EMPTY_STRING, WIDTH } from '@pf/constants';
-import { BASE_URI, useGetBlogByIdQuery } from '@pf/services';
-import { getPostDate } from '@pf/utils';
-import React, { useMemo } from 'react';
+import { BlogNavigatorScreenProps, BlogRoutes, EMPTY_STRING, WIDTH } from '@pf/constants';
+import { BASE_URI } from '@pf/services';
+import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import RenderHTML from 'react-native-render-html';
-import { HomeScreenProps } from 'src/navigation/HomeNavigator';
 import { RecentPosts } from './components';
-import { Container, Content, DateText, Image, LoadingContainer, StyledLine, styles, Title } from './styles';
+import { Container, Content, ContentImage, DateText, Image, LoadingContainer, StyledLine, Title } from './styles';
+import { useData } from './useData';
 
 const PADDING = 40;
 const CONTENT_WIDTH = WIDTH - PADDING;
 
 const { BLOG_DETAILS } = BlogRoutes;
+type Props = BlogNavigatorScreenProps<typeof BLOG_DETAILS>;
 
-export const BlogDetailsScreen: React.FC<HomeScreenProps<typeof BLOG_DETAILS>> = ({ route }) => {
-  const theme = useTheme();
-  const { data, isLoading } = useGetBlogByIdQuery(route?.params?.id);
-  const date = useMemo(() => getPostDate(data?.meta?.first_published_at), [data?.meta?.first_published_at]);
-  const hasData = !!data;
-  const listStyle = hasData ? undefined : styles.list;
-  const imageUri = useMemo(
-    () => ({ uri: BASE_URI + (data?.image?.meta?.download_url ?? EMPTY_STRING) }),
-    [data?.image?.meta?.download_url],
-  );
+export const BlogDetailsScreen: React.FC<Props> = ({ route }) => {
+  const { data, date, category, theme, imageUri, isLoading, listStyle, paragraphStyle } = useData(route.params?.id);
 
   if (isLoading) {
     return (
@@ -36,12 +27,27 @@ export const BlogDetailsScreen: React.FC<HomeScreenProps<typeof BLOG_DETAILS>> =
 
   return (
     <Container showsVerticalScrollIndicator={false} contentContainerStyle={listStyle}>
-      <Content missingData={hasData}>
-        {data?.meta?.type && <Badge content={data?.meta?.type} />}
+      <Content missingData={!!data}>
+        {data?.category && <Badge content={category} />}
         {date && <DateText content={date} />}
         {data?.title && <Title content={data?.title} />}
-        {data?.image?.meta?.download_url && <Image source={imageUri} />}
-        <RenderHTML contentWidth={CONTENT_WIDTH} source={{ html: `<div/>` }} />
+        {data?.image?.meta?.download_url && <Image url={imageUri} />}
+        {data?.body.map((element, index) => {
+          if (element.type === 'paragraph') {
+            return (
+              <RenderHTML
+                key={`paragraph_${index}`}
+                baseStyle={paragraphStyle}
+                contentWidth={CONTENT_WIDTH}
+                source={{ html: element.value }}
+              />
+            );
+          }
+
+          if (element.type === 'image') {
+            return <ContentImage key={`image_${index}`} url={{ uri: `${BASE_URI}${element.value || EMPTY_STRING}` }} />;
+          }
+        })}
         <StyledLine />
         <RecentPosts />
         <DonateBanner />
@@ -50,29 +56,3 @@ export const BlogDetailsScreen: React.FC<HomeScreenProps<typeof BLOG_DETAILS>> =
     </Container>
   );
 };
-
-//     {data.body.map((bodyItem, index) => {
-//       if (bodyItem.type == 'paragraph') {
-//         return (
-//           <RenderHtml
-//             key={index}
-//             baseStyle={{ color: 'black' }}
-//             contentWidth={width}
-//             source={{ html: bodyItem.value }}
-//           />
-//         );
-//       }
-//       if (bodyItem.type == 'image' && bodyItem.value && bodyItem.value.length > 10) {
-//         return (
-//           <Image
-//             key={index}
-//             style={styles.cardImage}
-//             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-//             source={{ uri: BASE_URI + String(bodyItem.value) }}
-//           />
-//         );
-//       }
-//       return null;
-//     })}
-//   </View>
-// )}

@@ -1,8 +1,10 @@
 import styled from '@emotion/native';
-import { CustomText, Line } from '@pf/components';
+import { Theme } from '@emotion/react';
+import { CustomImage, CustomText, Line } from '@pf/components';
 import { HEIGHT } from '@pf/constants';
 import { unit } from '@pf/utils';
 import { StyleSheet } from 'react-native';
+import { MixedStyleDeclaration } from 'react-native-render-html';
 
 const IMAGE_HEIGHT = HEIGHT * 0.26;
 
@@ -11,6 +13,7 @@ const DATE_BOTTOM = 12;
 const LINE_COLOR = '#FBEEF3';
 const LINE_WIDTH = 2;
 const LINE_BOTTOM = 32;
+const LINE_HEIGHT = 24;
 export const HIT_SLOP = { left: 10, right: 10, bottom: 10, top: 10 };
 
 export const Container = styled.ScrollView`
@@ -39,9 +42,15 @@ export const Title = styled(CustomText)`
   font-weight: ${({ theme }) => theme.fontWeight.$700};
 `;
 
-export const Image = styled.Image`
+export const Image = styled(CustomImage)`
   height: ${unit(IMAGE_HEIGHT)};
   margin-bottom: ${({ theme }) => theme.spacing.$4};
+  border-radius: ${({ theme }) => theme.borderRadius.$2};
+  background-color: ${({ theme }) => theme.colors.image};
+`;
+
+export const ContentImage = styled(CustomImage)`
+  height: ${unit(IMAGE_HEIGHT)};
   border-radius: ${({ theme }) => theme.borderRadius.$2};
   background-color: ${({ theme }) => theme.colors.image};
 `;
@@ -58,6 +67,14 @@ export const StyledLine = styled(Line)`
   background-color: ${LINE_COLOR};
   margin-bottom: ${unit(LINE_BOTTOM)};
 `;
+
+export const getParagraphStyle = (theme: Theme): MixedStyleDeclaration => ({
+  textAlign: 'justify',
+  color: theme.colors.secondary,
+  fontSize: theme.fontSize.$5,
+  lineHeight: LINE_HEIGHT,
+  fontWeight: '400',
+});
 
 export const styles = StyleSheet.create({
   list: {
