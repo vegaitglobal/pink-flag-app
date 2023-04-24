@@ -20,4 +20,4 @@ export const instagramApi = rootApi.injectEndpoints({
   }),
 });
 
-export const { useLazyGetInstagramFeedQuery } = instagramApi;
+export const { useGetInstagramFeedQuery } = instagramApi;

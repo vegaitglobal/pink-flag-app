@@ -12,6 +12,7 @@ const CONTAINER_MIN_HEIGHT = HEIGHT * 0.3;
 export const Container = styled.ImageBackground`
   justify-content: center;
   min-height: ${unit(CONTAINER_MIN_HEIGHT)};
+  margin-bottom: ${({ theme }) => theme.spacing.$7};
 `;
 
 export const Content = styled.View`

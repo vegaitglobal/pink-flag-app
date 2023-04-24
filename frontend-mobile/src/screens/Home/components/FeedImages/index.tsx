@@ -1,22 +1,18 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Linking, TouchableOpacity } from 'react-native';
 import Config from 'react-native-config';
 import { Container, Image } from './styles';
-import { useLazyGetInstagramFeedQuery } from '@pf/services';
+import { useGetInstagramFeedQuery } from '@pf/services';
 
 export const FeedImages: React.FC = () => {
-  const [getFeedImages, { data, isLoading }] = useLazyGetInstagramFeedQuery();
+  const { data, isLoading } = useGetInstagramFeedQuery();
 
   const handleOnPress = useCallback(() => {
     if (Config.INSTAGRAM_URL) {
       Linking.openURL(Config.INSTAGRAM_URL);
     }
   }, []);
-
-  useEffect(() => {
-    getFeedImages();
-  }, [getFeedImages]);
 
   const Images = useMemo(() => {
     return data?.map((image, index) => {
