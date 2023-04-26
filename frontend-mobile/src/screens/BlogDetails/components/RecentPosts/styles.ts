@@ -15,3 +15,7 @@ export const Title = styled(CustomText)`
   line-height: ${({ theme }) => theme.lineHeight.$4};
   font-weight: ${({ theme }) => theme.fontWeight.$700};
 `;
+
+export const Loader = styled.View`
+  margin-bottom: ${({ theme }) => theme.spacing.$5};
+`;

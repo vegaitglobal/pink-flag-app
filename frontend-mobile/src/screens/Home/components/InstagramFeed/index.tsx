@@ -9,7 +9,7 @@ import { useGetInstagramFeedQuery } from '@pf/services';
 
 export const InstagramFeed: React.FC = () => {
   const userName = Config.INSTAGRAM_USERNAME ? '@' + Config.INSTAGRAM_USERNAME : EMPTY_STRING;
-  const { data, isLoading } = useGetInstagramFeedQuery();
+  const { data, isLoading, isUninitialized } = useGetInstagramFeedQuery();
 
   const handleOnButtonPress = useCallback(() => {
     if (Config.INSTAGRAM_URL) {
@@ -17,7 +17,7 @@ export const InstagramFeed: React.FC = () => {
     }
   }, []);
 
-  if (!data) {
+  if (!data && isUninitialized) {
     return null;
   }
 

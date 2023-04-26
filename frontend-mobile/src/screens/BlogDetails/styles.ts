@@ -1,10 +1,8 @@
 import styled from '@emotion/native';
-import { Theme } from '@emotion/react';
 import { CustomImage, CustomText, Line } from '@pf/components';
 import { HEIGHT } from '@pf/constants';
 import { unit } from '@pf/utils';
 import { StyleSheet } from 'react-native';
-import { MixedStyleDeclaration } from 'react-native-render-html';
 
 const IMAGE_HEIGHT = HEIGHT * 0.26;
 
@@ -13,7 +11,6 @@ const DATE_BOTTOM = 12;
 const LINE_COLOR = '#FBEEF3';
 const LINE_WIDTH = 2;
 const LINE_BOTTOM = 32;
-const LINE_HEIGHT = 24;
 export const HIT_SLOP = { left: 10, right: 10, bottom: 10, top: 10 };
 
 export const Container = styled.ScrollView`
@@ -49,12 +46,6 @@ export const Image = styled(CustomImage)`
   background-color: ${({ theme }) => theme.colors.image};
 `;
 
-export const ContentImage = styled(CustomImage)`
-  height: ${unit(IMAGE_HEIGHT)};
-  border-radius: ${({ theme }) => theme.borderRadius.$2};
-  background-color: ${({ theme }) => theme.colors.image};
-`;
-
 export const DateText = styled(CustomText)`
   font-size: ${unit(DATE_SIZE)};
   margin-bottom: ${unit(DATE_BOTTOM)};
@@ -67,14 +58,6 @@ export const StyledLine = styled(Line)`
   background-color: ${LINE_COLOR};
   margin-bottom: ${unit(LINE_BOTTOM)};
 `;
-
-export const getParagraphStyle = (theme: Theme): MixedStyleDeclaration => ({
-  textAlign: 'justify',
-  color: theme.colors.secondary,
-  fontSize: theme.fontSize.$5,
-  lineHeight: LINE_HEIGHT,
-  fontWeight: '400',
-});
 
 export const styles = StyleSheet.create({
   list: {

@@ -5,6 +5,7 @@ export interface BlogModel {
   meta: BlogModelMeta;
   title: string;
   image: Image;
+  category: 'BLOG' | 'VESTI';
 }
 
 export interface BlogModelMeta {

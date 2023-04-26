@@ -40,7 +40,7 @@
     "react-native-date-picker": "^4.2.6",
     "react-native-gesture-handler": "^2.7.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
-    "react-native-pager-view": "^6.0.2",
+    "react-native-pager-view": "^6.2.0",
     "react-native-pagination": "^1.5.5",
     "react-native-reanimated": "^2.13.0",
     "react-native-render-html": "^6.3.4",
@@ -48,6 +48,7 @@
     "react-native-screens": "^3.18.2",
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^13.4.0",
+    "react-native-tab-view": "^3.5.1",
     "react-native-wheel-scrollview-picker": "^2.0.1",
     "react-redux": "^8.0.4",
     "redux-persist": "^6.0.0"

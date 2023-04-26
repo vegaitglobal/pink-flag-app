@@ -5,6 +5,7 @@ import { getFeedImages } from './getFeedImages';
 import { Platform } from 'react-native';
 
 const instagramUsername = Config.INSTAGRAM_USERNAME;
+const ONE_DAY = 60 * 60 * 24;
 
 export const instagramApi = rootApi.injectEndpoints({
   endpoints: builder => ({
@@ -15,6 +16,7 @@ export const instagramApi = rootApi.injectEndpoints({
           'User-Agent': `Instagram 0.0.0.0.0 ${Platform.OS === 'ios' ? 'iOS' : 'Android'}`,
         },
       }),
+      keepUnusedDataFor: ONE_DAY,
       transformResponse: (response: InstagramFeedResponse): InstagramFeed => getFeedImages(response),
     }),
   }),

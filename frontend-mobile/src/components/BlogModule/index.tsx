@@ -18,26 +18,26 @@ export const BlogModule: React.FC = () => {
   const theme = useTheme();
   const { navigate } = useNavigation<TypedNavigation>();
   const { data, isLoading } = useGetFeaturedBlogQuery();
-  const blog = useMemo(() => data?.items?.[0], [data?.items]);
-  const date = useMemo(() => getPostDate(blog?.meta?.first_published_at), [blog?.meta?.first_published_at]);
+  const date = useMemo(() => getPostDate(data?.meta?.first_published_at), [data?.meta?.first_published_at]);
   const imageUrl = useMemo(
-    () => ({ uri: `${BASE_URI} + ${blog?.image?.meta?.download_url || EMPTY_STRING}` }),
-    [blog?.image?.meta?.download_url],
+    () => ({ uri: `${BASE_URI}${data?.image?.meta?.download_url || EMPTY_STRING}` }),
+    [data?.image?.meta?.download_url],
   );
+  const category = useMemo(() => (data?.category === 'VESTI' ? 'Vest' : 'Blog'), [data?.category]);
 
   const handleOnPress = useCallback(() => {
-    const blogId = blog?.id;
+    const blogId = data?.id;
     if (blogId === undefined) {
       return;
     }
     navigate(BLOG_DETAILS, { id: blogId });
-  }, [blog?.id, navigate]);
+  }, [data?.id, navigate]);
 
   if (isLoading) {
     return <ActivityIndicator color={theme.colors.primary} />;
   }
 
-  if (!data?.meta.total_count) {
+  if (!data) {
     return null;
   }
 
@@ -46,9 +46,9 @@ export const BlogModule: React.FC = () => {
       <Container style={styles.shadow} onPress={handleOnPress}>
         <Image source={imageUrl} />
         <Content>
-          <Badge content={blog?.meta.type} />
+          <Badge content={category} />
           <DateText content={date} />
-          <Title content={blog?.title} numberOfLines={TEXT_LINES} />
+          <Title content={data?.title} numberOfLines={TEXT_LINES} />
         </Content>
       </Container>
     </Animated.View>

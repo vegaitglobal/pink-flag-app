@@ -1,10 +1,26 @@
-import { BlogModel, BlogDetailsModel, PageableModel } from '@pf/models';
+import { BlogModel, BlogDetailsModel, PageableModel, Response } from '@pf/models';
 import { rootApi } from './rootApi';
 import { EMPTY_STRING } from '@pf/constants';
 
+interface BlogImage {
+  meta: {
+    download_url: string;
+  };
+}
+
+interface BlogParams {
+  page?: number;
+  size?: number;
+  category?: string;
+}
+
+interface RecentBlogParams extends BlogParams {
+  currentBlogId?: number;
+}
+
 export const blogApi = rootApi.injectEndpoints({
   endpoints: builder => ({
-    getAllBlogs: builder.query<PageableModel<BlogModel>, { page?: number; size?: number; category?: string }>({
+    getAllBlogs: builder.query<PageableModel<BlogModel>, BlogParams>({
       query: ({ page, size, category }) => ({
         url: `pages?type=blog.BlogPage&fields=*&order=-first_published_at&format=json`,
         params: {
@@ -14,13 +30,41 @@ export const blogApi = rootApi.injectEndpoints({
         },
       }),
     }),
-    getFeaturedBlog: builder.query<PageableModel<BlogModel>, void>({
+    getFeaturedBlog: builder.query<BlogModel, void>({
       query: () => `pages?type=blog.BlogPage&featured=true&fields=*&order=-first_published_at&format=json`,
+      transformResponse: (response: Response<BlogModel>) => response.items[0],
     }),
     getBlogById: builder.query<BlogDetailsModel, number | undefined>({
       query: id => `pages/${id || EMPTY_STRING}?fields=*&format=json`,
     }),
+
+    getBlogImage: builder.query<BlogImage, number>({
+      query: imageId => `images/${imageId}?fields=*&format=json`,
+    }),
+
+    getRecentBlogs: builder.query<BlogModel[], RecentBlogParams>({
+      query: ({ size, category }) => ({
+        url: `pages?type=blog.BlogPage&fields=*&order=random&format=json`,
+        params: {
+          limit: size,
+          category,
+        },
+      }),
+      transformResponse: (response: Response<BlogModel>, _meta, arg): BlogModel[] => {
+        const idToSkip = arg.currentBlogId;
+        if (idToSkip !== undefined) {
+          return response.items.filter(x => x.id !== idToSkip);
+        }
+        return response.items;
+      },
+    }),
   }),
 });
 
-export const { useGetAllBlogsQuery, useGetFeaturedBlogQuery, useGetBlogByIdQuery } = blogApi;
+export const {
+  useGetAllBlogsQuery,
+  useGetFeaturedBlogQuery,
+  useGetBlogByIdQuery,
+  useGetBlogImageQuery,
+  useGetRecentBlogsQuery,
+} = blogApi;

@@ -5,7 +5,7 @@ import { unit } from '@pf/utils';
 const TITLE_BOTTOM = 12;
 
 export const Container = styled.ImageBackground`
-  min-height: 10%;
+  min-height: 5%;
   overflow: hidden;
   margin-bottom: ${({ theme }) => theme.spacing.$6};
   padding-vertical: ${({ theme }) => theme.spacing.$5};

@@ -6,7 +6,7 @@ import { Container, Image } from './styles';
 import { InstagramFeed } from '@pf/models';
 
 interface Props {
-  images: InstagramFeed;
+  images?: InstagramFeed;
   isLoading?: boolean;
 }
 
