@@ -13,6 +13,12 @@ import { addMonths, subMonths } from 'date-fns';
 import { useLastMenstruationDateUpdate } from './hooks';
 import { Reminders } from './components';
 import { ScrollView } from 'react-native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import Config from 'react-native-config';
+
+GoogleSignin.configure({
+  webClientId: Config.WEB_CLIENT_ID,
+});
 
 const NAVIGATION_DELAY = 500;
 const INITIAL_DATE = new Date();
