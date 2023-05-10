@@ -5,7 +5,7 @@ export interface BlogModel {
   meta: BlogModelMeta;
   title: string;
   image: Image;
-  category: 'BLOG' | 'VESTI';
+  category: BlogType;
 }
 
 export interface BlogModelMeta {
@@ -15,3 +15,5 @@ export interface BlogModelMeta {
   slug: string;
   first_published_at: string;
 }
+
+export type BlogType = 'BLOG' | 'VESTI';

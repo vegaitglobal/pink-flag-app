@@ -1,4 +1,4 @@
-import { BlogModel, BlogDetailsModel, PageableModel, Response } from '@pf/models';
+import { BlogModel, BlogDetailsModel, PageableModel, Response, BlogType } from '@pf/models';
 import { rootApi } from './rootApi';
 import { EMPTY_STRING } from '@pf/constants';
 
@@ -11,7 +11,7 @@ interface BlogImage {
 interface BlogParams {
   page?: number;
   size?: number;
-  category?: string;
+  category?: BlogType;
 }
 
 interface RecentBlogParams extends BlogParams {

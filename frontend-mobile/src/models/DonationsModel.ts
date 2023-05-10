@@ -4,6 +4,7 @@ export type DonationsModel = {
   title: string;
   body: string;
   image: Image;
+  copy_text: string;
 };
 
 export type DonationBannerModel = {

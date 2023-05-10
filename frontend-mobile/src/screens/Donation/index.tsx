@@ -36,10 +36,10 @@ export const DonationScreen: React.FC = () => {
   const handleOnShare = useCallback(async () => {
     try {
       await Share.share({
-        message: 'Podrži Pink Flag svojom donacijom',
+        message: data?.copy_text || EMPTY_STRING,
       });
     } catch {}
-  }, []);
+  }, [data?.copy_text]);
 
   if (isLoading) {
     return (

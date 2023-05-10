@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { BlogSmallModule } from '@pf/components';
 import { BlogNavigatorParams, BlogRoutes } from '@pf/constants';
 import { useNavigation } from '@react-navigation/native';
@@ -19,16 +20,16 @@ interface Props {
 
 export const RecentPosts: React.FC<Props> = ({ category, currentBlogId }) => {
   const theme = useTheme();
-  const { navigate } = useNavigation<TypedNavigation>();
+  const { push } = useNavigation<TypedNavigation>();
   const { data, isLoading } = useGetRecentBlogsQuery({ category, currentBlogId, size: SIZE });
   const onPress = useCallback(
     (id?: number) => {
       if (id === undefined) {
         return;
       }
-      navigate(BLOG_DETAILS, { id });
+      push(BLOG_DETAILS, { id });
     },
-    [navigate],
+    [push],
   );
 
   const Posts = useMemo(() => {
