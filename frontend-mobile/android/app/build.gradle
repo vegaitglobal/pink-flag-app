@@ -213,11 +213,11 @@ android {
     }
     signingConfigs {
          release {
-            if (project.hasProperty('PINK_FLAG_UPLOAD_STORE_FILE')) {
-                storeFile file(PINK_FLAG_UPLOAD_STORE_FILE)
-                storePassword PINK_FLAG_UPLOAD_STORE_PASSWORD
-                keyAlias PINK_FLAG_UPLOAD_KEY_ALIAS
-                keyPassword PINK_FLAG_UPLOAD_KEY_PASSWORD
+            if (project.hasProperty('PINK_FLAG_APP_UPLOAD_STORE_FILE')) {
+                storeFile file(PINK_FLAG_APP_UPLOAD_STORE_FILE)
+                storePassword PINK_FLAG_APP_UPLOAD_STORE_PASSWORD
+                keyAlias PINK_FLAG_APP_UPLOAD_KEY_ALIAS
+                keyPassword PINK_FLAG_APP_UPLOAD_KEY_PASSWORD
             }
         }
 
