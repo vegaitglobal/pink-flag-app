@@ -36,10 +36,10 @@ export const DonationScreen: React.FC = () => {
   const handleOnShare = useCallback(async () => {
     try {
       await Share.share({
-        message: 'Podrži Pink Flag svojom donacijom',
+        message: data?.copy_text || EMPTY_STRING,
       });
     } catch {}
-  }, []);
+  }, [data?.copy_text]);
 
   if (isLoading) {
     return (
@@ -54,7 +54,7 @@ export const DonationScreen: React.FC = () => {
       <Container showsVerticalScrollIndicator={false} contentContainerStyle={listStyle}>
         <Content missingData={hasData}>
           <Title content={data?.title} />
-          {uri && <Image source={imageSource} />}
+          {uri && <Image url={imageSource} />}
           {hasData && <RenderHTML contentWidth={CONTENT_WIDTH} source={content} />}
           {hasData && (
             <ShareButton hitSlop={HIT_SLOP} onPress={handleOnShare}>

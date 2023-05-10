@@ -1,6 +1,7 @@
 import styled from '@emotion/native';
 import { WIDTH } from '@pf/constants';
 import { unit } from '@pf/utils';
+import { CustomImage } from '@pf/components';
 
 const PADDING = 40;
 const SPACING = 10;
@@ -13,7 +14,7 @@ export const Container = styled.View`
   flex-direction: row;
 `;
 
-export const Image = styled.Image<{ hasSpacing?: boolean }>`
+export const Image = styled(CustomImage)<{ hasSpacing?: boolean }>`
   width: ${unit(IMAGE_SIZE)};
   height: ${unit(IMAGE_SIZE)};
   margin-bottom: ${unit(SPACING)};

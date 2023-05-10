@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import { CustomText } from '@pf/components';
+import { CustomImage, CustomText } from '@pf/components';
 import { HEIGHT } from '@pf/constants';
 import { unit } from '@pf/utils';
 import { StyleSheet } from 'react-native';
@@ -56,11 +56,11 @@ export const ShareText = styled(CustomText)`
   font-weight: ${({ theme }) => theme.fontWeight.$400};
 `;
 
-export const Image = styled.Image`
+export const Image = styled(CustomImage)`
   height: ${unit(IMAGE_HEIGHT)};
+  background-color: transparent;
   margin-bottom: ${unit(IMAGE_BOTTOM)};
   border-radius: ${({ theme }) => theme.borderRadius.$2};
-  background-color: ${({ theme }) => theme.colors.image};
 `;
 
 export const styles = StyleSheet.create({

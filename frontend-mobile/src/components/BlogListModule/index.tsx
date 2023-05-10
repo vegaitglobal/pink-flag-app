@@ -1,99 +1,84 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, { useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
-import { BlogSmallModule, Pagination } from '@pf/components';
-import { CustomText } from '../CustomText';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { BlogNavigatorParams } from '@pf/constants';
-import { useGetAllBlogsQuery } from '@pf/services';
-import { useTheme } from '@emotion/react';
-import { BASE_URI } from '../../services/rootApi';
+import React, { useCallback, useRef, useState } from 'react';
+import { Blogs, TabBar, News } from './components';
+import { Container, Indicator, IndicatorContainer } from './styles';
+import { IS_IOS, WIDTH } from '@pf/constants';
+import Animated, {
+  interpolate,
+  runOnJS,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+
+const TAB_DELAY = 400;
+const RIGHT_SPACING = 20;
+const DECELERATION_RATE = IS_IOS ? 0 : 'normal';
 
 export const BlogListModule: React.FC = () => {
-  const theme = useTheme();
-  const [activeTag, setActiveTag] = useState('blog');
-  const [activePage, setActivePage] = useState(0);
-  const { navigate } = useNavigation<StackNavigationProp<BlogNavigatorParams>>();
-  const { data, isLoading } = useGetAllBlogsQuery({ page: activePage, size: 5, category: activeTag.toUpperCase() });
+  const listRef = useRef<Animated.ScrollView>(null);
+  const [activeTab, setActiveTab] = useState(0);
+  const translateX = useSharedValue(0);
+  const isTabPressed = useRef(false);
 
-  const nextPage = (): void => {
-    if (data && activePage + 1 < Math.ceil(data.meta.total_count / 5)) {
-      setActivePage(activePage + 1);
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    const x = event.contentOffset.x;
+    translateX.value = x;
+    if (activeTab !== 2 && !isTabPressed.current) {
+      runOnJS(setActiveTab)(2);
     }
-  };
+  });
 
-  const previousPage = (): void => {
-    if (data && activePage + 1 > 1) {
-      setActivePage(activePage - 1);
-    }
-  };
+  const handleOnScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (isTabPressed.current) {
+        return;
+      }
+
+      const x = event.nativeEvent.contentOffset.x;
+      const indexOfNextSlide = Math.floor(x / WIDTH);
+      const isDifferentSlide = indexOfNextSlide !== activeTab;
+      const isValidSlide = indexOfNextSlide >= 0;
+      if (isDifferentSlide && isValidSlide) {
+        runOnJS(setActiveTab)(indexOfNextSlide);
+      }
+    },
+    [activeTab],
+  );
+
+  const onTabPress = useCallback((index: number) => {
+    isTabPressed.current = true;
+    listRef.current?.scrollTo({ x: index * WIDTH, animated: true });
+    setActiveTab(index);
+    setTimeout(() => (isTabPressed.current = false), TAB_DELAY);
+  }, []);
+
+  const indicatorStyle = useAnimatedStyle(() => {
+    const translateXValue = interpolate(translateX.value, [-WIDTH, 0, WIDTH], [-WIDTH, 0, WIDTH / 2 - RIGHT_SPACING]);
+    return {
+      transform: [{ translateX: translateXValue }],
+    };
+  });
 
   return (
-    <>
-      <View style={styles.blogListContainer}>
-        <Pressable
-          style={{ ...styles.pressable, borderColor: activeTag == 'blog' ? theme.colors.primary : 'white' }}
-          onPress={() => setActiveTag('blog')}>
-          <CustomText style={{ ...styles.buttonText, fontWeight: activeTag == 'blog' ? 'bold' : 'normal' }}>
-            Blog
-          </CustomText>
-        </Pressable>
-        <Pressable
-          style={{ ...styles.pressable, borderColor: activeTag == 'vesti' ? theme.colors.primary : 'white' }}
-          onPress={() => setActiveTag('vesti')}>
-          <CustomText style={{ ...styles.buttonText, fontWeight: activeTag == 'vesti' ? 'bold' : 'normal' }}>
-            Vesti
-          </CustomText>
-        </Pressable>
-      </View>
-      {isLoading ? (
-        <View>
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-        </View>
-      ) : (
-        <>
-          {data &&
-            data?.items.map((item, index) => (
-              <Pressable key={index} onPress={() => navigate('blog_details', { id: item.id })}>
-                <BlogSmallModule
-                  date={item.meta.first_published_at}
-                  title={item.title ?? ''}
-                  image={BASE_URI + item.image?.meta?.download_url}
-                />
-              </Pressable>
-            ))}
-
-          {data && (
-            <Pagination
-              activePage={activePage + 1}
-              total={Math.ceil(data?.meta.total_count / 5) ?? 0}
-              next={nextPage}
-              previous={previousPage}></Pagination>
-          )}
-          {data === undefined && (
-            <CustomText style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>Nema rezultata.</CustomText>
-          )}
-        </>
-      )}
-    </>
+    <Container>
+      <TabBar activeIndex={activeTab} onPress={onTabPress} />
+      <IndicatorContainer>
+        <Indicator style={indicatorStyle} />
+      </IndicatorContainer>
+      <Animated.ScrollView
+        horizontal
+        ref={listRef}
+        pagingEnabled
+        snapToInterval={WIDTH}
+        scrollEventThrottle={16}
+        onScroll={scrollHandler}
+        decelerationRate={DECELERATION_RATE}
+        onMomentumScrollEnd={handleOnScrollEnd}
+        showsHorizontalScrollIndicator={false}>
+        <Blogs />
+        <News />
+      </Animated.ScrollView>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  blogListContainer: {
-    flexDirection: 'row',
-    padding: 20,
-    width: '100%',
-  },
-  pressable: {
-    flex: 1,
-    borderBottomWidth: 3,
-  },
-  buttonText: {
-    width: '100%',
-    textAlign: 'center',
-    paddingBottom: 8,
-  },
-});

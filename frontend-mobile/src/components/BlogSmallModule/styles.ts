@@ -7,7 +7,7 @@ import { CustomText } from '../CustomText';
 const PADDING = 16;
 const HEIGHT = 118;
 const CONTENT_LEFT = 16;
-const BOTTOM_SPACING = 16;
+const BOTTOM_SPACING = 12;
 
 export const Container = styled.TouchableOpacity`
   flex-direction: row;

@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import { CustomText, Line } from '@pf/components';
+import { CustomImage, CustomText, Line } from '@pf/components';
 import { HEIGHT } from '@pf/constants';
 import { unit } from '@pf/utils';
 import { StyleSheet } from 'react-native';
@@ -39,7 +39,7 @@ export const Title = styled(CustomText)`
   font-weight: ${({ theme }) => theme.fontWeight.$700};
 `;
 
-export const Image = styled.Image`
+export const Image = styled(CustomImage)`
   height: ${unit(IMAGE_HEIGHT)};
   margin-bottom: ${({ theme }) => theme.spacing.$4};
   border-radius: ${({ theme }) => theme.borderRadius.$2};

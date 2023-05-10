@@ -13,3 +13,5 @@ export type InstagramFeedResponse = {
     };
   };
 };
+
+export type InstagramFeed = { thumbnail: string }[];

@@ -9,7 +9,7 @@ const IMAGE_HEIGHT = HEIGHT * 0.23;
 const CONTENT_SPACING = 16;
 
 export const Container = styled.TouchableOpacity`
-  margin-bottom: ${({ theme }) => theme.spacing.$7};
+  margin-bottom: ${({ theme }) => theme.spacing.$4};
   margin-horizontal: ${({ theme }) => theme.spacing.$1};
   border-radius: ${({ theme }) => theme.borderRadius.$2};
 `;

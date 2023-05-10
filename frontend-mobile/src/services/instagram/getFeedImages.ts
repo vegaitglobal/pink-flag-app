@@ -1,5 +1,4 @@
-import { InstagramFeedResponse } from '@pf/models';
-import { InstagramFeed } from './types';
+import { InstagramFeed, InstagramFeedResponse } from '@pf/models';
 
 const IMAGE_COUNT = 9;
 

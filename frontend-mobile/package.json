@@ -40,7 +40,7 @@
     "react-native-date-picker": "^4.2.6",
     "react-native-gesture-handler": "^2.7.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
-    "react-native-pager-view": "^6.0.2",
+    "react-native-pager-view": "^6.2.0",
     "react-native-pagination": "^1.5.5",
     "react-native-reanimated": "^2.13.0",
     "react-native-render-html": "^6.3.4",

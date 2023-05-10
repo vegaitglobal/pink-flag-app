@@ -308,7 +308,7 @@ PODS:
     - React-Core
   - react-native-date-picker (4.2.6):
     - React-Core
-  - react-native-pager-view (6.0.2):
+  - react-native-pager-view (6.2.0):
     - React-Core
   - react-native-render-html (6.3.4):
     - React-Core
@@ -659,7 +659,7 @@ SPEC CHECKSUMS:
   React-logger: fdda34dd285bdb0232e059b19d9606fa0ec3bb9c
   react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-date-picker: 93e43b3084cea595b4d68b1405d6d99849663bd6
-  react-native-pager-view: 592421df0259bf7a7a4fe85b74c24f3f39905605
+  react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457

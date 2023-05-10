@@ -15,7 +15,7 @@ export const HomeScreen: React.FC = () => {
       style={inlineStyles.scrollView}
       contentContainerStyle={inlineStyles.content}>
       <Intro />
-      <HomeCalendar title="Moj Kalendar" subtitle="Započni praćenje svog menstrualnog ciklusa!" />
+      <HomeCalendar />
       <HomeNews />
       <StyledDonateBanner />
       <InstagramFeed />

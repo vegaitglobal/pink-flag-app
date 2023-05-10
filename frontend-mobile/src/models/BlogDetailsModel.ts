@@ -6,7 +6,7 @@ export interface BlogDetailsModel {
   meta: BlogDetailsModelMeta;
   title: string;
   body: Body[];
-  category: string;
+  category: 'VESTI' | 'BLOG';
   image: Image;
 }
 

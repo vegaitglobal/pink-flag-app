@@ -1,43 +1,60 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Linking, TouchableOpacity } from 'react-native';
 import Config from 'react-native-config';
 import { Container, Image } from './styles';
-import { useLazyGetInstagramFeedQuery } from '@pf/services';
+import { InstagramFeed } from '@pf/models';
 
-export const FeedImages: React.FC = () => {
-  const [getFeedImages, { data }] = useLazyGetInstagramFeedQuery();
+interface Props {
+  images?: InstagramFeed;
+  isLoading?: boolean;
+}
 
+export const FeedImages: React.FC<Props> = ({ images, isLoading }) => {
   const handleOnPress = useCallback(() => {
     if (Config.INSTAGRAM_URL) {
       Linking.openURL(Config.INSTAGRAM_URL);
     }
   }, []);
 
-  useEffect(() => {
-    getFeedImages();
-  }, [getFeedImages]);
-
   const Images = useMemo(() => {
-    return data?.map((image, index) => {
+    return images?.map((image, index) => {
       if ([2, 5, 8].includes(index)) {
         return (
           <TouchableOpacity onPress={handleOnPress} key={index}>
-            <Image source={{ uri: image.thumbnail }} />
+            <Image url={{ uri: image.thumbnail }} />
           </TouchableOpacity>
         );
       }
 
       return (
         <TouchableOpacity onPress={handleOnPress} key={index}>
-          <Image source={{ uri: image.thumbnail }} hasSpacing />
+          <Image url={{ uri: image.thumbnail }} hasSpacing />
         </TouchableOpacity>
       );
     });
-  }, [handleOnPress, data]);
+  }, [images, handleOnPress]);
 
-  if (!data) {
-    return null;
+  const LoadingImages = useMemo(() => {
+    return [...Array.from({ length: 9 })].map((_, index) => {
+      if ([2, 5, 8].includes(index)) {
+        return (
+          <TouchableOpacity onPress={handleOnPress} key={index}>
+            <Image />
+          </TouchableOpacity>
+        );
+      }
+
+      return (
+        <TouchableOpacity onPress={handleOnPress} key={index}>
+          <Image hasSpacing />
+        </TouchableOpacity>
+      );
+    });
+  }, [handleOnPress]);
+
+  if (isLoading) {
+    return <Container>{LoadingImages}</Container>;
   }
 
   return <Container>{Images}</Container>;
