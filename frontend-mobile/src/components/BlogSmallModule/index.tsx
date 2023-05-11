@@ -2,6 +2,8 @@ import React, { useCallback, useMemo } from 'react';
 import { Container, Content, DateText, Image, styles, Title } from './styles';
 import { BlogModel } from '@pf/models';
 import { getPostDate } from '@pf/utils';
+import { BASE_URI } from '@pf/services';
+import { EMPTY_STRING } from '@pf/constants';
 
 const TEXT_LINES = 3;
 
@@ -12,11 +14,9 @@ export interface BlogSmallModuleProps {
 
 export const BlogSmallModule: React.FC<BlogSmallModuleProps> = ({ blog, onPress }) => {
   const date = useMemo(() => getPostDate(blog?.meta?.first_published_at), [blog?.meta?.first_published_at]);
-  const source = useMemo(
-    () => ({
-      uri: blog?.image?.meta?.detail_url,
-    }),
-    [blog?.image?.meta?.detail_url],
+  const imageSource = useMemo(
+    () => ({ uri: `${BASE_URI}${blog?.image?.meta?.download_url || EMPTY_STRING}` }),
+    [blog?.image?.meta.download_url],
   );
   const handleOnPress = useCallback(() => {
     onPress?.(blog?.id);
@@ -28,7 +28,7 @@ export const BlogSmallModule: React.FC<BlogSmallModuleProps> = ({ blog, onPress 
 
   return (
     <Container style={styles.shadow} onPress={handleOnPress}>
-      <Image source={source} resizeMode="cover" />
+      <Image source={imageSource} resizeMode="cover" />
       <Content>
         <Title content={blog?.title} numberOfLines={TEXT_LINES} />
         <DateText content={date} />

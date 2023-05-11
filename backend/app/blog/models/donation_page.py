@@ -18,13 +18,16 @@ class DonationPage(Page):
     )
 
     body = RichTextField(features=['bold', 'italic', 'link', 'ul'])
+    copy_text = models.CharField(max_length=250, null=True, blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('image'),
         FieldPanel('body'),
+        FieldPanel('copy_text'),
     ]
 
     api_fields = [
         APIField('body'),
         APIField('image'),
+        APIField('copy_text'),
     ]

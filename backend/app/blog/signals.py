@@ -14,11 +14,12 @@ cred = credentials.Certificate(firebase_key)
 firebase_admin.initialize_app(credential=cred)
 
 
-def send_notification(title: str, msg: str):
+def send_notification(title: str, msg: str, data: dict):
     logging.info(f'send notification - title: {title}; msg: {msg}')
     topic = '/topics/posts'
     message = messaging.Message(
         topic=topic,
+        data=data,
         notification=Notification(
             title=title,
             body=msg,
@@ -33,7 +34,7 @@ def on_page_publish_receiver(sender, **kwargs):
     latest_revision_created_at =  instance.latest_revision_created_at.replace(microsecond=0)
     first_published_at = instance.first_published_at.replace(microsecond=0)
     if latest_revision_created_at == first_published_at:
-        send_notification(instance.category, instance.title)
+        send_notification(instance.category, instance.title, {"id": str(instance.id)})
 
 def remove_featured_flag(sender, **kwargs):
     instance = kwargs['instance']

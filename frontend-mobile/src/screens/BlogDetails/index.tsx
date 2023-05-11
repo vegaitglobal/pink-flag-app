@@ -1,29 +1,31 @@
-import { useTheme } from '@emotion/react';
 import { Badge, DonateBanner, Footer } from '@pf/components';
-import { BlogRoutes, EMPTY_STRING, WIDTH } from '@pf/constants';
-import { BASE_URI, useGetBlogByIdQuery } from '@pf/services';
-import { getPostDate } from '@pf/utils';
+import { BlogNavigatorScreenProps, BlogRoutes } from '@pf/constants';
 import React, { useMemo } from 'react';
 import { ActivityIndicator } from 'react-native';
-import RenderHTML from 'react-native-render-html';
-import { HomeScreenProps } from 'src/navigation/HomeNavigator';
-import { RecentPosts } from './components';
-import { Container, Content, DateText, Image, LoadingContainer, StyledLine, styles, Title } from './styles';
-
-const PADDING = 40;
-const CONTENT_WIDTH = WIDTH - PADDING;
+import { BlogImage, Paragraph, RecentPosts } from './components';
+import { Container, Content, DateText, Image, LoadingContainer, StyledLine, Title } from './styles';
+import { useData } from './useData';
+import { useTheme } from '@emotion/react';
 
 const { BLOG_DETAILS } = BlogRoutes;
+type Props = BlogNavigatorScreenProps<typeof BLOG_DETAILS>;
 
-export const BlogDetailsScreen: React.FC<HomeScreenProps<typeof BLOG_DETAILS>> = ({ route }) => {
+export const BlogDetailsScreen: React.FC<Props> = ({ route }) => {
   const theme = useTheme();
-  const { data, isLoading } = useGetBlogByIdQuery(route?.params?.id);
-  const date = useMemo(() => getPostDate(data?.meta?.first_published_at), [data?.meta?.first_published_at]);
-  const hasData = !!data;
-  const listStyle = hasData ? undefined : styles.list;
-  const imageUri = useMemo(
-    () => ({ uri: BASE_URI + (data?.image?.meta?.download_url ?? EMPTY_STRING) }),
-    [data?.image?.meta?.download_url],
+  const { data, date, category, imageUri, isLoading, listStyle } = useData(route.params?.id);
+
+  const content = useMemo(
+    () =>
+      data?.body.map((element, index) => {
+        if (element.type === 'paragraph') {
+          return <Paragraph key={`paragraph_${index}`} content={element.value as string} />;
+        }
+
+        if (element.type === 'image') {
+          return <BlogImage key={`image_${index}`} imageId={element.value as number} />;
+        }
+      }),
+    [data?.body],
   );
 
   if (isLoading) {
@@ -36,43 +38,17 @@ export const BlogDetailsScreen: React.FC<HomeScreenProps<typeof BLOG_DETAILS>> =
 
   return (
     <Container showsVerticalScrollIndicator={false} contentContainerStyle={listStyle}>
-      <Content missingData={hasData}>
-        {data?.meta?.type && <Badge content={data?.meta?.type} />}
+      <Content missingData={!!data}>
+        {data?.category && <Badge content={category} />}
         {date && <DateText content={date} />}
         {data?.title && <Title content={data?.title} />}
-        {data?.image?.meta?.download_url && <Image source={imageUri} />}
-        <RenderHTML contentWidth={CONTENT_WIDTH} source={{ html: `<div/>` }} />
+        {data?.image?.meta?.download_url && <Image url={imageUri} />}
+        {content}
         <StyledLine />
-        <RecentPosts />
+        <RecentPosts currentBlogId={data?.id} category={data?.category || 'BLOG'} />
         <DonateBanner />
       </Content>
       <Footer />
     </Container>
   );
 };
-
-//     {data.body.map((bodyItem, index) => {
-//       if (bodyItem.type == 'paragraph') {
-//         return (
-//           <RenderHtml
-//             key={index}
-//             baseStyle={{ color: 'black' }}
-//             contentWidth={width}
-//             source={{ html: bodyItem.value }}
-//           />
-//         );
-//       }
-//       if (bodyItem.type == 'image' && bodyItem.value && bodyItem.value.length > 10) {
-//         return (
-//           <Image
-//             key={index}
-//             style={styles.cardImage}
-//             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-//             source={{ uri: BASE_URI + String(bodyItem.value) }}
-//           />
-//         );
-//       }
-//       return null;
-//     })}
-//   </View>
-// )}

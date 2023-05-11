@@ -5,6 +5,7 @@ import { unit } from '@pf/utils';
 const TITLE_BOTTOM = 12;
 
 export const Container = styled.ImageBackground`
+  min-height: 10%;
   overflow: hidden;
   padding-top: ${({ theme }) => theme.spacing.$5};
   margin-bottom: ${({ theme }) => theme.spacing.$8};
@@ -27,4 +28,14 @@ export const Description = styled(CustomText)`
   margin-bottom: ${({ theme }) => theme.spacing.$2};
   line-height: ${({ theme }) => theme.lineHeight.$4};
   font-weight: ${({ theme }) => theme.fontWeight.$400};
+`;
+
+export const Loader = styled.View`
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
 `;

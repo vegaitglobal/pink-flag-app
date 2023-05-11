@@ -1,6 +1,6 @@
 export interface Body {
-  type: string;
-  value: string;
+  type: 'paragraph' | 'image';
+  value: string | number;
   id: string;
 }
 

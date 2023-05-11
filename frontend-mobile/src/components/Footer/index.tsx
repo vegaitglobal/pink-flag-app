@@ -17,11 +17,20 @@ import { FacebookSvg, InstagramSvg, LinkTreeSvg, MailSvg, TikTokSvg, TwitterSvg,
 import Config from 'react-native-config';
 import { Linking, View } from 'react-native';
 import { getAddressScheme } from './getAddressScheme';
+import { useGetFooterQuery } from '@pf/services';
+import { EMPTY_STRING } from '@pf/constants';
 
 const CURRENT_YEAR = new Date().getFullYear();
 const HIT_SLOP = { top: 2, left: 10, right: 10, bottom: 10 };
 
 export const Footer: React.FC = ({ ...props }) => {
+  const { data } = useGetFooterQuery();
+  const address = data?.location || Config.ADDRESS;
+  const email = data?.email || Config.EMAIL;
+  const instagramUrl = data?.instagram_profile_url || Config.INSTAGRAM_URL;
+  const facebookUrl = data?.facebook_profile_url || Config.FACEBOOK_URL;
+  const copyRight = data?.copyright || `© ${CURRENT_YEAR} ${Config.APP_NAME || EMPTY_STRING}. All rights reserved.`;
+
   const handleOnLocationPress = useCallback(() => {
     const addressScheme = getAddressScheme();
 
@@ -41,12 +50,12 @@ export const Footer: React.FC = ({ ...props }) => {
   return (
     <View {...props}>
       <Container resizeMode="stretch" source={BackgroundImage}>
-        <Title content="Kontakt" />
+        <Title content={data?.title || 'Kontakt'} />
         <IconsArea>
-          <StyledLink url={Config.INSTAGRAM_URL} hitSlop={HIT_SLOP}>
+          <StyledLink url={instagramUrl} hitSlop={HIT_SLOP}>
             <InstagramSvg />
           </StyledLink>
-          <StyledLink url={Config.FACEBOOK_URL}>
+          <StyledLink url={facebookUrl}>
             <FacebookSvg />
           </StyledLink>
           <StyledLink url={Config.TWITTER_URL}>
@@ -62,20 +71,20 @@ export const Footer: React.FC = ({ ...props }) => {
             <LinkTreeSvg />
           </StyledLink>
         </IconsArea>
-        {Config.EMAIL && (
+        {email && (
           <DetailRow onPress={handleOnMailPress}>
             <MailSvg />
-            <Detail content={Config.EMAIL} />
+            <Detail content={email} />
           </DetailRow>
         )}
-        {Config.ADDRESS && (
+        {address && (
           <DetailRow onPress={handleOnLocationPress}>
             <StyledLocationSvg />
-            <Detail content={Config.ADDRESS} />
+            <Detail content={address} />
           </DetailRow>
         )}
         <StyledLine />
-        <Copyright content={`© ${CURRENT_YEAR} ${Config.APP_NAME || ''}. All rights reserved.`} />
+        <Copyright content={copyRight} />
       </Container>
       <Spacing />
     </View>

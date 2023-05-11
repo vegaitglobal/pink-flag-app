@@ -6,3 +6,6 @@ export * from './FooterModel';
 export * from './DonationsModel';
 export * from './DonationsModuleModel';
 export * from './Shared';
+export * from './api';
+export * from './AboutUsModel';
+export * from './CalendarModels';

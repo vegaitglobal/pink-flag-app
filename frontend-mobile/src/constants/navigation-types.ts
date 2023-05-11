@@ -51,3 +51,8 @@ export type RootNavigatorScreenProps<Screen extends keyof RootNavigatorParams> =
   RootNavigatorParams,
   Screen
 >;
+
+export type BlogNavigatorScreenProps<Screen extends keyof BlogNavigatorParams> = NativeStackScreenProps<
+  BlogNavigatorParams,
+  Screen
+>;
