@@ -1,26 +1,46 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { ModalHeader as Header } from '@pf/components';
 import { Container, Content, StyledPrimaryButton, Title } from './styles';
 import { NotificationInput } from './components';
 import { useNavigation } from '@react-navigation/native';
-import { useAppDispatch } from '@pf/hooks';
-import { setBlogNotificationState } from '@pf/reducers/settingsReducer';
+import { useAppDispatch, useAppSelector } from '@pf/hooks';
+import { selectAreBlogNotificationsEnabled, setBlogNotificationState } from '@pf/reducers/settingsReducer';
+import messaging from '@react-native-firebase/messaging';
+import { POSTS_TOPIC } from '@pf/constants';
 
+const unsubscribeFromBlogTopic = async (): Promise<void> => {
+  await messaging().unsubscribeFromTopic(POSTS_TOPIC);
+};
+
+const subscribeToBlogTopic = async (): Promise<void> => {
+  await messaging().subscribeToTopic(POSTS_TOPIC);
+};
 export const GeneralSettingsScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const switchState = useRef<boolean | undefined>(undefined);
+  const [switchState, setSwitchState] = useState<boolean | undefined>(undefined);
+  const areBlogNotificationEnabled = useAppSelector(selectAreBlogNotificationsEnabled);
 
   const handleOnChange = useCallback((newValue: boolean) => {
-    switchState.current = newValue;
+    setSwitchState(newValue);
   }, []);
 
   const handleOnSave = useCallback(() => {
-    if (switchState.current !== undefined) {
-      dispatch(setBlogNotificationState(switchState.current));
+    if (switchState !== undefined) {
+      dispatch(setBlogNotificationState(switchState));
+      if (switchState) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        subscribeToBlogTopic();
+        navigation.goBack();
+        return;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      unsubscribeFromBlogTopic();
     }
     navigation.goBack();
-  }, [dispatch, navigation]);
+  }, [dispatch, navigation, switchState]);
+
+  const isButtonDisabled = switchState === undefined || switchState === areBlogNotificationEnabled;
 
   return (
     <Container>
@@ -28,7 +48,7 @@ export const GeneralSettingsScreen: React.FC = () => {
       <Title content="Podešavanja" />
       <Content>
         <NotificationInput onChange={handleOnChange} />
-        <StyledPrimaryButton content="Sačuvaj izmene" onPress={handleOnSave} />
+        <StyledPrimaryButton disabled={isButtonDisabled} content="Sačuvaj izmene" onPress={handleOnSave} />
       </Content>
     </Container>
   );

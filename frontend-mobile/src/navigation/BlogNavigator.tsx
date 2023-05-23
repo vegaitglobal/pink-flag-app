@@ -18,7 +18,7 @@ export interface BlogScreenProps<Screen extends keyof BlogNavigatorParams> {
 
 const BlogNavigator: React.FC = (props: Partial<StackNavigatorProps>) => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }} {...props}>
+    <Stack.Navigator screenOptions={{ headerShown: true }} {...props} initialRouteName={BLOG}>
       <Stack.Screen
         name={BLOG}
         component={BlogScreen}
