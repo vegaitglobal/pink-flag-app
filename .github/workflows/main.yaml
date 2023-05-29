@@ -46,4 +46,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: docker-compose -f ./Projects/pink-flag-app/backend/docker-compose.pink-flag.yaml up -d --pull=always --force-recreate
+          script: docker-compose -f ./Projects/pink-flag-app/backend/docker-compose.pink-flag.yaml up -d --force-recreate
