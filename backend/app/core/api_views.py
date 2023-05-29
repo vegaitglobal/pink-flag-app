@@ -17,7 +17,7 @@ class ConsumerViewSet(
 ):
     queryset = Consumer.objects.all()
     serializer_class = ConsumerSerializer
-    permission_classes = []
+    permission_classes = [AllowAny]
     authentication_classes = []
 
     def get_object(self):
