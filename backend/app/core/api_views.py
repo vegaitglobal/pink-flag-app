@@ -28,3 +28,9 @@ class ConsumerViewSet(
         if a:
             return o
         raise Http404
+
+    def check_permissions(self, request):
+        pass
+
+    def check_object_permissions(self, request, obj):
+        pass
