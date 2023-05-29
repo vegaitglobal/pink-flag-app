@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - pink-flag-app:/app
+      - pink-flag-app:/app/media
     environment:
       DB_NAME: "db"
       DB_USER: "#{DB_USERNAME}#"
