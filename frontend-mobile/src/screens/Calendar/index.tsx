@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CalendarExplanation, Footer, UserGreeting } from '@pf/components';
 import { Container, Content, ExplanationWrapper, getStyles, StyledPinkFlagCalendar } from './styles';

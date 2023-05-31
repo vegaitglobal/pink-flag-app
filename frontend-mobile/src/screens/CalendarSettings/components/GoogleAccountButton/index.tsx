@@ -1,44 +1,57 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { GoogleSvg } from '@pf/assets';
+import { ArrowDownSvg, GoogleSvg } from '@pf/assets';
 import React, { useCallback } from 'react';
-import { Avatar, Container, ContentArea, LeftArea, RightArea, Subtitle, Title } from './styles';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { objectLog } from '@pf/utils';
+import {
+  Avatar,
+  Container,
+  ContentArea,
+  LeftArea,
+  RightArea,
+  Row,
+  StyledGoogleLoginButton,
+  Subtitle,
+  Title,
+} from './styles';
+import { useAppDispatch, useAppSelector } from '@pf/hooks';
+import { clearUser, selectUser } from '@pf/reducers/userReducer';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { EMPTY_STRING, RootNavigatorParams, RootRoutes } from '@pf/constants';
+import { useNavigation } from '@react-navigation/native';
 
 const GOOGLE_ICON_SIZE = 24;
+const { CALENDAR_ONBOARDING } = RootRoutes;
 
 export const GoogleAccountButton: React.FC = () => {
-  const signIn = useCallback(async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      objectLog('userInfo', userInfo);
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('canceled');
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log('inProgress');
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('noPlayService');
-        // play services not available or outdated
-      } else {
-        console.log('else', error);
+  const dispatch = useAppDispatch();
+  const { navigate, goBack } = useNavigation<NativeStackNavigationProp<RootNavigatorParams>>();
+  const { email, name, photo, id } = useAppSelector(selectUser);
 
-        // some other error happened
-      }
-    }
-  }, []);
+  const beforeLogin = useCallback(() => {
+    dispatch(clearUser());
+  }, [dispatch]);
+
+  const afterLogin = useCallback(() => {
+    //! check if contains data on backend.
+    //! If does, return;
+    goBack();
+    navigate(CALENDAR_ONBOARDING, { skipFirstPage: true });
+  }, [goBack, navigate]);
+
+  if (!id) {
+    return <StyledGoogleLoginButton beforeLogin={beforeLogin} onLogin={afterLogin} />;
+  }
 
   return (
-    <Container onPress={signIn}>
+    <Container>
       <LeftArea>
-        <Avatar />
+        <Avatar source={{ uri: photo }} />
       </LeftArea>
       <ContentArea>
-        <Title content="Sign in as Milica" />
-        <Subtitle content="m.petrovic@gmail.com" />
+        <Title content={`Prijavljena kao ${name || EMPTY_STRING}`} />
+        <Row>
+          <Subtitle content={email} />
+          <ArrowDownSvg />
+        </Row>
       </ContentArea>
       <RightArea>
         <GoogleSvg height={GOOGLE_ICON_SIZE} width={GOOGLE_ICON_SIZE} />

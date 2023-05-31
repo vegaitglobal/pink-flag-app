@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { PERIOD_7 } from './../constants';
 import { addDays, isAfter, subDays } from 'date-fns';
 import { createTriggerNotification } from './createTriggerNotification';

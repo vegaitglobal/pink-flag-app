@@ -8,6 +8,7 @@ export interface BlogDetailsModel {
   body: Body[];
   category: 'VESTI' | 'BLOG';
   image: Image;
+  author?: string;
 }
 
 export interface BlogDetailsModelMeta {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { addDays, isAfter } from 'date-fns';
 import { OVULATION_0 } from '../constants';
 import { createTriggerNotification } from './createTriggerNotification';
