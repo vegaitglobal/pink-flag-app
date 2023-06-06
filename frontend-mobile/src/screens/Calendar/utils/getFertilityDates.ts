@@ -1,7 +1,7 @@
 import { MarkedDates } from 'react-native-calendars/src/types';
 import { getDateRange } from './getDateRange';
 import { CalendarMarkerStyles } from '@pf/components';
-import { FERTILITY_DAYS, FERTILITY_MIDDLE, getFertilityStartDate } from './getFertilityStartDate';
+import { FERTILITY_DAYS, OVULATION_DAY, getFertilityStartDate } from './getFertilityStartDate';
 import { isToday } from 'date-fns';
 import { addTodayMarker } from './addTodayMarker';
 
@@ -13,7 +13,7 @@ export const getFertilityDates = (menstruationStartDate: string, cycleLength: nu
   const dates = getDateRange(startDate, FERTILITY_DAYS);
 
   return dates.reduce((result, date, index) => {
-    const isOvulation = index === FERTILITY_MIDDLE;
+    const isOvulation = index === OVULATION_DAY;
     let marker = isOvulation ? OvulationMarker : FertilityMarker;
 
     if (isToday(new Date(date))) {

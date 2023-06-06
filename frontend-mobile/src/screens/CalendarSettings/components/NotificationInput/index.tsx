@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { CustomSwitch, CustomSwitchRef } from '@pf/components';
 import { useAppSelector } from '@pf/hooks';
 import { selectAreCalendarNotificationsEnabled } from '@pf/reducers/settingsReducer';

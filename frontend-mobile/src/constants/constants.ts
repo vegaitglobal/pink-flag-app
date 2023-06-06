@@ -14,7 +14,7 @@ export const EMPTY_ARRAY = [];
 export const resetAction = createAction('reset');
 export const TODAY = new Date();
 export const ANDROID_CALENDAR_NOTIFICATION_CHANNEL = 'kalendar-notifikacije';
-export const ANDROID_BLOG_NOTIFICIATION_CHANNEL = 'blog-notifikacije';
+export const ANDROID_BLOG_NOTIFICATION_CHANNEL = 'blog-notifikacije';
 
 export const POSTS_TOPIC = 'posts';
 export const FCM_TOKEN = 'fcmToken';

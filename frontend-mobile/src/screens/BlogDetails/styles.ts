@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 const IMAGE_HEIGHT = HEIGHT * 0.26;
 
 const DATE_SIZE = 14;
-const DATE_BOTTOM = 12;
+const TITLE_TOP = 12;
 const LINE_COLOR = '#FBEEF3';
 const LINE_WIDTH = 2;
 const LINE_BOTTOM = 32;
@@ -32,6 +32,7 @@ export const Content = styled.View<{ missingData?: boolean }>`
 `;
 
 export const Title = styled(CustomText)`
+  margin-top: ${unit(TITLE_TOP)};
   color: ${({ theme }) => theme.colors.primary};
   font-size: ${({ theme }) => theme.fontSize.$8};
   margin-bottom: ${({ theme }) => theme.spacing.$2};
@@ -48,7 +49,12 @@ export const Image = styled(CustomImage)`
 
 export const DateText = styled(CustomText)`
   font-size: ${unit(DATE_SIZE)};
-  margin-bottom: ${unit(DATE_BOTTOM)};
+  color: ${({ theme }) => theme.colors.description};
+  font-weight: ${({ theme }) => theme.fontWeight.$400};
+`;
+
+export const Author = styled(CustomText)`
+  font-size: ${unit(DATE_SIZE)};
   color: ${({ theme }) => theme.colors.description};
   font-weight: ${({ theme }) => theme.fontWeight.$400};
 `;

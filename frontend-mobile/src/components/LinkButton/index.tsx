@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useCallback } from 'react';
 import { Linking, TouchableOpacityProps } from 'react-native';
 import { Container } from './styles';

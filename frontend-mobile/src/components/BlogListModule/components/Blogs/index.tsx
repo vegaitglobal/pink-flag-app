@@ -15,7 +15,7 @@ type TypedNavigation = NativeStackNavigationProp<BlogNavigatorParams>;
 export const Blogs: React.FC = () => {
   const [page, setPage] = useState(0);
   const { navigate } = useNavigation<TypedNavigation>();
-  const { data, isLoading } = useGetAllBlogsQuery({ category: 'BLOG', page, size: SIZE });
+  const { data, isLoading } = useGetAllBlogsQuery({ category: 'BLOG', page: page * SIZE, size: SIZE });
   const totalPages = useMemo(() => getPageCount(SIZE, data?.meta.total_count), [data?.meta.total_count]);
 
   const handleOnPress = useCallback(

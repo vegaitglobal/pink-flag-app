@@ -1,5 +1,8 @@
 module.exports = {
   root: true,
+  env: {
+    node: true,
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -8,25 +11,13 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
-    '@typescript-eslint/explicit-function-return-type': [
-      'warn',
-      {
-        allowTypedFunctionExpressions: true,
-        allowExpressions: true,
-      },
-    ],
+    '@typescript-eslint/explicit-function-return-type': ['off'],
     'no-duplicate-imports': 'error',
   },
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
-      extends: [
-        'eslint:recommended',
-        'plugin:react-hooks/recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-      ],
-
+      extends: ['eslint:recommended', 'plugin:react-hooks/recommended', 'plugin:@typescript-eslint/recommended'],
       parserOptions: {
         project: ['./tsconfig.json'],
       },

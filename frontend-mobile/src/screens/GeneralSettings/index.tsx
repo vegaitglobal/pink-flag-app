@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
+/* eslint-disable no-empty */
+import React, { useCallback, useState } from 'react';
 import { ModalHeader as Header } from '@pf/components';
 import { Container, Content, StyledPrimaryButton, Title } from './styles';
 import { NotificationInput } from './components';
@@ -17,7 +18,7 @@ const subscribeToBlogTopic = async (): Promise<void> => {
 };
 export const GeneralSettingsScreen: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+  const { goBack } = useNavigation();
   const [switchState, setSwitchState] = useState<boolean | undefined>(undefined);
   const areBlogNotificationEnabled = useAppSelector(selectAreBlogNotificationsEnabled);
 
@@ -26,19 +27,16 @@ export const GeneralSettingsScreen: React.FC = () => {
   }, []);
 
   const handleOnSave = useCallback(() => {
-    if (switchState !== undefined) {
-      dispatch(setBlogNotificationState(switchState));
-      if (switchState) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        subscribeToBlogTopic();
-        navigation.goBack();
-        return;
-      }
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      unsubscribeFromBlogTopic();
+    if (switchState === undefined) {
+      return;
     }
-    navigation.goBack();
-  }, [dispatch, navigation, switchState]);
+
+    dispatch(setBlogNotificationState(switchState));
+    try {
+      switchState ? subscribeToBlogTopic() : unsubscribeFromBlogTopic();
+    } catch (_) {}
+    goBack();
+  }, [switchState, dispatch, goBack]);
 
   const isButtonDisabled = switchState === undefined || switchState === areBlogNotificationEnabled;
 

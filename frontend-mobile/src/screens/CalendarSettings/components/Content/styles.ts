@@ -5,7 +5,7 @@ import { unit } from '@pf/utils';
 const LINK_COLOR = '#E12424';
 const MEDIUM_SPACING = 30;
 
-export const Container = styled.View`
+export const Container = styled.Pressable`
   flex: 1;
   padding: ${({ theme }) => theme.spacing.$1};
 `;

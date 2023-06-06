@@ -22,8 +22,8 @@ jobs:
       - name: Replace tokens
         uses: cschleiden/replace-tokens@v1.1
         with:
-          tokenPrefix: '#{'
-          tokenSuffix: '}#'
+          tokenPrefix: "#{"
+          tokenSuffix: "}#"
           files: '["**/backend/docker-compose.pink-flag.yaml"]'
         env:
           TAG_NUMBER: "${{ github.run_number }}"

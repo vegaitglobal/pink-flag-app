@@ -30,12 +30,14 @@ class BlogPage(Page):
     ], use_json_field=True)
 
     featured = models.BooleanField(default=False)
+    author = models.CharField(max_length=255, null=True, blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('featured'),
         FieldPanel('category'),
         FieldPanel('image'),
         FieldPanel('body'),
+        FieldPanel('author'),
     ]
 
     subpage_types = ('blog.BlogPage',)
@@ -45,6 +47,7 @@ class BlogPage(Page):
         APIField('category'),
         APIField('image'),
         APIField('featured'),
+        APIField('author'),
     ]
 
 

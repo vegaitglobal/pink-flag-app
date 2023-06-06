@@ -1,30 +1,27 @@
-from rest_framework.views import APIView
-from rest_framework.request import Request
+from django.contrib.auth.hashers import check_password
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.viewsets import GenericViewSet
 from core.models.consumer import Consumer
-from django.http.response import HttpResponseBadRequest
-from rest_framework.response import Response
-from django.core import exceptions
-from core.utils import create_consumer,get_consumer_email
+from django.http.response import Http404
 
-HTTP_AUTHORIZATION = "HTTP_AUTHORIZATION"
+from core.serializers import ConsumerSerializer
 
 
-class ConsumerView(APIView):
+class ConsumerViewSet(
+    CreateModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+    GenericViewSet
+):
+    queryset = Consumer.objects.all()
+    serializer_class = ConsumerSerializer
 
-    def post(self, request: Request):
-        http_authorization = request.META.get(HTTP_AUTHORIZATION)
-        
-        try:
-            email = get_consumer_email(http_authorization)
-        except Exception:
-            return Response(status=401)
-        
-        data = request.data
-        data['email'] = email
-        
-        try:
-            consumer: Consumer = create_consumer(data)
-        except exceptions.BadRequest as e:
-            return HttpResponseBadRequest(str(e))
-        
-        return Response(consumer.id)
+    def get_object(self):
+        o = self.queryset.filter(pk=self.kwargs['pk']).first()
+        if not o:
+            raise Http404
+        a = check_password(self.kwargs['google_id'], o.google_id)
+        if a:
+            return o
+        raise Http404

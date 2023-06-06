@@ -19,12 +19,12 @@
 		36CB4140D02B4C6894450247 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B873B1740C8409BB50D3CCC /* Nunito-Black.ttf */; };
 		40E2FB105B854B7E9F5113F5 /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7877A160ED054A1FAF7FA02F /* Nunito-Italic.ttf */; };
 		44C88D23F00F4FD7BFA1FB99 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 595E2C7E8AFF426BA8EE458C /* Nunito-ExtraLight.ttf */; };
+		458A0A0D2A2FC46500693A43 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 458A0A0C2A2FC46400693A43 /* GoogleService-Info.plist */; };
 		4AAF9B85191643F38010CFD1 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6663C4D3587B4269A590F6E4 /* Nunito-SemiBold.ttf */; };
 		503E9B61B06E4F38809EFA91 /* Nunito-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D625115D1E6A465E8FCD934D /* Nunito-MediumItalic.ttf */; };
 		5D7F0F81A88B4930B1C925E6 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2D0FDF0705D421DBEA357F8 /* Nunito-BlackItalic.ttf */; };
 		5EF64A1DBE5C48D79A4FE36E /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CF46B9F2D4544E99876A559 /* Nunito-Bold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		B5ACBCA829DDC07B00B5F42D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5ACBCA729DDC07A00B5F42D /* GoogleService-Info.plist */; };
 		B6E636F4BD1703BCCC400E7B /* Pods_PinkFlagApp_PinkFlagAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 587DD39C6F035B06138F2671 /* Pods_PinkFlagApp_PinkFlagAppTests.framework */; };
 		BDEF036CFACF4287B553BD35 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08C51438D3D64D41A102CE6F /* Nunito-ExtraBoldItalic.ttf */; };
 		D46517E3B8454CA7B4A84A94 /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7386492C355343319D6A050E /* Nunito-LightItalic.ttf */; };
@@ -48,7 +48,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PinkFlagAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PinkFlagAppTests.m; sourceTree = "<group>"; };
 		08C51438D3D64D41A102CE6F /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* PinkFlagApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinkFlagApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Pink Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pink Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = PinkFlagApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = PinkFlagApp/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PinkFlagApp/Images.xcassets; sourceTree = "<group>"; };
@@ -61,6 +61,7 @@
 		33872AB474F246F2BBAE7754 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../src/assets/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-PinkFlagApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinkFlagApp.debug.xcconfig"; path = "Target Support Files/Pods-PinkFlagApp/Pods-PinkFlagApp.debug.xcconfig"; sourceTree = "<group>"; };
 		403054873D6D4D8DA1419C47 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../src/assets/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
+		458A0A0C2A2FC46400693A43 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		45EA386F29A2FDA300BA5E2B /* PinkFlagApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PinkFlagApp.entitlements; path = PinkFlagApp/PinkFlagApp.entitlements; sourceTree = "<group>"; };
 		4BB79C1728F981CC00450E33 /* hermes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = hermes.xcframework; path = "Pods/hermes-engine/destroot/Library/Frameworks/universal/hermes.xcframework"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-PinkFlagApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinkFlagApp.release.xcconfig"; path = "Target Support Files/Pods-PinkFlagApp/Pods-PinkFlagApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -75,7 +76,6 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PinkFlagApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-PinkFlagApp-PinkFlagAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinkFlagApp-PinkFlagAppTests.release.xcconfig"; path = "Target Support Files/Pods-PinkFlagApp-PinkFlagAppTests/Pods-PinkFlagApp-PinkFlagAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		B2D0FDF0705D421DBEA357F8 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../src/assets/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
-		B5ACBCA729DDC07A00B5F42D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D625115D1E6A465E8FCD934D /* Nunito-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-MediumItalic.ttf"; path = "../src/assets/fonts/Nunito-MediumItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F5C5579B6837432C9ABC4339 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
@@ -122,6 +122,7 @@
 		13B07FAE1A68108700A75B9A /* PinkFlagApp */ = {
 			isa = PBXGroup;
 			children = (
+				458A0A0C2A2FC46400693A43 /* GoogleService-Info.plist */,
 				45EA386F29A2FDA300BA5E2B /* PinkFlagApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -177,7 +178,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				B5ACBCA729DDC07A00B5F42D /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* PinkFlagApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PinkFlagAppTests */,
@@ -194,7 +194,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* PinkFlagApp.app */,
+				13B07F961A680F5B00A75B9A /* Pink Flag.app */,
 				00E356EE1AD99517003FC87E /* PinkFlagAppTests.xctest */,
 			);
 			name = Products;
@@ -255,7 +255,7 @@
 			);
 			name = PinkFlagApp;
 			productName = PinkFlagApp;
-			productReference = 13B07F961A680F5B00A75B9A /* PinkFlagApp.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Pink Flag.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -320,7 +320,7 @@
 				44C88D23F00F4FD7BFA1FB99 /* Nunito-ExtraLight.ttf in Resources */,
 				D742500830F3486DB4779D9F /* Nunito-ExtraLightItalic.ttf in Resources */,
 				40E2FB105B854B7E9F5113F5 /* Nunito-Italic.ttf in Resources */,
-				B5ACBCA829DDC07B00B5F42D /* GoogleService-Info.plist in Resources */,
+				458A0A0D2A2FC46500693A43 /* GoogleService-Info.plist in Resources */,
 				08C327AB64A64EB6BB658EDD /* Nunito-Light.ttf in Resources */,
 				D46517E3B8454CA7B4A84A94 /* Nunito-LightItalic.ttf in Resources */,
 				1DB3F7A5D4274672A25A2202 /* Nunito-Medium.ttf in Resources */,
@@ -599,7 +599,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zenskainicijativa.PinkFlag;
-				PRODUCT_NAME = PinkFlagApp;
+				PRODUCT_NAME = "Pink Flag";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -629,7 +629,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zenskainicijativa.PinkFlag;
-				PRODUCT_NAME = PinkFlagApp;
+				PRODUCT_NAME = "Pink Flag";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

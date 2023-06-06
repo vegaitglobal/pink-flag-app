@@ -34,3 +34,4 @@ export { DatePickerModal } from './DatePickerModal';
 export { LinkButton } from './LinkButton';
 export { Badge } from './Badge';
 export { CustomImage } from './CustomImage';
+export { GoogleLoginButton } from './GoogleLoginButton';

@@ -1,18 +1,19 @@
-import { Line } from '@pf/components';
+import { GoogleLoginButton, Line } from '@pf/components';
 import React from 'react';
-import { GoogleLoginButton } from '../../components';
 import { Container, StyledDescription, StyledTitle, StyledButton } from './styles';
+import { AuthenticatedUser } from '@pf/constants';
 
 interface Props {
-  onLogin: () => void;
+  onLogin: (authenticatedUser?: AuthenticatedUser) => void;
+  onAnonymousLogin: () => void;
 }
 
-export const LoginScreen: React.FC<Props> = ({ onLogin }) => {
+export const LoginScreen: React.FC<Props> = ({ onLogin, onAnonymousLogin }) => {
   return (
     <Container>
       <StyledTitle content="Prijavi se" />
-      <GoogleLoginButton onPress={onLogin} />
-      <StyledButton content="Započni kalendar bez prijave" onPress={onLogin} />
+      <GoogleLoginButton onLogin={onLogin} />
+      <StyledButton content="Započni kalendar bez prijave" onPress={onAnonymousLogin} />
       <Line />
       <StyledDescription content="Prijavljivanjem pomoću Google-a ti omogućava da sve svoje podatke vezane za kalendar čuvaš na svom Google nalogu." />
     </Container>

@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import { CustomText } from '@pf/components';
+import { CustomText, GoogleLoginButton } from '@pf/components';
 import { unit } from '@pf/utils';
 
 const HEIGHT = 43;
@@ -11,15 +11,33 @@ const AVATAR_SIZE = 20;
 const AVATAR_LEFT = 2;
 const AVATAR_RIGHT = 8;
 const TITLE_HEIGHT = 14;
+const SUBTITLE_RIGHT = 5;
 const SUBTITLE_HEIGHT = 11.5;
+const MASK_HEIGHT = 25;
 
-export const Container = styled.TouchableOpacity`
+export const Container = styled.Pressable`
+  z-index: 2;
+  overflow: hidden;
   flex-direction: row;
   height: ${unit(HEIGHT)};
   padding: ${unit(PADDING)};
   border-radius: ${unit(BORDER_RADIUS)};
   margin-bottom: ${({ theme }) => theme.spacing.$1};
   border: ${unit(BORDER_WIDTH)} solid ${BORDER_COLOR};
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+
+export const TopMask = styled.View`
+  left: 0;
+  right: 0;
+  z-index: 2;
+  position: absolute;
+  height: ${unit(MASK_HEIGHT)};
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+
+export const StyledGoogleLoginButton = styled(GoogleLoginButton)`
+  margin-bottom: ${({ theme }) => theme.spacing.$1};
 `;
 
 export const LeftArea = styled.View`
@@ -48,8 +66,14 @@ export const Title = styled(CustomText)`
 
 export const Subtitle = styled(CustomText)`
   line-height: ${unit(SUBTITLE_HEIGHT)}
+  margin-right: ${unit(SUBTITLE_RIGHT)};
   font-size: ${({ theme }) => theme.fontSize.$1};
   font-weight: ${({ theme }) => theme.fontWeight.$400};
 `;
 
 export const RightArea = styled.View``;
+
+export const Row = styled.View`
+  align-items: center;
+  flex-direction: row;
+`;
