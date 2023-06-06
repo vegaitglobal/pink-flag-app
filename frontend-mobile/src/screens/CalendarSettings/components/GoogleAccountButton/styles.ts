@@ -13,14 +13,27 @@ const AVATAR_RIGHT = 8;
 const TITLE_HEIGHT = 14;
 const SUBTITLE_RIGHT = 5;
 const SUBTITLE_HEIGHT = 11.5;
+const MASK_HEIGHT = 25;
 
-export const Container = styled.TouchableOpacity`
+export const Container = styled.Pressable`
+  z-index: 2;
+  overflow: hidden;
   flex-direction: row;
   height: ${unit(HEIGHT)};
   padding: ${unit(PADDING)};
   border-radius: ${unit(BORDER_RADIUS)};
   margin-bottom: ${({ theme }) => theme.spacing.$1};
   border: ${unit(BORDER_WIDTH)} solid ${BORDER_COLOR};
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+
+export const TopMask = styled.View`
+  left: 0;
+  right: 0;
+  z-index: 2;
+  position: absolute;
+  height: ${unit(MASK_HEIGHT)};
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const StyledGoogleLoginButton = styled(GoogleLoginButton)`

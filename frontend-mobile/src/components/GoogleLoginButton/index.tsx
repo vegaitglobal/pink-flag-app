@@ -3,9 +3,13 @@ import { GoogleSvg } from '@pf/assets';
 import React, { useCallback } from 'react';
 import { ActivityIndicator, Alert, TouchableOpacityProps } from 'react-native';
 import { Container, StyledCustomText } from './styles';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { AuthenticatedUser, EMPTY_STRING } from '@pf/constants';
 import { useTheme } from '@emotion/react';
+
+type LoginIssue = {
+  code: string;
+};
 
 interface Props extends TouchableOpacityProps {
   beforeLogin?: () => void;
@@ -25,6 +29,11 @@ export const GoogleLoginButton: React.FC<Props> = ({ onLogin, beforeLogin, isLoa
       } = userInfo;
       onLogin?.({ id, email, name: givenName || EMPTY_STRING, photo: photo || EMPTY_STRING });
     } catch (error) {
+      const { IN_PROGRESS, SIGN_IN_CANCELLED, PLAY_SERVICES_NOT_AVAILABLE } = statusCodes;
+      if ([IN_PROGRESS, SIGN_IN_CANCELLED, PLAY_SERVICES_NOT_AVAILABLE].includes((error as LoginIssue).code)) {
+        return;
+      }
+
       Alert.alert('Došlo je do greške', 'Pokušaj malo kasnije', [{ text: 'Ok' }]);
     }
   }, [onLogin]);

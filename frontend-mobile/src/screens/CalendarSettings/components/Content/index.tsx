@@ -1,6 +1,6 @@
 import { PrimaryButton, WithSafeView } from '@pf/components';
 import { EMPTY_STRING } from '@pf/constants';
-import { useAppDispatch, useAppSelector } from '@pf/hooks';
+import { useAppDispatch, useAppSelector, useRemoteUserUpdate } from '@pf/hooks';
 import { setCalendarNotificationState } from '@pf/reducers/settingsReducer';
 import { selectUser, updateUser } from '@pf/reducers/userReducer';
 import { useNavigation } from '@react-navigation/native';
@@ -15,7 +15,7 @@ import { MenstruationInput } from '../MenstruationInput';
 import { NameInput } from '../NameInput';
 import { NotificationInput } from '../NotificationInput';
 import { Container, LinkButton, LinkText, MediumSpacing, SmallSpacing } from './styles';
-import { useChangeHandlers, useRemoteUserUpdate } from './hooks';
+import { useChangeHandlers } from './hooks';
 
 const HIT_SLOP = { top: 10, left: 10, right: 10, bottom: 10 };
 

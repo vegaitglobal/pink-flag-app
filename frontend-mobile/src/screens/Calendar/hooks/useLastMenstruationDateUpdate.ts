@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@pf/hooks';
+import { useAppDispatch, useRemoteUserUpdate } from '@pf/hooks';
 import { TODAY } from '../../../constants/constants';
 import { useEffect } from 'react';
 import {
@@ -11,6 +11,7 @@ import { setMenstruationStartDate } from '@pf/reducers/userReducer';
 
 export const useLastMenstruationDateUpdate = (savedMenstruationStartDate?: string, cycleLength?: number): void => {
   const dispatch = useAppDispatch();
+  const updateRemoteUser = useRemoteUserUpdate();
 
   useEffect(() => {
     if (!savedMenstruationStartDate || !cycleLength) {
@@ -28,6 +29,7 @@ export const useLastMenstruationDateUpdate = (savedMenstruationStartDate?: strin
 
     if (savedMenstruationStartDate !== lastMenstruationStartDate) {
       dispatch(setMenstruationStartDate(lastMenstruationStartDate));
+      updateRemoteUser({ menstruationStartDate: lastMenstruationStartDate });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

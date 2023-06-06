@@ -16,3 +16,5 @@ export const PrimaryButton: React.FC<Props> = ({ content, disabled, background, 
     </Container>
   );
 };
+
+export { type Props as PrimaryButtonProps };
