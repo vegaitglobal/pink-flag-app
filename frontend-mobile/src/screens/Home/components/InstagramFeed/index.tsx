@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { EMPTY_STRING } from '@pf/constants';
 import React, { useCallback } from 'react';
 import { Linking } from 'react-native';

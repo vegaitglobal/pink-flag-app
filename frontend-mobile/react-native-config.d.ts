@@ -11,6 +11,8 @@ declare module 'react-native-config' {
     EMAIL: string;
     APP_NAME: string;
     ADDRESS: string;
+
+    WEB_CLIENT_ID: string;
   }
 
   export const Config: NativeConfig;

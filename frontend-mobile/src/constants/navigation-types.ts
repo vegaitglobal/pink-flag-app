@@ -11,7 +11,7 @@ const { DONATIONS } = DonationRoutes;
 
 export type RootNavigatorParams = {
   [APP]: undefined;
-  [CALENDAR_ONBOARDING]: undefined;
+  [CALENDAR_ONBOARDING]: { skipFirstPage?: boolean } | undefined;
   [CALENDAR_SETTINGS]: undefined;
   [GENERAL_SETTINGS]: undefined;
 };

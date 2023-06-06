@@ -3,5 +3,5 @@ export { getDateWithOffset } from './getDateWithOffset';
 export { getPreviousMenstruationStartDate } from './getPreviousMenstruationStartDate';
 export { getLastMenstruationStartDate } from './getLastMenstruationStartDate';
 export { getUpcomingMenstruationStartDate } from './getUpcomingMenstruationStartDate';
-export { getFertilityStartDate, FERTILITY_DAYS, FERTILITY_MIDDLE } from './getFertilityStartDate';
+export { getFertilityStartDate, FERTILITY_DAYS, OVULATION_DAY } from './getFertilityStartDate';
 export { getOvulationDate } from './getOvulationDate';

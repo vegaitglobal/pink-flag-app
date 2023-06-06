@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { useCallback, useEffect } from 'react';
 import { useAppSelector } from '@pf/hooks';
 import { OVULATION_0, OVULATION_7, PERIOD_1, PERIOD_7 } from './../constants';

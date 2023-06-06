@@ -1,7 +1,13 @@
 export { rootApi, BASE_URI } from './rootApi';
 
 //! Data hooks
-export { useGetUserByIdQuery } from './usersApi';
+export {
+  usersApi,
+  useLazyGetUserQuery,
+  useCreateUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} from './userApi';
 export {
   useGetAllBlogsQuery,
   useGetFeaturedBlogQuery,

@@ -3,7 +3,7 @@ import { BlogNavigatorScreenProps, BlogRoutes } from '@pf/constants';
 import React, { useMemo } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { BlogImage, Paragraph, RecentPosts } from './components';
-import { Container, Content, DateText, Image, LoadingContainer, StyledLine, Title } from './styles';
+import { Author, Container, Content, DateText, Image, LoadingContainer, StyledLine, Title } from './styles';
 import { useData } from './useData';
 import { useTheme } from '@emotion/react';
 
@@ -41,6 +41,7 @@ export const BlogDetailsScreen: React.FC<Props> = ({ route }) => {
       <Content missingData={!!data}>
         {data?.category && <Badge content={category} />}
         {date && <DateText content={date} />}
+        {data?.author && <Author content={`Autor: ${data?.author}`} />}
         {data?.title && <Title content={data?.title} />}
         {data?.image?.meta?.download_url && <Image url={imageUri} />}
         {content}

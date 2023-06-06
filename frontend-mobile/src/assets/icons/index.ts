@@ -25,3 +25,4 @@ export { default as YouTubeSvg } from './youtube.svg';
 export { default as TwitterSvg } from './twitter.svg';
 export { default as ShareSvg } from './share.svg';
 export { default as PaginationArrowSvg } from './pagination-arrow.svg';
+export { default as ArrowDownSvg } from './arrow-down.svg';
