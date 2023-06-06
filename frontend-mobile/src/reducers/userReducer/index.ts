@@ -19,7 +19,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    clearUser: state => ({ ...state, id: undefined, email: undefined, photo: undefined }),
     setUserName: (state, action: PayloadAction<string>): UserState => ({ ...state, name: action.payload }),
     setBirthday: (state, action: PayloadAction<string>): UserState => ({ ...state, birthday: action.payload }),
     setMenstruationLength: (state, action: PayloadAction<number>): UserState => ({
@@ -61,7 +60,6 @@ export const {
   setCycleLength,
   setMenstruationStartDate,
   updateUser,
-  clearUser,
   logoutUser,
 } = userSlice.actions;
 

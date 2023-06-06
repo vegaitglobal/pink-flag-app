@@ -14,7 +14,7 @@ import {
   TopMask,
 } from './styles';
 import { useAppDispatch, useAppSelector } from '@pf/hooks';
-import { clearUser, logoutUser, selectUser } from '@pf/reducers/userReducer';
+import { logoutUser, selectUser } from '@pf/reducers/userReducer';
 import { AuthenticatedUser, EMPTY_STRING } from '@pf/constants';
 import { useSettingsLogin } from './useSettingsLogin';
 import { LogoutButton } from '../LogoutButton';
@@ -38,7 +38,7 @@ export const GoogleAccountButton = forwardRef<Ref>(({ ...props }, ref) => {
   const { handleLoginFromSettings, isLoading } = useSettingsLogin();
 
   const beforeLogin = useCallback(() => {
-    dispatch(clearUser());
+    dispatch(logoutUser());
   }, [dispatch]);
 
   const onLogin = useCallback(
