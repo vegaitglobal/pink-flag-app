@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '@pf/store';
 import SplashScreen from 'react-native-splash-screen';
 import { PersistGate } from 'redux-persist/integration/react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -14,15 +15,17 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={AppTheme}>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={AppTheme}>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 
