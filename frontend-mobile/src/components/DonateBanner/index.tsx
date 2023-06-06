@@ -3,19 +3,19 @@ import React, { useCallback } from 'react';
 import { Container, Description, Loader, Title } from './styles';
 import { UiButton } from '@pf/components';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { BottomTabNavigatorParams, BottomTabRoutes } from '@pf/constants';
 import { useGetDonationsModuleQuery } from '@pf/services';
 import { FALLBACK } from './fallback';
 import { ActivityIndicator } from 'react-native';
 import { useTheme } from '@emotion/react';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const { DONATION_STACK } = BottomTabRoutes;
 
 export const DonateBanner: React.FC = ({ ...props }) => {
   const theme = useTheme();
   const { data, isLoading } = useGetDonationsModuleQuery();
-  const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<BottomTabNavigatorParams>>();
   const handleOnPress = useCallback(() => navigate(DONATION_STACK), [navigate]);
 
   if (isLoading) {

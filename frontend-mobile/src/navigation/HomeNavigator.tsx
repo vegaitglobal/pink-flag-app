@@ -1,10 +1,9 @@
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { HomeNavigatorParams, HomeRoutes } from '@pf/constants';
 import { HomeScreen } from '@pf/screens';
 import { NavHeader } from '@pf/components';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator<HomeNavigatorParams>();
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
@@ -12,7 +11,7 @@ type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 const { HOME } = HomeRoutes;
 
 export interface HomeScreenProps<Screen extends keyof HomeNavigatorParams> {
-  navigation: StackNavigationProp<HomeNavigatorParams, Screen>;
+  navigation: NativeStackNavigationProp<HomeNavigatorParams, Screen>;
   route: RouteProp<HomeNavigatorParams, Screen>;
 }
 

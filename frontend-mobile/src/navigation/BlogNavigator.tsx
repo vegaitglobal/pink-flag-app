@@ -1,10 +1,9 @@
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { BlogRoutes, BlogNavigatorParams } from '@pf/constants';
 import { BlogDetailsScreen, BlogScreen } from '@pf/screens';
 import { NavHeader } from '@pf/components';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator<BlogNavigatorParams>();
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
@@ -12,7 +11,7 @@ type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 const { BLOG, BLOG_DETAILS } = BlogRoutes;
 
 export interface BlogScreenProps<Screen extends keyof BlogNavigatorParams> {
-  navigation: StackNavigationProp<BlogNavigatorParams, Screen>;
+  navigation: NativeStackNavigationProp<BlogNavigatorParams, Screen>;
   route: RouteProp<BlogNavigatorParams, Screen>;
 }
 

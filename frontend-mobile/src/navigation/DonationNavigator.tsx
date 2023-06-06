@@ -1,10 +1,9 @@
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { DonationRoutes, DonationNavigatorParams } from '@pf/constants';
 import { DonationScreen } from '@pf/screens';
 import { NavHeader } from '@pf/components';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator<DonationNavigatorParams>();
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
@@ -12,7 +11,7 @@ type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 const { DONATIONS } = DonationRoutes;
 
 export interface DonationScreenProps<Screen extends keyof DonationNavigatorParams> {
-  navigation: StackNavigationProp<DonationNavigatorParams, Screen>;
+  navigation: NativeStackNavigationProp<DonationNavigatorParams, Screen>;
   route: RouteProp<DonationNavigatorParams, Screen>;
 }
 
