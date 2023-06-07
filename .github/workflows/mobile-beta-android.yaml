@@ -60,6 +60,7 @@ jobs:
 
       - name: Generate App APK
         run: |
+          pwd
           cd frontend-mobile/android && ./gradlew assembleRelease --no-daemon
 
       ## Distribute app to Firebase App Distribution for testing / use google play internal track if you have a google play account
