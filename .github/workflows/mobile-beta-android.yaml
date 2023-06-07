@@ -67,6 +67,6 @@ jobs:
         with:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{secrets.FIREBASE_DISTRIBUTION_SERVICE_CREDENTIALS}}
-          groups: ["Intern testers", "Organizacija Pink Flag"]
+          groups: intern-testers, organizacija-pink-flag
           file: android/app/build/outputs/apk/release/app-release.apk
           releaseNotes: "Dear Testers, Forwarding you a CI/CD test build of the Pink Flag application. Please report anything that seems out of place."
