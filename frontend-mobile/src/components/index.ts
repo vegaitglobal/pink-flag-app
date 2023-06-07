@@ -35,3 +35,4 @@ export { LinkButton } from './LinkButton';
 export { Badge } from './Badge';
 export { CustomImage } from './CustomImage';
 export { GoogleLoginButton } from './GoogleLoginButton';
+export { NoConnectionOverlay } from './NoConnectionOverlay';

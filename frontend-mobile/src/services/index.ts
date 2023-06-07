@@ -10,6 +10,7 @@ export {
 } from './userApi';
 export {
   useGetAllBlogsQuery,
+  useLazyGetAllBlogsQuery,
   useGetFeaturedBlogQuery,
   useGetBlogByIdQuery,
   useGetBlogImageQuery,

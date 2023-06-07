@@ -1,12 +1,13 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Container, Text } from './styles';
-import { useGetAllBlogsQuery } from '@pf/services';
+import { useLazyGetAllBlogsQuery } from '@pf/services';
 import { BlogSmallModule } from '@pf/components';
 import { BlogNavigatorParams, BlogRoutes } from '@pf/constants';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getPageCount } from '@pf/utils';
 import { Pagination } from '../Pagination';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 const SIZE = 5;
 const { BLOG_DETAILS } = BlogRoutes;
@@ -14,9 +15,22 @@ type TypedNavigation = NativeStackNavigationProp<BlogNavigatorParams>;
 
 export const Blogs: React.FC = () => {
   const [page, setPage] = useState(0);
+  const { isInternetReachable } = useNetInfo();
   const { navigate } = useNavigation<TypedNavigation>();
-  const { data, isLoading } = useGetAllBlogsQuery({ category: 'BLOG', page: page * SIZE, size: SIZE });
+  const [getPageBlogs, { data, isLoading }] = useLazyGetAllBlogsQuery();
   const totalPages = useMemo(() => getPageCount(SIZE, data?.meta.total_count), [data?.meta.total_count]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (isInternetReachable) {
+        getPageBlogs({
+          category: 'BLOG',
+          page: page * SIZE,
+          size: SIZE,
+        });
+      }
+    }, [getPageBlogs, isInternetReachable, page]),
+  );
 
   const handleOnPress = useCallback(
     (id?: number) => {

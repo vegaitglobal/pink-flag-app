@@ -73,15 +73,7 @@ export const useNotificationsSetup = () => {
        * Handle local notification in quit/terminated state
        */
       const initialLocalMessage = await notifee.getInitialNotification();
-
-      // if (pressActionId === 'default' && (notification?.data as NotificationData).screen === CALENDAR) {
-      //   navigateToCalendar();
-      // }
-
       if (initialLocalMessage) {
-        const { pressAction, notification } = initialLocalMessage || {};
-        const { id: pressActionId } = pressAction || {};
-
         return `${LINKING_PREFIX}${CALENDAR}`;
       }
     },
