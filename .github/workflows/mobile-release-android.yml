@@ -1,0 +1,58 @@
+name: Build Android AAB and upload as an artifact
+
+on:
+  push:
+    tags:
+      - release-*
+      - releaseandroid-*
+
+jobs:
+  release-android:
+    name: Build Android AAB and upload as an artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Use Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - name: Install npm dependencies
+        run: npm install
+      - name: Run npx jetify
+        run: npx jetify
+      - name: Install firebase CLI
+        run: npm install -g firebase-tools
+      - name: Create .env file
+        env:
+          ENV_BASE64: ${{ secrets.MOBILE_ENV_BASE64 }}
+        run: echo $ENV_BASE64 | base64 -d > .env
+      - name: Create pink-flag-upload-key.keystore file
+        env:
+          MY_UPLOAD_KEY_KEYSTORE_BASE64: ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }}
+        run: echo $MY_UPLOAD_KEY_KEYSTORE_BASE64 | base64 -d > android/app/pink-flag-upload-key.keystore
+      - name: Create gradle.properties file
+        env:
+          GRADLE_PROPERTIES_BASE64: ${{ secrets.BUILD_GRADLE_BASE64 }}
+        run: mkdir -p ~/.gradle && echo $GRADLE_PROPERTIES_BASE64 | base64 -d > ~/.gradle/gradle.properties
+      - name: Restore gradle cache or create a new cache entry
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build AAB
+        run: ./gradlew clean bundleRelease
+        working-directory: ./android
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: android-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
