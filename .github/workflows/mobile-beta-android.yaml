@@ -61,7 +61,11 @@ jobs:
       - name: Generate App APK
         run: |
           pwd
-          cd frontend-mobile/android && ./gradlew clean; ./gradlew assembleRelease --no-daemon
+          cd frontend-mobile;
+          yarn yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/;
+          rm -rf ./android/app/src/main/res/drawable-*/node_modules_*;
+          rm -rf ./android/app/src/main/res/drawable-*/src_assets_*;
+          cd android && ./gradlew assembleRelease --no-daemon;
 
       ## Distribute app to Firebase App Distribution for testing / use google play internal track if you have a google play account
       - name: upload artifact to Firebase App Distribution
