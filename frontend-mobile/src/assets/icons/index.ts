@@ -26,3 +26,4 @@ export { default as TwitterSvg } from './twitter.svg';
 export { default as ShareSvg } from './share.svg';
 export { default as PaginationArrowSvg } from './pagination-arrow.svg';
 export { default as ArrowDownSvg } from './arrow-down.svg';
+export { default as NoConnectionSvg } from './no-connection.svg';

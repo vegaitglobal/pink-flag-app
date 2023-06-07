@@ -159,7 +159,7 @@ index 16e5f71..afe2bc1 100644
              fontSize: appStyle.textDayHeaderFontSize,
              fontFamily: appStyle.textDayHeaderFontFamily,
 diff --git a/node_modules/react-native-calendars/src/calendar/index.d.ts b/node_modules/react-native-calendars/src/calendar/index.d.ts
-index 5e92f06..880ec0d 100644
+index 56915b1..8d552d2 100644
 --- a/node_modules/react-native-calendars/src/calendar/index.d.ts
 +++ b/node_modules/react-native-calendars/src/calendar/index.d.ts
 @@ -48,6 +48,8 @@ export interface CalendarProps extends CalendarHeaderProps, DayProps {
@@ -244,7 +244,7 @@ index c9af755..d1eb298 100644
          // @ts-expect-error
          ...(theme['stylesheet.calendar.main'] || {})
 diff --git a/node_modules/react-native-calendars/src/componentUpdater.d.ts b/node_modules/react-native-calendars/src/componentUpdater.d.ts
-index c290aeb..cd12080 100644
+index 325acbb..e346a9e 100644
 --- a/node_modules/react-native-calendars/src/componentUpdater.d.ts
 +++ b/node_modules/react-native-calendars/src/componentUpdater.d.ts
 @@ -34,6 +34,7 @@ export declare function extractDayProps(props: CalendarProps): {

@@ -63,6 +63,7 @@ export const blogApi = rootApi.injectEndpoints({
 
 export const {
   useGetAllBlogsQuery,
+  useLazyGetAllBlogsQuery,
   useGetFeaturedBlogQuery,
   useGetBlogByIdQuery,
   useGetBlogImageQuery,

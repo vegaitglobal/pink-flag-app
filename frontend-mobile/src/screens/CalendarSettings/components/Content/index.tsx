@@ -16,6 +16,7 @@ import { NameInput } from '../NameInput';
 import { NotificationInput } from '../NotificationInput';
 import { Container, LinkButton, LinkText, MediumSpacing, SmallSpacing } from './styles';
 import { useChangeHandlers } from './hooks';
+import { isObjectEmpty } from './utils';
 
 const HIT_SLOP = { top: 10, left: 10, right: 10, bottom: 10 };
 
@@ -29,7 +30,6 @@ export const Content: React.FC = WithSafeView(() => {
   const toggleDeactivationModal = useCallback(() => setIsDeactivationModalVisible(prevState => !prevState), []);
   const {
     changes,
-    notificationsState,
     handleNameChange,
     handleBirthdayChange,
     handleCycleLengthChange,
@@ -37,17 +37,18 @@ export const Content: React.FC = WithSafeView(() => {
     handleOnNotificationsChange,
     handleMenstruationStartChange,
   } = useChangeHandlers();
+  const hasNoChanges = isObjectEmpty(changes);
 
   const handleOnSave = useCallback(() => {
     dispatch(updateUser(changes));
     updateRemoteUser(changes);
 
-    if (notificationsState.current !== undefined) {
-      dispatch(setCalendarNotificationState(notificationsState.current));
+    if (changes.switchState !== undefined) {
+      dispatch(setCalendarNotificationState(changes.switchState));
     }
 
     goBack();
-  }, [changes, dispatch, goBack, notificationsState, updateRemoteUser]);
+  }, [changes, dispatch, goBack, updateRemoteUser]);
 
   const hideDropdown = useCallback(() => {
     googleButtonRef.current?.hideDropdown();
@@ -72,7 +73,7 @@ export const Content: React.FC = WithSafeView(() => {
       <MediumSpacing />
       <NotificationInput onChange={handleOnNotificationsChange} />
       <MediumSpacing />
-      <PrimaryButton content="Sačuvaj izmene" onPress={handleOnSave} />
+      <PrimaryButton content="Sačuvaj izmene" onPress={handleOnSave} disabled={hasNoChanges} />
       <LinkButton hitSlop={HIT_SLOP} onPress={toggleDeactivationModal}>
         <LinkText content="Deaktiviraj kalendar" />
       </LinkButton>

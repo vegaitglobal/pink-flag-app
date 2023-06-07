@@ -2,20 +2,20 @@
 import { useTheme } from '@emotion/react';
 import { BottomTabNavigatorParams, BottomTabRoutes } from '@pf/constants';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { UiButton } from '../UiButton';
 import { useGetCalendarBannerQuery } from '@pf/services';
 import { Container, Description, Loader, Title } from './styles';
 import { FALLBACK } from './fallback';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const { CALENDAR_STACK } = BottomTabRoutes;
 
 export const HomeCalendar: React.FC = () => {
   const theme = useTheme();
   const { data, isLoading } = useGetCalendarBannerQuery();
-  const { navigate } = useNavigation<StackNavigationProp<BottomTabNavigatorParams>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<BottomTabNavigatorParams>>();
 
   const navigateToCalendar = useCallback(() => {
     navigate(CALENDAR_STACK);
