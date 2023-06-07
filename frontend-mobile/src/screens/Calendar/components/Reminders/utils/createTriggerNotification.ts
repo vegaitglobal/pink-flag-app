@@ -1,5 +1,6 @@
 import notifee, { AndroidBadgeIconType, AndroidImportance, TimestampTrigger, TriggerType } from '@notifee/react-native';
-import { ANDROID_NOTIFICATION_CHANNEL } from '@pf/constants';
+import { ANDROID_CALENDAR_NOTIFICATION_CHANNEL, CalendarRoutes } from '@pf/constants';
+const { CALENDAR } = CalendarRoutes;
 
 export const createTriggerNotification = async (
   notificationId: string,
@@ -20,7 +21,7 @@ export const createTriggerNotification = async (
       title: `Ćao ${userName},`,
       body: description,
       android: {
-        channelId: ANDROID_NOTIFICATION_CHANNEL,
+        channelId: ANDROID_CALENDAR_NOTIFICATION_CHANNEL,
         badgeIconType: AndroidBadgeIconType.SMALL,
         importance: AndroidImportance.HIGH,
         smallIcon: 'ic_small_icon',
@@ -31,7 +32,7 @@ export const createTriggerNotification = async (
         },
       },
       data: {
-        screen: 'calendar',
+        screen: CALENDAR,
       },
     },
     trigger,

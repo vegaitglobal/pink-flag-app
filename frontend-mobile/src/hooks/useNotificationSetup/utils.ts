@@ -1,4 +1,4 @@
-import notifee, { AndroidImportance, Event, EventType } from '@notifee/react-native';
+import notifee, { AndroidBadgeIconType, AndroidImportance, Event, EventType } from '@notifee/react-native';
 import {
   ANDROID_BLOG_NOTIFICATION_CHANNEL,
   ANDROID_CALENDAR_NOTIFICATION_CHANNEL,
@@ -85,6 +85,9 @@ export const displayPushNotification = (remoteMessage: FirebaseMessagingTypes.Re
   notifee.displayNotification({
     android: {
       channelId: ANDROID_BLOG_NOTIFICATION_CHANNEL,
+      badgeIconType: AndroidBadgeIconType.SMALL,
+      smallIcon: 'ic_small_icon',
+      color: '#EC67B1',
       importance: AndroidImportance.HIGH,
       pressAction: {
         id: 'default',
