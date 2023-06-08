@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install dependencies # install project deps with --frozen-lockfile to make sure we will have the same packages version ( very recommended  on running yarn install on ci)
-        run: yarn install --frozen-lockfile
+        run: cd frontend-mobile && yarn install --frozen-lockfile
 
       ## configure cash for gradle : will help to reduce build time
       - name: Cache Gradle Wrapper
@@ -60,9 +60,8 @@ jobs:
 
       - name: Generate App APK
         run: |
-          pwd
           cd frontend-mobile;
-          npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/;
+          yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/;
           rm -rf ./android/app/src/main/res/drawable-*/node_modules_*;
           rm -rf ./android/app/src/main/res/drawable-*/src_assets_*;
           cd android && ./gradlew assembleRelease --no-daemon;
