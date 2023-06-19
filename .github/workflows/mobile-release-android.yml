@@ -10,49 +10,77 @@ jobs:
   release-android:
     name: Build Android AAB and upload as an artifact
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout Git repository # clone the repo to local ci workspace
+        uses: actions/checkout@v3
+        
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - name: Use Ruby 2.6
-        uses: actions/setup-ruby@v1
+          
+      - name: Set up our JDK environment # setup JDK environment: mandatory as we need to build  android project
+        uses: actions/setup-java@v3
         with:
-          ruby-version: 2.6
-      - name: Install npm dependencies
-        run: npm install
-      - name: Run npx jetify
-        run: npx jetify
-      - name: Install firebase CLI
-        run: npm install -g firebase-tools
+          distribution: 'zulu'
+          java-version: 11
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)={value}" >> $GITHUB_OUTPUT
+
+      - name: Restore node_modules from cache
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+            
+      - name: Install dependencies # install project deps with --frozen-lockfile to make sure we will have the same packages version ( very recommended  on running yarn install on ci)
+        run: cd frontend-mobile && yarn install --frozen-lockfile
+            
       - name: Create .env file
         env:
           ENV_BASE64: ${{ secrets.MOBILE_ENV_BASE64 }}
-        run: echo $ENV_BASE64 | base64 -d > .env
+        run: echo $ENV_BASE64 | base64 -d > ./frontend-mobile/.env
+        
       - name: Create pink-flag-upload-key.keystore file
         env:
           MY_UPLOAD_KEY_KEYSTORE_BASE64: ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }}
-        run: echo $MY_UPLOAD_KEY_KEYSTORE_BASE64 | base64 -d > android/app/pink-flag-upload-key.keystore
+        run: echo $MY_UPLOAD_KEY_KEYSTORE_BASE64 | base64 -d > ./frontend-mobile/android/app/pink-flag-upload-key.keystore
+      
       - name: Create gradle.properties file
         env:
           GRADLE_PROPERTIES_BASE64: ${{ secrets.BUILD_GRADLE_BASE64 }}
         run: mkdir -p ~/.gradle && echo $GRADLE_PROPERTIES_BASE64 | base64 -d > ~/.gradle/gradle.properties
-      - name: Restore gradle cache or create a new cache entry
-        uses: actions/cache@v2
+
+      ## configure cache for gradle: will help to reduce build time
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-gradle-caches-
+            
+      - name: Make Gradlew Executable
+        run: cd frontend-mobile/android && chmod +x ./gradlew
+        
       - name: Build AAB
         run: ./gradlew clean bundleRelease
         working-directory: ./android
+        
       - name: Upload AAB artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android-aab
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          path: frontend-mobile/android/app/build/outputs/bundle/release/app-release.aab
