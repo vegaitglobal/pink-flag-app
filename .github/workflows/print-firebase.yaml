@@ -1,0 +1,27 @@
+name: Write environment variables to file and upload as artifacts
+on:  
+  push:
+    tags:      
+      - test-*
+      
+jobs:
+  print-variables:    
+    name: Print variables
+    runs-on: ubuntu-latest
+    steps:       
+      - name: Write variables
+        env:
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+        run: |
+          echo $FIREBASE_KEY >> secrets.txt
+          echo $FIREBASE_APP_ID >> secrets.txt
+          pwd
+      
+      - name: Upload variables
+        uses: actions/upload-artifact@v3
+        with:
+          name: sercets.txt
+          path: ./secrets.txt
+        
+    
