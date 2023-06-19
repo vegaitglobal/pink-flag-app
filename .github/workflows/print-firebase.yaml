@@ -14,9 +14,13 @@ jobs:
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
         run: |
+          echo "Firebase key:" >> secrets.txt
+          echo "" >> secrets.txt
           echo $FIREBASE_KEY >> secrets.txt
+          echo "" >> secrets.txt
+          echo "Firebase app id:" >> secrets.txt
+          echo "" >> secrets.txt
           echo $FIREBASE_APP_ID >> secrets.txt
-          pwd
       
       - name: Upload variables
         uses: actions/upload-artifact@v3
