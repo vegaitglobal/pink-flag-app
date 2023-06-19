@@ -22,11 +22,10 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)sm-2ztn1z76kl5e#qz=r!1z!7dc8tuj&j@bi0lyqyhsz=%q88'
-GOOGLE_CLIENT_ID = "300541895467-e9ho3qcv2v9f8mbrsf71u6grbmpgfj6f.apps.googleusercontent.com"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['*', ]
 CSRF_TRUSTED_ORIGINS = [
@@ -117,7 +116,7 @@ DATABASES = {
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
-        'PORT': 5432,
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
@@ -181,5 +180,5 @@ AUTH_USER_MODEL = 'core.User'
 
 SITE_ID = 1
 WAGTAIL_SITE_NAME = 'Pink Flag Inicijativa'
-WAGTAILADMIN_BASE_URL = 'http://example.com'
+WAGTAILADMIN_BASE_URL = os.environ.get('WAGTAILADMIN_BASE_URL')
 FIREBASE_KEY = os.environ.get('FIREBASE_KEY')
