@@ -31,11 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['*', ]
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost',
-    'http://127.0.0.1',
-    'https://pinkflag.codeforacause.rs',
-]
+CSRF_TRUSTED_ORIGINS = ['https://*', 'http://*']
 
 # Application definition
 
@@ -181,7 +177,7 @@ AUTH_USER_MODEL = 'core.User'
 
 # Other
 
-SITE_ID = 1
-WAGTAIL_SITE_NAME = 'Pink Flag Inicijativa'
+SITE_ID = os.environ.get('SITE_ID')
+WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME')
 WAGTAILADMIN_BASE_URL = os.environ.get('WAGTAILADMIN_BASE_URL')
 FIREBASE_KEY = os.environ.get('FIREBASE_KEY')
