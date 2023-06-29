@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "83413328066-opiubes0k7aduj58cijm9sgeogvv7kvk.apps.googleusercontent.com",
+          "client_id": "83413328066-5047vool6kjckqld9defg69mv6dvcqr4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.pinkflagapp",
@@ -22,7 +22,15 @@
           }
         },
         {
-          "client_id": "83413328066-pvrrshu362qhkdm7sq17rrr1h7jjpqqh.apps.googleusercontent.com",
+          "client_id": "83413328066-63gb5ns25durdt2ag948gae5o6gclgt6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pinkflagapp",
+            "certificate_hash": "52175da21e38e2d2c7b40ad98134a3649e7c525b"
+          }
+        },
+        {
+          "client_id": "83413328066-nu23vcrk0qvsipdl4p9oqoa7g88qsaai.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.pinkflagapp",
