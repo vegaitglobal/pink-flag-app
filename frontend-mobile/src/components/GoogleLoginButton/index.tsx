@@ -34,7 +34,7 @@ export const GoogleLoginButton: React.FC<Props> = ({ onLogin, beforeLogin, isLoa
         return;
       }
 
-      Alert.alert('Došlo je do greške', 'Pokušaj malo kasnije', [{ text: 'Ok' }]);
+      Alert.alert('Došlo je do greške', `Pokušaj malo kasnije\nGreška: ${error}`, [{ text: 'Ok' }]);
     }
   }, [onLogin]);
 

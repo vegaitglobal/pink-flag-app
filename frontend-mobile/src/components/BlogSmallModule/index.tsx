@@ -28,7 +28,7 @@ export const BlogSmallModule: React.FC<BlogSmallModuleProps> = ({ blog, onPress 
 
   return (
     <Container style={styles.shadow} onPress={handleOnPress}>
-      <Image source={imageSource} resizeMode="cover" />
+      <Image source={imageSource} resizeMode="center" />
       <Content>
         <Title content={blog?.title} numberOfLines={TEXT_LINES} />
         <DateText content={date} />

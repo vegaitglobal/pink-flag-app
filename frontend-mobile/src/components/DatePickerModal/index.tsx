@@ -3,6 +3,7 @@ import { BottomModal } from '../BottomModal';
 import { PickerContainer, StyledDatePicker, StyledPrimaryButton } from './styles';
 import { LOCALE, MAX_DATE, MIN_DATE } from './constants';
 import { TransparentButton } from '../TransparentButton';
+import { useTheme } from '@emotion/react';
 
 interface Props {
   date: Date;
@@ -25,11 +26,13 @@ export const DatePickerModal: React.FC<Props> = ({
   minDate,
   maxDate,
 }) => {
+  const theme = useTheme();
   return (
     <BottomModal headerTitle="Izaberi datum" isVisible={isVisible} hide={hide}>
       <PickerContainer>
         <StyledDatePicker
           title={null}
+          textColor={theme.colors.secondary}
           androidVariant="nativeAndroid"
           mode="date"
           locale={LOCALE}
